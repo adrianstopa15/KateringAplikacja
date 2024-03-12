@@ -1,0 +1,83 @@
+* {
+  margin: 0 0.25rem 0 0.25rem;
+  padding: 0;
+  box-sizing: border-box;
+}
+.main-page {
+  background-color: #f5f5f5;
+  font-family: "Lato", sans-serif;
+}
+
+.top-bar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 13rem;
+  margin-left: 10rem;
+  padding-top: 2rem;
+}
+
+.logo {
+  /* text-transform: uppercase; */
+  padding-right: 32rem;
+  font-family: "Comic Neue", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 32px;
+}
+.mid {
+  display: flex;
+}
+
+.mid-container-left {
+  flex: 1;
+  padding-top: 10rem;
+  margin-left: 10rem;
+}
+.mid-container-right {
+  flex: 1;
+  padding-top: 10rem;
+}
+
+.top-bar-container p:not(.logo) {
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: 1px;
+}
+.mid-container-left h1 {
+  color: rgb(71, 71, 71);
+  font-size: 42px;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+.mid-container-left h2 {
+  font-weight: 400;
+  margin-right: 22rem;
+  letter-spacing: 0.5px;
+}
+.posilek2 {
+  rotate: 10deg;
+}
+
+.posilek3 {
+  width: 18%;
+}
+#button-check {
+  margin-top: 2rem;
+  margin-left: 1rem;
+}
+
+.posilek1,
+.posilek2,
+.posilek3 {
+  transition: transform 0.3s ease;
+  filter: drop-shadow(8px 8px 3px #c7c7c7);
+}
+.posilek1:hover,
+.posilek3:hover {
+  transform: scale(1.09) rotate(2deg);
+}
+
+.posilek2:hover {
+  transform: scale(1.05) rotate(3deg);
+}
