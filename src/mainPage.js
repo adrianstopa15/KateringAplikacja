@@ -7,22 +7,32 @@ import discount from "./photos/discount.png";
 import alistar from "./photos/alistar.gif";
 import { useState } from "react";
 import LoginPopup from "./loginPopup";
+import { useRef } from "react";
 export default function MainPage() {
+  const homeRef = useRef(null);
+  const aboutRef = useRef(null);
+  const promotionsRef = useRef(null);
+  const profilesRef = useRef(null);
+  const contactRef = useRef(null);
   const [popupActive, setPopupActive] = useState(false);
   const togglePopup = () => setPopupActive(!popupActive);
-
+  const scrollToRef = (ref) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
-    <div className="main-page">
+    <div className="main-page" ref={homeRef}>
       {popupActive && <LoginPopup onClose={togglePopup} />}
       <div className="top-bar">
         <div className="top-bar-container">
           <p className="logo">DieTuzjem</p>
 
-          <p>Główna</p>
-          <p>Opis</p>
-          <p>Promocje</p>
-          <p>Profile</p>
-          <p>Kontakt</p>
+          <p onClick={() => scrollToRef(homeRef)}>Główna</p>
+          <p onClick={() => scrollToRef(aboutRef)}>Opis</p>
+          <p onClick={() => scrollToRef(promotionsRef)}>Promocje</p>
+          <p onClick={() => scrollToRef(profilesRef)}>Profile</p>
+          <p onClick={() => scrollToRef(contactRef)}>Kontakt</p>
 
           <button className="button-regular--white" onClick={togglePopup}>
             Zaloguj
@@ -51,7 +61,7 @@ export default function MainPage() {
           <img src={posilekImage3} alt="Posiłek" className="posilek3" />
         </div>
       </div>
-      <div className="mid-second">
+      <div className="mid-second" ref={aboutRef}>
         <div className="mid-second--left">
           <img
             src={posilekImage4}
@@ -75,7 +85,7 @@ export default function MainPage() {
           </h2>
         </div>
       </div>
-      <div className="mid-third">
+      <div className="mid-third" ref={promotionsRef}>
         <div className="mid-third--left">
           <h1 className="h1-regular">Zniżki dla stałych klientów</h1>
           <h2
@@ -104,7 +114,7 @@ export default function MainPage() {
         </div>
       </div>
       <div className="mid-fourth--all">
-        <div className="mid-fourth--pre">
+        <div className="mid-fourth--pre" ref={profilesRef}>
           <h1 className="h1-regular">Zdecyduj się na program dla siebie</h1>
         </div>
         <div className="mid-fourth">
@@ -121,6 +131,7 @@ export default function MainPage() {
                 profilem użytkownika
               </li>
             </ul>
+
             <button className="button-regular--white">Inteligentny opis</button>
           </div>
           <div className="mid-fourth--right">
@@ -136,11 +147,41 @@ export default function MainPage() {
           </div>
         </div>
       </div>
-      <div className="kontakt-container">
+      <div className="kontakt-container" ref={contactRef}>
         <div className="kontakt-container--pre"></div>
-        <div className="kontakt-container--main"></div>
+        <div className="kontakt-container--main">
+          <div className="kontakt-container--main---text">
+            <h1
+              className="h1-regular"
+              style={{
+                // color: "white",
+                paddingTop: "5rem",
+              }}
+            >
+              Posiadasz własny katering?
+            </h1>
+          </div>
+          <h2
+            className="h2-regular"
+            style={{ textAlign: "center", fontSize: "28px" }}
+          >
+            Nie zwlekaj i zgłoś się już dziś!
+          </h2>
+          <button className="button-regular" style={{ marginTop: "4.5rem" }}>
+            Zasady Współpracy
+          </button>
+        </div>
       </div>
-      <footer></footer>
+      <footer style={{ textAlign: "center" }}>
+        ©2024 DieTuzjem Katering Dietetyczny. Wszystkie prawa zastrzeżone.
+        Treści, grafiki oraz inne elementy zawarte na tej stronie internetowej
+        są chronione prawem autorskim i stanowią własność{" "}
+        <i>DieTuzjem Katering Dietetyczny</i>. Jakiekolwiek nieautoryzowane
+        użycie, reprodukcja, dystrybucja, publikacja lub modyfikacja
+        jakichkolwiek materiałów bez uprzedniej pisemnej zgody właścicieli jest
+        surowo zabroniona i może skutkować odpowiedzialnością cywilną oraz
+        karną.
+      </footer>
     </div>
   );
 }
