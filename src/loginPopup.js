@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function LoginPopup({ onClose }) {
   const [isLogin, setIsLogin] = useState(true);
+  const [formKey, setFormKey] = useState(0);
   function isLogged(e) {
     e.preventDefault();
     setIsLogin(!isLogin);
+
+    setFormKey((prevKey) => prevKey + 1);
   }
+
   return (
     <div className="login-popup-container">
       <div className="popup-background" onClick={onClose}></div>
@@ -18,7 +22,7 @@ export default function LoginPopup({ onClose }) {
                 &times;
               </button>
             </div>
-            <form className="login-form">
+            <form key={formKey} className="login-form">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
@@ -68,7 +72,7 @@ export default function LoginPopup({ onClose }) {
                 &times;
               </button>
             </div>
-            <form className="login-form">
+            <form key={formKey} className="login-form">
               <label htmlFor="name">Nazwa Użytkownika</label>
               <input
                 type="name"
@@ -76,10 +80,10 @@ export default function LoginPopup({ onClose }) {
                 placeholder="Podaj Nazwe Użytkownika"
                 required
               />
-              <label htmlFor="email">Email</label>
+              <label htmlFor="registerEmail">Email</label>
               <input
                 type="email"
-                id="email"
+                id="registerEmail"
                 placeholder="Podaj adres email"
                 required
               />
@@ -90,10 +94,10 @@ export default function LoginPopup({ onClose }) {
                 placeholder="Podaj numer telefonu"
               />
 
-              <label htmlFor="password">Hasło</label>
+              <label htmlFor="registerPassword">Hasło</label>
               <input
                 type="password"
-                id="password"
+                id="registerPassword"
                 placeholder="Podaj hasło"
                 required
               />
