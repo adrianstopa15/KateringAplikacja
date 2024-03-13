@@ -9,7 +9,6 @@ import { useState } from "react";
 import LoginPopup from "./loginPopup";
 export default function MainPage() {
   const [popupActive, setPopupActive] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
   const togglePopup = () => setPopupActive(!popupActive);
 
   return (
@@ -17,7 +16,7 @@ export default function MainPage() {
       {popupActive && <LoginPopup onClose={togglePopup} />}
       <div className="top-bar">
         <div className="top-bar-container">
-          <p className="logo">DjeTuziem</p>
+          <p className="logo">DieTuzjem</p>
 
           <p>Główna</p>
           <p>Opis</p>

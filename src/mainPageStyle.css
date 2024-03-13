@@ -323,7 +323,9 @@ h2 {
 }
 
 .login-form input[type="email"],
-.login-form input[type="password"] {
+.login-form input[type="password"],
+.login-form input[type="name"],
+.login-form input[type="phoneNumber"] {
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
