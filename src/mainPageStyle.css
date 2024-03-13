@@ -22,7 +22,7 @@ img {
 
 .logo {
   /* text-transform: uppercase; */
-  padding-right: 32rem;
+  padding-right: 30rem;
   font-family: "Comic Neue", cursive;
   font-weight: 400;
   font-size: 42px;
@@ -209,7 +209,7 @@ img {
 
 .mid-third {
   display: flex;
-  padding-bottom: 15rem;
+  /* padding-bottom: 15rem; */
 }
 .mid-third--left {
   flex: 1;
@@ -218,7 +218,7 @@ img {
 }
 .mid-third--right {
   flex: 1;
-  padding-top: 5rem;
+  padding-top: 1rem;
   justify-content: center;
   align-items: center;
 }
@@ -372,4 +372,81 @@ h2 {
 .signup-redirect a {
   color: #0077ff;
   text-decoration: none;
+}
+.mid-fourth--pre {
+  padding-top: 20rem;
+  text-align: center;
+  position: relative;
+
+  /* clip-path: polygon(0 0, 100% 70%, 100% 95%, 0 100%); */
+  padding-bottom: 5rem;
+}
+.mid-fourth--all {
+  background: linear-gradient(to bottom, darkorange, orange);
+  clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 100%);
+}
+.mid-fourth {
+  display: flex;
+  padding-bottom: 15rem;
+}
+.mid-fourth--left {
+  flex: 1;
+  padding-top: 5rem;
+  margin-left: 5rem;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.mid-fourth--right {
+  flex: 1;
+  padding-top: 5rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.mid-fourth--all h1 {
+  color: white;
+  letter-spacing: 2px;
+}
+.mid-fourth--left h2,
+.mid-fourth--right h2 {
+  font-size: 46px;
+  font-family: "Shadows Into Light", cursive;
+  font-weight: 400;
+  color: brown;
+}
+.mid-fourth--left h2 {
+  color: green;
+}
+.mid-fourth--left li,
+.mid-fourth--right li {
+  list-style: none;
+  padding-top: 3rem;
+  font-size: 24px;
+  color: white;
+}
+.mid-fourth--left button,
+.mid-fourth--right button {
+  filter: drop-shadow(8px 4px 3px #df9c0c);
+  margin-top: 3rem;
+}
+.mid-fourth--left button:hover {
+  filter: drop-shadow(2px 5px 6px #7ad3158c);
+  color: green;
+}
+.mid-fourth--right button:hover {
+  filter: drop-shadow(2px 5px 6px rgba(235, 20, 20, 0.418));
+  color: brown;
+}
+.glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0)
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }

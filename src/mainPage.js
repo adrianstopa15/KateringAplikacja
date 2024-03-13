@@ -21,6 +21,7 @@ export default function MainPage() {
           <p>Główna</p>
           <p>Opis</p>
           <p>Promocje</p>
+          <p>Profile</p>
           <p>Kontakt</p>
 
           <button className="button-regular--white" onClick={togglePopup}>
@@ -88,6 +89,7 @@ export default function MainPage() {
           </h2>
           <button className="button-regular">Aktualne Promocje</button>
         </div>
+
         <div className="mid-third--right">
           <div className="discount-container">
             <img src={alistar} alt="alistar" />
@@ -101,6 +103,44 @@ export default function MainPage() {
           </div>
         </div>
       </div>
+      <div className="mid-fourth--all">
+        <div className="mid-fourth--pre">
+          <h1 className="h1-regular">Zdecyduj się na program dla siebie</h1>
+        </div>
+        <div className="mid-fourth">
+          <div className="mid-fourth--left">
+            <h2 className="h2-regular">Inteligentny profil</h2>
+            <ul>
+              <li>Zapisywanie kaloryczności, makrosładników, oraz kalorii </li>
+              <li>Comiesięczne podsumowanie spożytych kalorii</li>
+              <li>
+                Inteligente propozycje kateringów względem aktualnych celów
+              </li>
+              <li>
+                UI wzbogacone o porady dietetyczne, oraz ciekawostki związane z
+                profilem użytkownika
+              </li>
+            </ul>
+            <button className="button-regular--white">Inteligentny opis</button>
+          </div>
+          <div className="mid-fourth--right">
+            <h2 className="h2-regular">Klasyczny profil</h2>
+            <ul>
+              <li>Zamawiaj dania bez zapisywania makrosładników na profilu </li>
+              <li>Brak podsumowań profilu</li>
+              <li>Standardowe filtrowanie kateringów</li>
+              <li>Standardowy interfejs użytkownika</li>
+              <br />
+            </ul>
+            <button className="button-regular--white">Klasyczny opis</button>
+          </div>
+        </div>
+      </div>
+      <div className="kontakt-container">
+        <div className="kontakt-container--pre"></div>
+        <div className="kontakt-container--main"></div>
+      </div>
+      <footer></footer>
     </div>
   );
 }
