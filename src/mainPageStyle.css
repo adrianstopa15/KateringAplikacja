@@ -426,10 +426,13 @@ h2 {
   font-size: 24px;
   color: white;
 }
-.mid-fourth--left button,
-.mid-fourth--right button {
+.mid-fourth--left button {
   filter: drop-shadow(8px 4px 3px #df9c0c);
   margin-top: 3rem;
+}
+.mid-fourth--right button {
+  filter: drop-shadow(8px 4px 3px #df9c0c);
+  margin-top: 2rem;
 }
 .mid-fourth--left button:hover {
   filter: drop-shadow(2px 5px 6px #7ad3158c);
