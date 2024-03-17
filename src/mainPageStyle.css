@@ -1,3 +1,19 @@
+.validation-message {
+  font-size: 0.8rem;
+}
+
+.validation-message.loading {
+  color: #007bff; /* Niebieski */
+}
+
+.validation-message.valid {
+  color: #28a745; /* Zielony */
+}
+
+.validation-message.invalid {
+  color: #dc3545; /* Czerwony */
+}
+
 * {
   margin: 0 0.25rem 0 0.25rem;
   padding: 0;
@@ -353,7 +369,16 @@ h2 {
   color: #0077ff;
   text-decoration: none;
 }
-
+.reset-password-button{
+  background-color: #0077ff;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
 .login-button {
   background-color: #0077ff;
   color: white;
@@ -442,8 +467,7 @@ h2 {
   filter: drop-shadow(2px 5px 6px rgba(235, 20, 20, 0.418));
   color: brown;
 }
-.kontakt-container {
-}
+
 .kontakt-container--pre {
   background-image: url(./photos/posilek5.jpg);
   background-attachment: fixed;

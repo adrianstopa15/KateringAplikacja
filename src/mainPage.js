@@ -8,6 +8,7 @@ import alistar from "./photos/alistar.gif";
 import { useState } from "react";
 import LoginPopup from "./loginPopup";
 import { useRef } from "react";
+import dietuzjemLogo from './photos/logo.png';
 export default function MainPage() {
   const homeRef = useRef(null);
   const aboutRef = useRef(null);
@@ -26,6 +27,7 @@ export default function MainPage() {
       {popupActive && <LoginPopup onClose={togglePopup} />}
       <div className="top-bar">
         <div className="top-bar-container">
+        <img src={dietuzjemLogo} alt="DieTuzjem Logo" className="logo-image" style={{ width: '100px', height: 'auto' }}/>
           <p className="logo">DieTuzjem</p>
 
           <p onClick={() => scrollToRef(homeRef)}>Główna</p>
