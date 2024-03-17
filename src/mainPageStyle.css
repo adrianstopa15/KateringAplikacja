@@ -442,8 +442,7 @@ h2 {
   filter: drop-shadow(2px 5px 6px rgba(235, 20, 20, 0.418));
   color: brown;
 }
-.kontakt-container {
-}
+
 .kontakt-container--pre {
   background-image: url(./photos/posilek5.jpg);
   background-attachment: fixed;
