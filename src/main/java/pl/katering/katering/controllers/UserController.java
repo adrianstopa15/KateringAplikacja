@@ -39,6 +39,10 @@ public class UserController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addUser(@RequestBody User user) {
+        if (userService.isUserExists(user.getLogin())) {
+            return ResponseEntity.badRequest().body("Użytkownik o podanej nazwie już istnieje");
+        }
+
         User newUser = new User();
         newUser.setLogin(user.getLogin());
         newUser.setPassword(user.getPassword());

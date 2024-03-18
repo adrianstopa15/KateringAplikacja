@@ -5,4 +5,6 @@ import pl.katering.katering.classes.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+    boolean existsByLogin(String login);
+
 }

@@ -17,6 +17,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public boolean isUserExists(String login) {
+        return userRepository.existsByLogin(login);
+    }
+
     public User addUser(User user) {
         return userRepository.save(user);
     }
