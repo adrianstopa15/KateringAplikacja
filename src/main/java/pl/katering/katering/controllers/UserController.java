@@ -1,4 +1,5 @@
 package pl.katering.katering.controllers;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import pl.katering.katering.services.CustomerService;
 import pl.katering.katering.services.UserService;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class UserController {
 
@@ -42,7 +43,7 @@ public class UserController {
         newUser.setLogin(user.getLogin());
         newUser.setPassword(user.getPassword());
         newUser.setEmail(user.getEmail());
-        newUser.setRole(user.getRole());
+//        newUser.setRole(user.getRole());
         userService.addUser(newUser);
 
         Customer newCustomer = new Customer();
