@@ -43,6 +43,7 @@ public class UserController {
             return ResponseEntity.badRequest().body("Użytkownik o podanej nazwie już istnieje");
         }
 
+
         User newUser = new User();
         newUser.setLogin(user.getLogin());
         newUser.setPassword(user.getPassword());
