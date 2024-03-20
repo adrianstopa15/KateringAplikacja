@@ -1,3 +1,27 @@
+.alert-success {
+  background-color: #dff0d8; /* Jasnozielone tło */
+  border-color: #d0e9c6; /* Lekko ciemniejsza zielona obramówka */
+  color: #3c763d; /* Kolor tekstu */
+  padding: 15px; /* Padding dla większej przestrzeni wewnątrz alertu */
+  margin-bottom: 20px; /* Margines na dole, aby oddzielić od innych elementów */
+  border-radius: 4px; /* Zaokrąglenie rogów */
+  box-shadow: 0 2px 4px rgba(0,0,0,.1); /* Lekki cień dla głębi */
+  display: flex; /* Umożliwia elastyczne rozmieszczanie zawartości */
+  align-items: center; /* Centruje zawartość w pionie */
+}
+
+.alert-dismissable .close {
+  position: relative;
+  top: -2px;
+  right: -21px;
+  color: inherit;
+}
+
+.alert-success .alert-link {
+  color: #2b542c; /* Ciemniejszy odcień zieleni dla linków, dla lepszej widoczności */
+}
+
+
 .validation-message {
   font-size: 0.8rem;
 }

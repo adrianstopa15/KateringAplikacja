@@ -1,9 +1,12 @@
 import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
-//6LeQeZopAAAAAAlHABkaNzSJXLcAq9x1DxdflXWJ
+import Alert from 'react-bootstrap/Alert';
+
+// klucz do recapcha: 6LeQeZopAAAAAAlHABkaNzSJXLcAq9x1DxdflXWJ
 
 export default function LoginPopup({ onClose }) {
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [formKey, setFormKey] = useState(0);
   const [isResetPassword, setIsResetPassword] = useState(false);
@@ -34,13 +37,32 @@ export default function LoginPopup({ onClose }) {
     setIsLogin(!isLogin);
     setFormKey((prevKey) => prevKey + 1);
   }
-
+// Po przycisku zarejestruj
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!capVal) {
       alert("Proszę potwierdzić, że nie jesteś robotem.");
       return;
+    }
+// Do zrobienia jeszcze blokada rejestracji uzytkownika z innym loginem ale na ten sam email 
+// Sprawdzenie, czy walidacje są poprawne
+    let errorMessage = [];
+
+    if (usernameValidation.valid === false) {
+      errorMessage.push('Nazwa użytkownika jest użyta!');
+    }
+
+    if (emailValidation.valid === false) {
+      errorMessage.push('Email jest już używany!');
+    }
+
+    // Sprawdzenie, czy istnieją jakiekolwiek błędy
+    if (errorMessage.length > 0) {
+      // Tworzenie komunikatu z listy błędów
+      const formattedMessage = errorMessage.join(' i ');
+      alert(`Nie można zarejestrować: ${formattedMessage}.`);
+      return; // Zatrzymaj rejestrację, jeśli walidacja nie powiodła się
     }
 
     const userData = {
@@ -49,14 +71,14 @@ export default function LoginPopup({ onClose }) {
       password: document.getElementById("registerPassword").value,
     };
 
-    const apiEndpoint = "http://localhost:8080/add";
+    const apiEndpoint = "http://localhost:8080/register";
 
     try {
-      // Wysyłanie żądania POST do backendu
       const response = await axios.post(apiEndpoint, userData);
       console.log("Odpowiedź z serwera:", response.data);
-      alert("Rejestracja zakończona sukcesem. Możesz się teraz zalogować.");
-      onClose();
+      setShowSuccessAlert(true); // Pokaż alert o sukcesie
+      setTimeout(() => setShowSuccessAlert(false), 5000); // Opcjonalnie, ukryj alert po 5 sekundach
+      setIsLogin(true); // Przełączanie na ekran logowania
     } catch (error) {
       if (error.response && error.response.data) {
         if (error.response.status === 400) {
@@ -69,9 +91,18 @@ export default function LoginPopup({ onClose }) {
       }
       console.error("Błąd rejestracji:", error);
     }
-  };
+    return (
+      <div className="login-popup-container">
+        {showSuccessAlert && (
+          <Alert variant="success" onClose={() => setShowSuccessAlert(false)} dismissible>
+            Rejestracja zakończona sukcesem. Możesz się teraz zalogować!
+          </Alert>
+        )}
+      </div>
+    );
+  }
 
-  //sprawdzanie hasel
+//sprawdzanie hasel
   const validatePassword = (newPassword) => {
     setPassword(newPassword);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/g;
@@ -92,7 +123,6 @@ export default function LoginPopup({ onClose }) {
       });
     }
   };
-
   const checkPasswordsMatch = (newConfirmPassword) => {
     setConfirmPassword(newConfirmPassword);
     if (password && newConfirmPassword && password !== newConfirmPassword) {
@@ -104,18 +134,21 @@ export default function LoginPopup({ onClose }) {
     }
   };
 
-  // Funkcje walidacyjne
+// Walidacja loginu
   const validateUsername = async (username) => {
     if (!username.trim()) {
       setUsernameValidation({ loading: false, valid: null, message: "" });
       return;
     }
     setUsernameValidation({ loading: true, valid: null, message: "" });
+  if (!username || username.length < 3 || !/^[a-zA-Z0-9_]+$/.test(username)) {
+    setUsernameValidation({ loading: false, valid: false, message: "Nazwa użytkownika jest niepoprawna" });
+    return;
+  }
+  setUsernameValidation({ loading: true, valid: null, message: "" });
     try {
-      // url do api sprawdzajacy czy jest taki login
-      const response = await axios.get(
-        `/api/username-check?username=${username}`
-      );
+      const response = await axios.get(`http://localhost:8080/checkUsername?username=${username}`);
+
       setUsernameValidation({
         loading: false,
         valid: response.data.isAvailable,
@@ -131,37 +164,30 @@ export default function LoginPopup({ onClose }) {
       });
     }
   };
-  // Walidacja formatu e-mail
+
+// Walidacja formatu e-mail
   const validateEmail = async (email) => {
     if (!email.trim()) {
       setEmailValidation({ loading: false, valid: null, message: "" });
       return;
     }
     setEmailValidation({ loading: true, valid: null, message: "" });
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+    // Domeny
+    const allowedDomains = ["example.com", "gmail.com", "op.pl", "yahoo.com", "outlook.com", "onet.eu"];
+    const emailRegex = new RegExp(`^[\\w-\\.]+@(${allowedDomains.join('|').replace(/\./g, '\\.')})$`);
+
     if (!emailRegex.test(email)) {
       setEmailValidation({
-        loading: false,
-        valid: false,
+        loading: false, 
+        valid: false, 
         message: "Niepoprawny format adresu e-mail",
       });
-      return;
-    }
-    try {
-      // url do api sprzawdzajaca czy jest taki email
-      const response = await axios.get(`/api/email-check?email=${email}`);
+    } else {
       setEmailValidation({
-        loading: false,
-        valid: response.data.isAvailable,
-        message: response.data.isAvailable
-          ? "Adres e-mail jest dostępny"
-          : "Adres e-mail jest już używany",
-      });
-    } catch (error) {
-      setEmailValidation({
-        loading: false,
-        valid: false,
-        message: "Błąd przy sprawdzaniu adresu e-mail",
+        loading: false, 
+        valid: true, 
+        message: "Format adresu e-mail jest poprawny",
       });
     }
   };
