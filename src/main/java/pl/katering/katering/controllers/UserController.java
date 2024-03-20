@@ -57,4 +57,9 @@ public class UserController {
 
         return ResponseEntity.ok("Pomyślnie dodano użytkownika");
     }
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> sayHello() {
+        return ResponseEntity.ok("Hello user");
+    }
 }
