@@ -1,12 +1,8 @@
 package pl.katering.katering.controllers;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 import pl.katering.katering.classes.Customer;
 import pl.katering.katering.classes.User;
 import pl.katering.katering.repositories.CustomerRepository;
@@ -56,5 +52,26 @@ public class UserController {
         customerService.addCustomer(newCustomer);
 
         return ResponseEntity.ok("Pomyślnie dodano użytkownika");
+    }
+    // Sprawdzenie dostępności nazwy użytkownika
+    @GetMapping("/checkUsername")
+    public ResponseEntity<String> checkUsernameAvailability(@RequestParam String username) {
+        boolean exists = userService.isUserExists(username);
+        if(exists) {
+            return ResponseEntity.ok("Nazwa użytkownika jest zajęta");
+        } else {
+            return ResponseEntity.ok("Nazwa użytkownika jest dostępna");
+        }
+    }
+
+    // Sprawdzenie dostępności e-mail
+    @GetMapping("/checkEmail")
+    public ResponseEntity<String> checkEmailAvailability(@RequestParam String email) {
+        boolean exists = userRepository.existsByEmail(email); // Zakładamy, że istnieje metoda existsByEmail w UserRepository
+        if(exists) {
+            return ResponseEntity.ok("E-mail jest już używany");
+        } else {
+            return ResponseEntity.ok("E-mail jest dostępny");
+        }
     }
 }
