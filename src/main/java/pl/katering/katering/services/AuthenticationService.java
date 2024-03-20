@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.katering.katering.classes.AuthenticationResponse;
+import pl.katering.katering.classes.Role;
 import pl.katering.katering.classes.User;
 import pl.katering.katering.repositories.UserRepository;
 
@@ -31,6 +32,8 @@ public class AuthenticationService {
         user.setLogin(request.getLogin());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
+
+        user.setRole(Role.valueOf("USER"));
 
         user = repository.save(user);
 
