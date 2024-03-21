@@ -9,6 +9,8 @@ import { useState } from "react";
 import LoginPopup from "./loginPopup";
 import { useRef } from "react";
 import dietuzjemLogo from './photos/logo.png';
+import Alert from 'react-bootstrap/Alert';
+
 export default function MainPage() {
   const homeRef = useRef(null);
   const aboutRef = useRef(null);

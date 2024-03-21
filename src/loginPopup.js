@@ -6,11 +6,17 @@ import Alert from 'react-bootstrap/Alert';
 // klucz do recapcha: 6LeQeZopAAAAAAlHABkaNzSJXLcAq9x1DxdflXWJ
 
 export default function LoginPopup({ onClose }) {
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showRegistrationAlert, setShowRegistrationAlert] = useState({ show: false, message: "" });
   const [isLogin, setIsLogin] = useState(true);
   const [formKey, setFormKey] = useState(0);
   const [isResetPassword, setIsResetPassword] = useState(false);
   const [capVal, setCapVal] = useState(null);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  
+  const [loginUsername, setLoginUsername] = useState('');
+  const [loginError, setLoginError] = useState('');
+
   const [usernameValidation, setUsernameValidation] = useState({
     loading: false,
     valid: null,
@@ -21,8 +27,6 @@ export default function LoginPopup({ onClose }) {
     valid: null,
     message: "",
   });
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordValidation, setPasswordValidation] = useState({
     valid: null,
     message: "",
@@ -37,32 +41,52 @@ export default function LoginPopup({ onClose }) {
     setIsLogin(!isLogin);
     setFormKey((prevKey) => prevKey + 1);
   }
+  function toggleLoginRegister(e) {
+    e.preventDefault();
+    setIsLogin(!isLogin); // Zmień stan na przeciwny niż obecny
+  }
+
+  const checkEmailAvailability = async (email) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/checkEmail?email=${email}`);
+      return response.data.isAvailable;
+    } catch (error) {
+      console.error("Błąd podczas sprawdzania dostępności e-maila:", error);
+      return false; 
+    }
+  };
+
 // Po przycisku zarejestruj
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setShowRegistrationAlert({ show: false, message: "", variant: "success" });
 
     if (!capVal) {
-      alert("Proszę potwierdzić, że nie jesteś robotem.");
+      setShowRegistrationAlert({ show: true, message: "Proszę potwierdzić, że nie jesteś robotem.", variant: "danger" });
       return;
     }
-// Do zrobienia jeszcze blokada rejestracji uzytkownika z innym loginem ale na ten sam email 
-// Sprawdzenie, czy walidacje są poprawne
     let errorMessage = [];
+    const emailIsAvailable = await checkEmailAvailability(document.getElementById("registerEmail").value);
+    if (!emailIsAvailable) {
+      errorMessage.push('Email jest już używany!');
+      setShowRegistrationAlert({ show: true, message: "Podany adres email jest już używany.", variant: "danger" });
+      return;
+    }
 
     if (usernameValidation.valid === false) {
       errorMessage.push('Nazwa użytkownika jest użyta!');
     }
-
-    if (emailValidation.valid === false) {
-      errorMessage.push('Email jest już używany!');
+    if (passwordValidation.valid === false){
+      errorMessage.push('Hasło nie spełnia wymagań.');
+    }
+    if (password !== confirmPassword) {
+      errorMessage.push("Podane hasła nie są identyczne.");
     }
 
-    // Sprawdzenie, czy istnieją jakiekolwiek błędy
     if (errorMessage.length > 0) {
-      // Tworzenie komunikatu z listy błędów
       const formattedMessage = errorMessage.join(' i ');
       alert(`Nie można zarejestrować: ${formattedMessage}.`);
-      return; // Zatrzymaj rejestrację, jeśli walidacja nie powiodła się
+      return; 
     }
 
     const userData = {
@@ -72,35 +96,60 @@ export default function LoginPopup({ onClose }) {
     };
 
     const apiEndpoint = "http://localhost:8080/register";
-
+    
     try {
       const response = await axios.post(apiEndpoint, userData);
+      setShowRegistrationAlert({ show: true, message: "Rejestracja zakończona sukcesem. Możesz się teraz zalogować!", variant: "success" });
       console.log("Odpowiedź z serwera:", response.data);
-      setShowSuccessAlert(true); // Pokaż alert o sukcesie
-      setTimeout(() => setShowSuccessAlert(false), 5000); // Opcjonalnie, ukryj alert po 5 sekundach
-      setIsLogin(true); // Przełączanie na ekran logowania
+      setIsLogin(true); 
     } catch (error) {
       if (error.response && error.response.data) {
         if (error.response.status === 400) {
-          alert(error.response.data); // "Użytkownik o podanej nazwie już istnieje"
+          alert(error.response.data); 
         } else {
-          alert("Wystąpił błąd podczas rejestracji. Spróbuj ponownie.");
+          setShowRegistrationAlert({ show: true, message: "Wystąpił błąd podczas rejestracji. Spróbuj ponownie.", variant: "danger" });
         }
       } else {
         alert("Nie udało się połączyć z serwerem.");
       }
       console.error("Błąd rejestracji:", error);
     }
-    return (
-      <div className="login-popup-container">
-        {showSuccessAlert && (
-          <Alert variant="success" onClose={() => setShowSuccessAlert(false)} dismissible>
-            Rejestracja zakończona sukcesem. Możesz się teraz zalogować!
-          </Alert>
-        )}
-      </div>
-    );
   }
+
+const handleLogin = async (event) => {
+    event.preventDefault(); 
+  
+    const userData = {
+      login: document.getElementById("loginUsername").value,
+      password: document.getElementById("password").value,
+    };
+
+    const apiEndpoint = "http://localhost:8080/login";
+  
+    try {
+      const response = await axios.post(apiEndpoint, userData, {
+        withCredentials: true 
+      });
+      console.log('Zalogowano pomyślnie:', response.data);
+      setIsLogin(true);
+      setLoginError('');
+      onClose(); 
+    } catch (error) {
+      if (error.response) {
+        console.log('Błąd logowania:', error.response.data);
+        setLoginError('Niepoprawny email lub hasło.');
+      } else {
+        console.log('Błąd:', error.message);
+        setLoginError('Wystąpił błąd podczas logowania. Spróbuj ponownie.');
+      }
+    }
+};
+
+// Funkcja wylogowania
+  const handleLogout = () => {
+    // Tutaj możesz dodać logikę do wylogowania, np. wywołując endpoint wylogowania na backendzie
+    setIsLogin(false); 
+  };
 
 //sprawdzanie hasel
   const validatePassword = (newPassword) => {
@@ -205,27 +254,36 @@ export default function LoginPopup({ onClose }) {
       <div className="popup-content" onClick={(e) => e.stopPropagation()}>
         {isLogin ? (
           <>
+          {showRegistrationAlert.show && (
+              <Alert variant="success" onClose={() => setShowRegistrationAlert({ show: false, message: "" })} dismissible>
+                {showRegistrationAlert.message}
+              </Alert>
+          )}
             <div className="popup-header">
               <h2>Logowanie</h2>
               <button className="close-button" onClick={onClose}>
                 &times;
               </button>
             </div>
-            <form key={formKey} className="login-form">
-              <label htmlFor="email">Email</label>
+            <form key={formKey} className="login-form" onSubmit={handleLogin}>
+            <label htmlFor="loginUsername">Nazwa Użytkownika</label>
               <input
-                type="email"
-                id="email"
-                placeholder="Podaj adres email"
-                required
+                  type="name"
+                  id="loginUsername"
+                  value={loginUsername} // Użyj stanu
+                  onChange={(e) => setLoginUsername(e.target.value)} // Aktualizuj stan
+                  placeholder="Podaj Nazwę Użytkownika"
+                  required
               />
               <label htmlFor="password">Hasło</label>
-              <input
-                type="password"
-                id="password"
-                placeholder="Podaj hasło"
-                required
-              />
+                <input
+                  type="password"
+                  id="password"
+                  value={password} // Użyj stanu
+                  onChange={(e) => setPassword(e.target.value)} // Aktualizuj stan
+                  placeholder="Podaj Hasło"
+                  required
+                />
               <div className="form-options">
                 <div className="remember-me">
                   <input type="checkbox" id="remember" />
@@ -242,9 +300,13 @@ export default function LoginPopup({ onClose }) {
                 >
                   Nie pamiętam hasła
                 </a>
-                {/* tutaj trzeba zrobic obsluge dzialania przypominania hasla ale to jak bedzie baza  */}
               </div>
-              <button type="submit" className="login-button">
+              <br></br>
+              {
+              loginError && <div className="login-error">{loginError}
+              </div>
+              }
+              <button type="submit" className="login-button" name="handleLogin">
                 Zaloguj
               </button>
             </form>
@@ -252,7 +314,7 @@ export default function LoginPopup({ onClose }) {
             <div className="signup-redirect">
               <p>
                 Nie masz jeszcze konta?{" "}
-                <a href="/home" onClick={isLogged}>
+                <a href="/home" onClick={toggleLoginRegister}>
                   Zarejestruj się
                 </a>
               </p>
