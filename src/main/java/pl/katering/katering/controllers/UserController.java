@@ -46,8 +46,7 @@ public class UserController {
         newUser.setLogin(user.getLogin());
         newUser.setPassword(user.getPassword());
         newUser.setEmail(user.getEmail());
-        // Ustawienie domyślnej roli na USER
-        newUser.setRole(Role.valueOf("USER")); // Dostosuj to do swojego modelu, np. używając enuma zamiast Stringa, jeśli to konieczne
+        newUser.setRole(Role.valueOf("USER"));
 
         userService.addUser(newUser);
 
@@ -62,16 +61,16 @@ public class UserController {
     public ResponseEntity<String> sayHello() {
         return ResponseEntity.ok("Hello user");
     }
-// Sprawdzenie login
+
     @GetMapping("/checkUsername")
     public ResponseEntity<?> checkUsernameAvailability(@RequestParam String username) {
         boolean exists = userService.isUserExists(username);
-        return ResponseEntity.ok(Map.of("isAvailable", !exists)); // Zwraca obiekt JSON
+        return ResponseEntity.ok(Map.of("isAvailable", !exists));
     }
-// Sprawdzanie email
+
     @GetMapping("/checkEmail")
     public ResponseEntity<?> checkEmailAvailability(@RequestParam String email) {
         boolean exists = userRepository.existsByEmail(email);
-        return ResponseEntity.ok(Map.of("isAvailable", !exists)); // Zwraca obiekt JSON
+        return ResponseEntity.ok(Map.of("isAvailable", !exists));
     }
 }
