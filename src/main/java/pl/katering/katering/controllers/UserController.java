@@ -36,30 +36,32 @@ public class UserController {
         return userService.showUser();
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> addUser(@RequestBody User user) {
-        if (userService.isUserExists(user.getLogin())) {
-            return ResponseEntity.badRequest().body("Użytkownik o podanej nazwie już istnieje");
-        }
-
-        User newUser = new User();
-        newUser.setLogin(user.getLogin());
-        newUser.setPassword(user.getPassword());
-        newUser.setEmail(user.getEmail());
-        newUser.setRole(Role.valueOf("USER"));
-
-        userService.addUser(newUser);
-
-        Customer newCustomer = new Customer();
-        newCustomer.setUser(newUser);
-        customerService.addCustomer(newCustomer);
-
-        return ResponseEntity.ok("Pomyślnie dodano użytkownika");
-    }
+    // raczej do usunięcia, bo jest już register w AuthenticationController
+//
+//    @PostMapping("/add")
+//    public ResponseEntity<String> addUser(@RequestBody User user) {
+//        if (userService.isUserExists(user.getLogin())) {
+//            return ResponseEntity.badRequest().body("Użytkownik o podanej nazwie już istnieje");
+//        }
+//
+//        User newUser = new User();
+//        newUser.setLogin(user.getLogin());
+//        newUser.setPassword(user.getPassword());
+//        newUser.setEmail(user.getEmail());
+//        newUser.setRole(Role.valueOf("USER"));
+//
+//        userService.addUser(newUser);
+//
+//        Customer newCustomer = new Customer();
+//        newCustomer.setUser(newUser);
+//        customerService.addCustomer(newCustomer);
+//
+//        return ResponseEntity.ok("Pomyślnie dodano użytkownika");
+//    }
 
     @GetMapping("/hello")
-    public ResponseEntity<String> sayHello() {
-        return ResponseEntity.ok("Hello user");
+    public ResponseEntity<?> sayHello(@RequestParam String login) {
+        return ResponseEntity.ok("Twoj email to: " + userService.getUserByLogin(login));
     }
 
     @GetMapping("/checkUsername")
@@ -70,7 +72,7 @@ public class UserController {
 
     @GetMapping("/checkEmail")
     public ResponseEntity<?> checkEmailAvailability(@RequestParam String email) {
-        boolean exists = userRepository.existsByEmail(email);
+        boolean exists = userService.isEmailExists(email);
         return ResponseEntity.ok(Map.of("isAvailable", !exists));
     }
 }
