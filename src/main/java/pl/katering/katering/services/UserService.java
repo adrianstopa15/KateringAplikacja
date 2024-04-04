@@ -35,7 +35,12 @@ public class UserService {
     }
 
     public String getUserByLogin(String login) {
-        Optional<User> abc = userRepository.findByLogin(login);
-        return abc.get().getEmail();
+        Optional<User> user = userRepository.findByLogin(login);
+        return user.get().getEmail();
+    }
+
+    public Integer getUserId(String login) {
+        Optional<User> user = userRepository.findByLogin(login);
+        return user.get().getUser_id();
     }
 }

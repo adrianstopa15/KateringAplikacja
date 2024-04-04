@@ -10,6 +10,7 @@ import pl.katering.katering.services.CustomerService;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class CustomerController {
     private final CustomerService customerService;
@@ -27,23 +28,8 @@ public class CustomerController {
     }
 
     @PatchMapping("/editCustomer")
-    public ResponseEntity<String> editCustomer(@RequestBody Customer customer) {
-        Integer customerId = customer.getCustomer_id();
-
-        Optional<Customer> customerOptional = customerRepository.findById(customerId);
-        if (customerOptional.isEmpty()) {
-            return ResponseEntity.badRequest().body("Nie znaleziono klienta");
-        }
-
-        Customer newCustomer = customerOptional.get();
-        newCustomer.setFirst_name(customer.getFirst_name());
-        newCustomer.setLast_name(customer.getLast_name());
-        newCustomer.setAddress(customer.getAddress());
-        newCustomer.setPhone(customer.getPhone());
-
-        customerService.addCustomer(newCustomer);
-
-        return ResponseEntity.ok("Pomyślnie edytowano dane");
+    public ResponseEntity<?> editCustomer(@RequestBody Customer customer, @RequestParam String login) {
+        return ResponseEntity.ok(customerService.edit(customer, login));
     }
 
 }

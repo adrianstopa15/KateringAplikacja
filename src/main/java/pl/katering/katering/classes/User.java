@@ -34,7 +34,6 @@ public class User implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     Role role;
 
-
     @JsonIgnore
     @OneToOne(mappedBy = "user")
     private Customer customer;

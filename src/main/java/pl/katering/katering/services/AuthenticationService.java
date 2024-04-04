@@ -9,22 +9,26 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.katering.katering.classes.AuthenticationResponse;
+import pl.katering.katering.classes.Customer;
 import pl.katering.katering.classes.Role;
 import pl.katering.katering.classes.User;
+import pl.katering.katering.repositories.CustomerRepository;
 import pl.katering.katering.repositories.UserRepository;
 
 @Service
 public class AuthenticationService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
 
     @Autowired
-    public AuthenticationService(UserRepository repository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, UserService userService) {
-        this.repository = repository;
+    public AuthenticationService(UserRepository userRepository, CustomerRepository customerRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, UserService userService) {
+        this.userRepository = userRepository;
+        this.customerRepository = customerRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
@@ -47,7 +51,11 @@ public class AuthenticationService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.valueOf("USER"));
 
-        user = repository.save(user);
+        user = userRepository.save(user);
+
+        Customer customer = new Customer();
+        customer.setUser(user);
+        customerRepository.save(customer);
 
         String token = jwtService.generateToken(user);
 
@@ -62,7 +70,7 @@ public class AuthenticationService {
                 )
         );
 
-        User user = repository.findByLogin(request.getUsername()).orElseThrow();
+        User user = userRepository.findByLogin(request.getUsername()).orElseThrow();
         String token = jwtService.generateToken(user);
 
         Cookie cookie = new Cookie("authToken", token);
