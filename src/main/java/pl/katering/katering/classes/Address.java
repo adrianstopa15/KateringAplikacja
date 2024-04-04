@@ -7,33 +7,31 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "customer")
-public class Customer {
-
+@Table(name = "address")
+public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer customer_id;
+    private Integer address_id;
 
-    private String first_name;
+    private String city;
 
-    private String last_name;
+    private String street;
 
-    private Integer phone;
+    private String postal_code;
+
+    private Integer apartment_number;
+
+    private Integer floor;
+
+    private String housing_type;
 
     @JsonIgnore
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @JsonIgnore
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "customer_id")
-    private List<Address> address;
+    private Customer customer;
 }
