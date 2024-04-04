@@ -8,9 +8,9 @@ import { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import dietuzjemLogo from './photos/logo.png';
-
 import RegistrationPopup from './registrationPopup';
 import LoginPopup from "./loginPopup";
+
 import SimplifiedProfilePage from "./simplifiedProfilePage";
 import ProfilePage from "./profilePages"
 
@@ -71,27 +71,30 @@ export default function MainPage() {
         <RegistrationPopup onClose={() => togglePopup("none")} onToggleToLogin={() => togglePopup("login")} />
       )}
 
-      <div className="top-bar">
-        <div className="top-bar-container">
-        <img src={dietuzjemLogo} alt="DieTuzjem Logo" className="logo-image" style={{ width: '100px', height: 'auto' }}/>
-          <p className="logo">DieTuzjem</p>
-
-          <p onClick={() => scrollToRef(homeRef)}>Główna</p>
-          <p onClick={() => scrollToRef(aboutRef)}>Opis</p>
-          <p onClick={() => scrollToRef(promotionsRef)}>Promocje</p>
-          <p onClick={() => scrollToRef(profilesRef)}>Profile</p>
-          <p onClick={() => scrollToRef(contactRef)}>Kontakt</p>
-          
-          {isLoggedIn ? (
-            <MenuListComposition />
-          ) : (
-            <button className="button-regular--white" onClick={() => togglePopup("login")}>
-              Zaloguj
-            </button>
-          )}
-
+        <div className="top-bar">
+          <div className="top-bar-container">
+            <div className="left-section">
+              <img src={dietuzjemLogo} alt="DieTuzjem Logo" className="logo-image" />
+              <p className="logo">DieTuzjem</p>
+            </div>
+            <div className="menu-links">
+              <p onClick={() => scrollToRef(homeRef)}>Główna</p>
+              <p onClick={() => scrollToRef(aboutRef)}>Opis</p>
+              <p onClick={() => scrollToRef(promotionsRef)}>Promocje</p>
+              <p onClick={() => scrollToRef(profilesRef)}>Profile</p>
+              <p onClick={() => scrollToRef(contactRef)}>Kontakt</p>
+            </div>
+            <div className="right-section">
+              {isLoggedIn ? (
+                <MenuListComposition />
+              ) : (
+                <button className="button-regular--white" onClick={() => togglePopup("login")}>
+                  Zaloguj
+                </button>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
 
       <div className="mid">
         <div className="mid-container--left">
