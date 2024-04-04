@@ -25,19 +25,71 @@ export default function ProfilePage() {
   const handleStartClick = () => {
     setStep(2);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (weight && height) {
-      const calculatedBMI = calculateBMI();
-      const indicator = getWeightIndicator(calculatedBMI);
-      setWeightIndicator(indicator);
+    // Logika dla kroków przed ostatnim formularzem
+    if (step < 7) {
+      if (step === 2 && (!weight || !height)) {
+        alert("Proszę podać wagę i wzrost!");
+        return;
+      }
+
+      // Obliczenia BMI i przypisanie celu jeśli jest to odpowiedni krok
+      if (step === 2 || step === 5) {
+        const calculatedBMI = calculateBMI(); // Upewnij się, że ta funkcja już nie ustawia stanu wewnątrz
+        const indicator = getWeightIndicator(calculatedBMI); // Podobnie jak powyżej
+        setWeightIndicator(indicator);
+      }
+
+      // Przejście do następnego kroku przed ostatnim
       setStep(step + 1);
     } else {
-      alert("Prosze podac wszystkie dane!");
+      // Logika dla ostatniego kroku: formularza z danymi adresowymi i osobistymi
+
+      // Walidacja danych osobowych i adresowych
+      if (
+        !firstName ||
+        !lastName ||
+        !phone ||
+        !street ||
+        !postalCode ||
+        !city
+      ) {
+        alert("Proszę wypełnić wszystkie wymagane pola.");
+        return;
+      }
+
+      if (!postalCode.match(/^\d{2}-\d{3}$/)) {
+        alert("Kod pocztowy musi być w formacie XX-XXX.");
+        return;
+      }
+
+      // formularz dane itp
+      const formData = {
+        firstName,
+        lastName,
+        phone,
+        street,
+        apartmentNumber, // to opcojnalne
+        floor, // to opcjonalne
+        postalCode,
+        city,
+        housingType,
+        // to zobaczymy czy bedziemy w ogole dawac do backendu
+        bmi: bmi,
+        weightIndicator: weightIndicator,
+        selectedGoal: selectedGoal,
+      };
+      //do zrobienia!! :
+      // try {
+      //   const response = await axios.post("TWOJ_URL_API", formData);
+      //   console.log("Odpowiedź z serwera:", response.data);
+      // } catch (error) {
+      //   console.error("Błąd przy wysyłaniu formularza:", error);
+      // }
     }
   };
-
   const calculateCalories = () => {
     let BMR;
     const PAL = parseFloat(activityLevel);
