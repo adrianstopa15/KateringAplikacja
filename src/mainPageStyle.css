@@ -1,13 +1,17 @@
 .alert-success {
-  background-color: #dff0d8; /* Jasnozielone tło */
-  border-color: #d0e9c6; /* Lekko ciemniejsza zielona obramówka */
-  color: #3c763d; /* Kolor tekstu */
-  padding: 15px; /* Padding dla większej przestrzeni wewnątrz alertu */
-  margin-bottom: 20px; /* Margines na dole, aby oddzielić od innych elementów */
-  border-radius: 4px; /* Zaokrąglenie rogów */
-  box-shadow: 0 2px 4px rgba(0,0,0,.1); /* Lekki cień dla głębi */
-  display: flex; /* Umożliwia elastyczne rozmieszczanie zawartości */
-  align-items: center; /* Centruje zawartość w pionie */
+  background-color: #dff0d8; 
+  border-color: #d0e9c6; 
+  color: #3c763d; 
+  padding: 15px; 
+  margin-bottom: 20px; 
+  border-radius: 4px; 
+  box-shadow: 0 2px 4px rgba(0,0,0,.1); 
+  display: flex; 
+  align-items: center; 
+}
+.alert {
+  margin-bottom: 1rem;
+  font-size: 16px;
 }
 
 .alert-dismissable .close {
@@ -18,24 +22,23 @@
 }
 
 .alert-success .alert-link {
-  color: #2b542c; /* Ciemniejszy odcień zieleni dla linków, dla lepszej widoczności */
+  color: #2b542c; 
 }
-
 
 .validation-message {
   font-size: 0.8rem;
 }
 
 .validation-message.loading {
-  color: #007bff; /* Niebieski */
+  color: #007bff; 
 }
 
 .validation-message.valid {
-  color: #28a745; /* Zielony */
+  color: #28a745; 
 }
 
 .validation-message.invalid {
-  color: #dc3545; /* Czerwony */
+  color: #dc3545; 
 }
 
 * {
@@ -62,7 +65,6 @@ img {
 }
 
 .logo {
-  /* text-transform: uppercase; */
   padding-right: 30rem;
   font-family: "Comic Neue", cursive;
   font-weight: 400;
@@ -71,7 +73,6 @@ img {
 }
 .mid {
   display: flex;
-  /* padding-bottom: 2rem; */
 }
 
 .mid-container--left {
@@ -105,7 +106,6 @@ img {
   letter-spacing: 0.5px;
 }
 .h3-regular {
-  /* letter-spacing: 0.5px; */
   font-weight: 500;
   font-size: 24px;
 }
@@ -413,10 +413,33 @@ h2 {
   font-size: 16px;
   cursor: pointer;
 }
+.register-button {
+  background-color: #0077ff;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
 
 .signup-redirect {
   text-align: center;
   margin-top: 20px;
+}
+
+.signup-redirect button {
+  background: none;
+  border: none;
+  color: #0077ff; 
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px 10px; 
+}
+
+.signup-redirect button:focus {
+  outline: none; 
 }
 
 .signup-redirect a {
@@ -428,7 +451,6 @@ h2 {
   text-align: center;
   position: relative;
 
-  /* clip-path: polygon(0 0, 100% 70%, 100% 95%, 0 100%); */
   padding-bottom: 5rem;
 }
 .mid-fourth--all {
