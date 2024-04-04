@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
   const handleLogout = () => {
     setIsLoggedIn(false);
     document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+    window.location.reload();
   };
 
   return (
