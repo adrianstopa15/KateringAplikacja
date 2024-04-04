@@ -37,17 +37,14 @@ export default function ProfilePage() {
 
       // Obliczenia BMI i przypisanie celu jeśli jest to odpowiedni krok
       if (step === 2 || step === 5) {
-        const calculatedBMI = calculateBMI(); // Upewnij się, że ta funkcja już nie ustawia stanu wewnątrz
-        const indicator = getWeightIndicator(calculatedBMI); // Podobnie jak powyżej
+        const calculatedBMI = calculateBMI();
+        const indicator = getWeightIndicator(calculatedBMI);
         setWeightIndicator(indicator);
       }
 
-      // Przejście do następnego kroku przed ostatnim
       setStep(step + 1);
     } else {
-      // Logika dla ostatniego kroku: formularza z danymi adresowymi i osobistymi
-
-      // Walidacja danych osobowych i adresowych
+      // walidacja
       if (
         !firstName ||
         !lastName ||
