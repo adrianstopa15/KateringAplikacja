@@ -1,11 +1,11 @@
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
 import Alert from 'react-bootstrap/Alert';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // klucz do recapcha: 6LeQeZopAAAAAAlHABkaNzSJXLcAq9x1DxdflXWJ
 
-export default function LoginPopup({ onClose, onToggleToRegister, onLoginSuccess }) {
+export default function LoginPopup({ onClose, onToggleToRegister, onLoginSuccess}) {
   const [showRegistrationAlert, setShowRegistrationAlert] = useState({ show: false, message: "" });
   const [isLogin, setIsLogin] = useState(true);
   const [formKey] = useState(0);
@@ -13,6 +13,18 @@ export default function LoginPopup({ onClose, onToggleToRegister, onLoginSuccess
   const [password, setPassword] = useState("");
   const [loginUsername, setLoginUsername] = useState('');
   const [loginError, setLoginError] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+//   useEffect(() => {
+//     const getCookieValue = (name) => (
+//     document.cookie.split('; ').find(row => row.startsWith(name + '='))?.split('=')[1]
+//     );
+//     const authToken = getCookieValue('authToken');
+//     console.log(authToken);
+//     if (authToken) {
+//       setIsLoggedIn(true);
+//     }
+// }, []);
 
 const handleLogin = async (event) => {
     event.preventDefault(); 
@@ -30,6 +42,7 @@ const handleLogin = async (event) => {
       });
       console.log('Zalogowano pomyślnie:', response.data);
       setIsLogin(true);
+      setIsLoggedIn(true);
       setLoginError('');
       setShowRegistrationAlert({ show: true, message: "Zostałeś zalogowany." });
       onLoginSuccess(); 
@@ -44,12 +57,19 @@ const handleLogin = async (event) => {
       }
     }
   };
-
-// Funkcja wylogowania
-  const handleLogout = () => {
-    // Tutaj możesz dodać logikę do wylogowania, np. wywołując endpoint wylogowania na backendzie
-    setIsLogin(false); 
-  };
+  
+//Funkcja wylogowania
+  //   const handleLogout = () => {
+  //   setIsLoggedIn(false);
+  
+  //   const cookies = document.cookie.split(";");
+  //   for (let i = 0; i < cookies.length; i++) {
+  //     const cookie = cookies[i];
+  //     const eqPos = cookie.indexOf("=");
+  //     const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+  //     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+  //   }
+  // };
 
   function handleResetPassword(e) {
     e.preventDefault();

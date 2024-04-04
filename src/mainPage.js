@@ -5,10 +5,14 @@ import posilekImage4 from "./photos/posilek4.png";
 import filters from "./photos/filters.gif";
 import alistar from "./photos/alistar.gif";
 import { useState } from "react";
-import LoginPopup from "./loginPopup";
-import RegistrationPopup from './registrationPopup';
 import { useRef } from "react";
+import { useEffect } from "react";
 import dietuzjemLogo from './photos/logo.png';
+
+import RegistrationPopup from './registrationPopup';
+import LoginPopup from "./loginPopup";
+import SimplifiedProfilePage from "./simplifiedProfilePage";
+import ProfilePage from "./profilePages"
 
 import MenuListComposition from "./MenuListComposition";
 
@@ -19,24 +23,41 @@ export default function MainPage() {
   const promotionsRef = useRef(null);
   const profilesRef = useRef(null);
   const contactRef = useRef(null);
-
   const [popupType, setPopupType] = useState('none'); 
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+
+  useEffect(() => {
+    const getCookieValue = (name) => (
+      document.cookie.split('; ').find(row => row.startsWith(name + '='))?.split('=')[1]
+    );
+    const authToken = getCookieValue('authToken');
+    if (authToken) {
+      setIsLoggedIn(true);
+    }
+    }, []);
+
+  const handleLoginSuccess = () => {
+      setIsLoggedIn(true); 
+      togglePopup("none");
+    };
+
   const togglePopup = (type) => setPopupType(type === popupType ? 'none' : type);
   
-  const handleLoginSuccess = () => {
-    setIsLoggedIn(true); 
-    togglePopup("none");
-  };
-
   const scrollToRef = (ref) => {
     if (ref.current) {
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
     
   };
+//   if (isLoggedIn) {
+//     return (
+//         <>
+//             <ProfilePage/>
+            
+//         </>
+//     );
+// }
   return (
     <div className="main-page" ref={homeRef}>
       {popupType === "login" && (
@@ -62,12 +83,13 @@ export default function MainPage() {
           <p onClick={() => scrollToRef(contactRef)}>Kontakt</p>
           
           {isLoggedIn ? (
-            <MenuListComposition /> 
+            <MenuListComposition />
           ) : (
             <button className="button-regular--white" onClick={() => togglePopup("login")}>
               Zaloguj
             </button>
           )}
+
         </div>
       </div>
 
