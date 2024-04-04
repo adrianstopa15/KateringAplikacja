@@ -180,3 +180,45 @@ h1 {
 .form-group select:focus {
   border-color: #007bff;
 }
+.img-xs {
+  width: 100px;
+  text-align: center;
+  animation: pulse 3s infinite;
+}
+
+.border-t {
+  /* background-image: linear-gradient(
+    to right,
+    #f0971113 0%,
+    #feb47b34 50%,
+    #f0971113 0%
+  ); */
+  border-radius: 18px;
+  padding: 1rem 1rem;
+  transition: all 0.5s;
+  cursor: pointer;
+  max-width: fit-content;
+  align-items: center;
+}
+.i-center {
+  display: flex;
+  justify-content: center;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(0.92);
+  }
+
+  25% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.92);
+  }
+  75% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.92);
+  }
+}

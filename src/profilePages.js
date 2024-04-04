@@ -160,7 +160,7 @@ export default function ProfilePage() {
             <h1 className="mb-m">Witaj Imię!</h1>
 
             <p className="f-m">Jest to Twoje pierwsze logowanie</p>
-            <p className="mt-m f-s ">
+            <p className="mt-sm f-s ">
               aby rozpocząć korzystanie z DieTuzjem, proszę opowiedz nam co
               nieco o sobie.
             </p>
@@ -186,6 +186,8 @@ export default function ProfilePage() {
                     placeholder="waga w kilogramach"
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
+                    min="0"
+                    max="570"
                     required
                   />
                 </label>
@@ -197,6 +199,8 @@ export default function ProfilePage() {
                     value={height}
                     onChange={(e) => setHeight(e.target.value)}
                     required
+                    min="100"
+                    max="251"
                   />
                 </label>
 
@@ -244,6 +248,8 @@ export default function ProfilePage() {
                     onChange={(e) => setAge(e.target.value)}
                     placeholder="Podaj swój wiek"
                     required
+                    min="16"
+                    max="150"
                   />
                 </label>
                 <select
@@ -320,6 +326,40 @@ export default function ProfilePage() {
         {step === 6 && (
           <div className="content-wrapper">
             <h2 className="mb-m">Twoja kaloryczność diety</h2>
+            <div className="i-center">
+              <div className="border-t">
+                {" "}
+                {selectedGoal === "maintain" ? (
+                  <img
+                    src={keepWeight}
+                    alt="Utrzymanie wagi"
+                    className="img-xs"
+                  />
+                ) : selectedGoal === "gain" ? (
+                  <img
+                    src={buildMuscles}
+                    alt="Utrzymanie wagi"
+                    className="img-xs"
+                  />
+                ) : (
+                  <img
+                    src={looseWeight}
+                    alt="Utrzymanie wagi"
+                    className="img-xs"
+                  />
+                )}
+              </div>
+            </div>
+            <p className="mt-s">
+              <strong>
+                Ustawiono cel na{" "}
+                {selectedGoal === "maintain"
+                  ? "utrzymanie wagi"
+                  : selectedGoal === "gain"
+                  ? "budowanie masy mięśniowej"
+                  : "redukcję tkanki tłuszczowej"}
+              </strong>
+            </p>
             <p>
               W celu{" "}
               {selectedGoal === "maintain"
