@@ -16,13 +16,13 @@
 .password-strength-bar div {
   transition: width 0.5s ease, background-color 0.5s ease;
 }
-.password-strength-bar{
-    width: 97%;
-    background-color: #ddd;
-    height: 10px; 
-    margin-top: 5px;
-    border-radius: 10px; 
-    overflow: hidden;
+.password-strength-bar {
+  width: 97%;
+  background-color: #ddd;
+  height: 10px;
+  margin-top: 5px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .alert-dismissable .close {
@@ -572,4 +572,33 @@ footer {
   padding-bottom: 1rem;
   padding-top: 0.5rem;
   color: white;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 1.5s ease-out forwards;
+  animation-delay: 0.55s;
+}
+
+.slideIn {
+  animation: slideIn 1s ease-out forwards;
+  animation-delay: 2s;
 }

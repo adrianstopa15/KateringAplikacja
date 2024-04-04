@@ -22,6 +22,8 @@ export default function MainPage() {
   const promotionsRef = useRef(null);
   const profilesRef = useRef(null);
   const contactRef = useRef(null);
+  const cooperationButtonRef = useRef(null);
+  const callToActionRef = useRef(null);
   const [popupType, setPopupType] = useState("none");
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,6 +40,40 @@ export default function MainPage() {
     }
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (entry.target === callToActionRef.current) {
+              entry.target.classList.add("fadeIn");
+            } else if (entry.target === cooperationButtonRef.current) {
+              entry.target.classList.add("slideIn");
+            }
+
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (callToActionRef.current) {
+      observer.observe(callToActionRef.current);
+    }
+    if (cooperationButtonRef.current) {
+      observer.observe(cooperationButtonRef.current);
+    }
+
+    return () => {
+      if (callToActionRef.current) {
+        observer.unobserve(callToActionRef.current);
+      }
+      if (cooperationButtonRef.current) {
+        observer.unobserve(cooperationButtonRef.current);
+      }
+    };
+  }, []);
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
     togglePopup("none");
@@ -229,12 +265,17 @@ export default function MainPage() {
             </h1>
           </div>
           <h2
+            ref={callToActionRef}
             className="h2-regular"
-            style={{ textAlign: "center", fontSize: "28px" }}
+            style={{ textAlign: "center", fontSize: "28px", opacity: "0" }}
           >
             Nie zwlekaj i zgłoś się już dziś!
           </h2>
-          <button className="button-regular" style={{ marginTop: "4.5rem" }}>
+          <button
+            ref={cooperationButtonRef}
+            className="button-regular"
+            style={{ marginTop: "4.5rem", opacity: "0" }}
+          >
             Zasady Współpracy
           </button>
         </div>
