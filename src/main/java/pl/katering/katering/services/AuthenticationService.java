@@ -66,7 +66,7 @@ public class AuthenticationService {
         String token = jwtService.generateToken(user);
 
         Cookie cookie = new Cookie("authToken", token);
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
         cookie.setSecure(false);
         cookie.setPath("/");
         cookie.setMaxAge(24 * 60 * 60);
