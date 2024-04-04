@@ -14,6 +14,25 @@ function RegistrationPopup({ onClose, onToggleToLogin }) {
     const [passwordsMatch, setPasswordsMatch] = useState(true); 
     const [capVal, setCapVal] = useState(null);
     const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
+    const [passwordStrength, setPasswordStrength] = useState(0);
+
+    const evaluatePasswordStrength = (password) => {
+      let strength = 0;
+      if (password.length >= 8) strength += 1; // Długość hasła
+      if (/[A-Z]/.test(password)) strength += 1; // Duże litery
+      if (/[a-z]/.test(password)) strength += 1; // Małe litery
+      if (/\d/.test(password)) strength += 1; // Cyfry
+      if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 1; // Znaki specjalne
+    
+      setPasswordStrength(strength);
+    };
+    const getPasswordStrengthColor = (strength) => {
+      if (strength <= 1) return 'red';
+      if (strength === 2) return 'orange';
+      if (strength === 3) return 'yellow';
+      if (strength === 4) return 'lightgreen';
+      return 'green';
+    };
 
   const validateForm = () => {
     const loginValid = /^[A-Za-z0-9]+$/.test(login) &&
@@ -27,7 +46,7 @@ function RegistrationPopup({ onClose, onToggleToLogin }) {
                       && /[A-Z]/.test(password);
     const passwordsMatch = password === confirmPassword;
     const recaptchaValid = capVal !== null;
-
+    
     if (!loginValid) {
       setAlert({ show: true, message: 'Nazwa użytkownika musi zawierać co najmniej 4 znaki oraz litery.', variant: 'danger' });
       return false;
@@ -118,9 +137,21 @@ const handleSubmit = async (event) => {
             <label>Email:</label>
             <input type="email" placeholder='Podaj adres email' value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
-          <div className="login-form">
+            <div className="login-form">
             <label>Hasło:</label>
-            <input type="password" placeholder='Podaj hasło' value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <input
+              type="password"
+              placeholder='Podaj hasło'
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                evaluatePasswordStrength(e.target.value);
+              }}
+              required
+            />
+          </div>
+          <div className="password-strength-bar">
+          <div style={{borderRadius: '10px', height: '100%', width: `${passwordStrength * 20}%`, backgroundColor: getPasswordStrengthColor(passwordStrength) }}></div>
           </div>
           <div className="login-form">
             <label>Powtórz hasło:</label>

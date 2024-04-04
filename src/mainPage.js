@@ -7,15 +7,14 @@ import alistar from "./photos/alistar.gif";
 import { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
-import dietuzjemLogo from './photos/logo.png';
-import RegistrationPopup from './registrationPopup';
+import dietuzjemLogo from "./photos/logo.png";
+import RegistrationPopup from "./registrationPopup";
 import LoginPopup from "./loginPopup";
 
 import SimplifiedProfilePage from "./simplifiedProfilePage";
-import ProfilePage from "./profilePages"
+import ProfilePage from "./profilePages";
 
 import MenuListComposition from "./MenuListComposition";
-
 
 export default function MainPage() {
   const homeRef = useRef(null);
@@ -23,78 +22,90 @@ export default function MainPage() {
   const promotionsRef = useRef(null);
   const profilesRef = useRef(null);
   const contactRef = useRef(null);
-  const [popupType, setPopupType] = useState('none'); 
+  const [popupType, setPopupType] = useState("none");
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const getCookieValue = (name) => (
-      document.cookie.split('; ').find(row => row.startsWith(name + '='))?.split('=')[1]
-    );
-    const authToken = getCookieValue('authToken');
+    const getCookieValue = (name) =>
+      document.cookie
+        .split("; ")
+        .find((row) => row.startsWith(name + "="))
+        ?.split("=")[1];
+    const authToken = getCookieValue("authToken");
     if (authToken) {
       setIsLoggedIn(true);
     }
-    }, []);
+  }, []);
 
   const handleLoginSuccess = () => {
-      setIsLoggedIn(true); 
-      togglePopup("none");
-    };
+    setIsLoggedIn(true);
+    togglePopup("none");
+  };
 
-  const togglePopup = (type) => setPopupType(type === popupType ? 'none' : type);
-  
+  const togglePopup = (type) =>
+    setPopupType(type === popupType ? "none" : type);
+
   const scrollToRef = (ref) => {
     if (ref.current) {
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
-    
   };
-//   if (isLoggedIn) {
-//     return (
-//         <>
-//             <ProfilePage/>
-            
-//         </>
-//     );
-// }
+  //   if (isLoggedIn) {
+  //     return (
+  //         <>
+  //             <ProfilePage/>
+
+  //         </>
+  //     );
+  // }
   return (
     <div className="main-page" ref={homeRef}>
       {popupType === "login" && (
         <LoginPopup
-        onClose={() => togglePopup('none')}
-        onToggleToRegister={() => togglePopup('register')}
-        onLoginSuccess={handleLoginSuccess} 
-      />
+          onClose={() => togglePopup("none")}
+          onToggleToRegister={() => togglePopup("register")}
+          onLoginSuccess={handleLoginSuccess}
+        />
       )}
       {popupType === "register" && (
-        <RegistrationPopup onClose={() => togglePopup("none")} onToggleToLogin={() => togglePopup("login")} />
+        <RegistrationPopup
+          onClose={() => togglePopup("none")}
+          onToggleToLogin={() => togglePopup("login")}
+        />
       )}
 
-        <div className="top-bar">
-          <div className="top-bar-container">
-            <div className="left-section">
-              <img src={dietuzjemLogo} alt="DieTuzjem Logo" className="logo-image" />
-              <p className="logo">DieTuzjem</p>
-            </div>
-            <div className="menu-links">
-              <p onClick={() => scrollToRef(homeRef)}>Główna</p>
-              <p onClick={() => scrollToRef(aboutRef)}>Opis</p>
-              <p onClick={() => scrollToRef(promotionsRef)}>Promocje</p>
-              <p onClick={() => scrollToRef(profilesRef)}>Profile</p>
-              <p onClick={() => scrollToRef(contactRef)}>Kontakt</p>
-            </div>
-            <div className="right-section">
-              {isLoggedIn ? (
-                <MenuListComposition />
-              ) : (
-                <button className="button-regular--white" onClick={() => togglePopup("login")}>
-                  Zaloguj
-                </button>
-              )}
-            </div>
+      <div className="top-bar">
+        <div className="top-bar-container">
+          <div className="left-section">
+            <img
+              src={dietuzjemLogo}
+              alt="DieTuzjem Logo"
+              className="logo-image"
+            />
+            <p className="logo">DieTuzjem</p>
+          </div>
+          <div className="menu-links">
+            <p onClick={() => scrollToRef(homeRef)}>Główna</p>
+            <p onClick={() => scrollToRef(aboutRef)}>Opis</p>
+            <p onClick={() => scrollToRef(promotionsRef)}>Promocje</p>
+            <p onClick={() => scrollToRef(profilesRef)}>Profile</p>
+            <p onClick={() => scrollToRef(contactRef)}>Kontakt</p>
+          </div>
+          <div className="right-section">
+            {isLoggedIn ? (
+              <MenuListComposition />
+            ) : (
+              <button
+                className="button-regular--white"
+                onClick={() => togglePopup("login")}
+              >
+                Zaloguj
+              </button>
+            )}
           </div>
         </div>
+      </div>
 
       <div className="mid">
         <div className="mid-container--left">
