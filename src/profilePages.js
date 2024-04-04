@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import buildMuscles from "./photos/001-muscle.png";
 import looseWeight from "./photos/002-lose-weight.png";
 import keepWeight from "./photos/003-healthy.png";
+
 export default function ProfilePage() {
   const [step, setStep] = useState(1);
   const [weight, setWeight] = useState("");
