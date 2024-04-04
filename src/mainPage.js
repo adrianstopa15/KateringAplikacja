@@ -3,13 +3,15 @@ import posilekImage2 from "./photos/posilek2.png";
 import posilekImage3 from "./photos/posilek3.png";
 import posilekImage4 from "./photos/posilek4.png";
 import filters from "./photos/filters.gif";
-import discount from "./photos/discount.png";
 import alistar from "./photos/alistar.gif";
 import { useState } from "react";
 import LoginPopup from "./loginPopup";
+import RegistrationPopup from './registrationPopup';
 import { useRef } from "react";
 import dietuzjemLogo from './photos/logo.png';
-import Alert from 'react-bootstrap/Alert';
+
+import MenuListComposition from "./MenuListComposition";
+
 
 export default function MainPage() {
   const homeRef = useRef(null);
@@ -17,16 +19,37 @@ export default function MainPage() {
   const promotionsRef = useRef(null);
   const profilesRef = useRef(null);
   const contactRef = useRef(null);
-  const [popupActive, setPopupActive] = useState(false);
-  const togglePopup = () => setPopupActive(!popupActive);
+
+  const [popupType, setPopupType] = useState('none'); 
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  const togglePopup = (type) => setPopupType(type === popupType ? 'none' : type);
+  
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true); 
+    togglePopup("none");
+  };
+
   const scrollToRef = (ref) => {
     if (ref.current) {
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
+    
   };
   return (
     <div className="main-page" ref={homeRef}>
-      {popupActive && <LoginPopup onClose={togglePopup} />}
+      {popupType === "login" && (
+        <LoginPopup
+        onClose={() => togglePopup('none')}
+        onToggleToRegister={() => togglePopup('register')}
+        onLoginSuccess={handleLoginSuccess} 
+      />
+      )}
+      {popupType === "register" && (
+        <RegistrationPopup onClose={() => togglePopup("none")} onToggleToLogin={() => togglePopup("login")} />
+      )}
+
       <div className="top-bar">
         <div className="top-bar-container">
         <img src={dietuzjemLogo} alt="DieTuzjem Logo" className="logo-image" style={{ width: '100px', height: 'auto' }}/>
@@ -37,10 +60,14 @@ export default function MainPage() {
           <p onClick={() => scrollToRef(promotionsRef)}>Promocje</p>
           <p onClick={() => scrollToRef(profilesRef)}>Profile</p>
           <p onClick={() => scrollToRef(contactRef)}>Kontakt</p>
-
-          <button className="button-regular--white" onClick={togglePopup}>
-            Zaloguj
-          </button>
+          
+          {isLoggedIn ? (
+            <MenuListComposition /> 
+          ) : (
+            <button className="button-regular--white" onClick={() => togglePopup("login")}>
+              Zaloguj
+            </button>
+          )}
         </div>
       </div>
 
