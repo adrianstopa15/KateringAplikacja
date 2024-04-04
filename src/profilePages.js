@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import buildMuscles from "./photos/001-muscle.png";
 import looseWeight from "./photos/002-lose-weight.png";
 import keepWeight from "./photos/003-healthy.png";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export default function ProfilePage() {
   const [step, setStep] = useState(1);
@@ -15,8 +17,8 @@ export default function ProfilePage() {
   const [totalCalories, setTotalCalories] = useState(0);
   const [selectedGoal, setSelectedGoal] = useState("");
   const [housingType, setHousingType] = useState("dom");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [street, setStreet] = useState("");
   const [apartmentNumber, setApartmentNumber] = useState("");
@@ -47,8 +49,8 @@ export default function ProfilePage() {
     } else {
       // walidacja
       if (
-        !firstName ||
-        !lastName ||
+        !first_name ||
+        !last_name ||
         !phone ||
         !street ||
         !postalCode ||
@@ -65,8 +67,8 @@ export default function ProfilePage() {
 
       // formularz dane itp
       const formData = {
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         phone,
         street,
         apartmentNumber, // to opcojnalne
@@ -80,12 +82,19 @@ export default function ProfilePage() {
         selectedGoal: selectedGoal,
       };
       //do zrobienia!! :
-      // try {
-      //   const response = await axios.post("TWOJ_URL_API", formData);
-      //   console.log("Odpowiedź z serwera:", response.data);
-      // } catch (error) {
-      //   console.error("Błąd przy wysyłaniu formularza:", error);
-      // }
+      try {
+        const getCookieValue = (name) => (
+              document.cookie.split('; ').find(row => row.startsWith(name + '='))?.split('=')[1]
+              );
+              const authToken = getCookieValue('authToken');
+              const decodedToken = jwtDecode(authToken);
+              const login = decodedToken.login;
+              console.log(login);
+        const response = await axios.patch(`http://localhost:8080/editCustomer?login=${login}`, formData);
+        console.log("Odpowiedź z serwera:", response.data);
+      } catch (error) {
+        console.error("Błąd przy wysyłaniu formularza:", error);
+      }
     }
   };
   const calculateCalories = () => {
@@ -183,6 +192,7 @@ export default function ProfilePage() {
                   <input
                     type="number"
                     name="weight"
+                    id="weight"
                     placeholder="waga w kilogramach"
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
@@ -195,6 +205,7 @@ export default function ProfilePage() {
                   <input
                     type="number"
                     name="height"
+                    id="height"
                     placeholder="Wzrost w centymetrach"
                     value={height}
                     onChange={(e) => setHeight(e.target.value)}
@@ -206,6 +217,8 @@ export default function ProfilePage() {
 
                 <select
                   value={gender}
+                  name="gender"
+                  id="gender"
                   onChange={(e) => setGender(e.target.value)}
                   required
                 >
@@ -245,6 +258,8 @@ export default function ProfilePage() {
                   <input
                     type="number"
                     value={age}
+                    name="age"
+                    id="age"
                     onChange={(e) => setAge(e.target.value)}
                     placeholder="Podaj swój wiek"
                     required
@@ -254,6 +269,8 @@ export default function ProfilePage() {
                 </label>
                 <select
                   value={activityLevel}
+                  name="activity"
+                  id="activity"
                   onChange={(e) => setActivityLevel(e.target.value)}
                   required
                 >
@@ -399,12 +416,14 @@ export default function ProfilePage() {
               obaw! W każdej chwili będziesz mógł je zmienić. Wypełnienie ich
               zapewni Ci szybsze i przyjemniejsze zamawianie jedzenia.
             </p>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Mieszkam w: </label>
+                <label>Mieszkam w:</label>
                 <select
                   value={housingType}
                   onChange={(e) => setHousingType(e.target.value)}
+                  name="housingType"
+                  id="housingType"
                 >
                   <option value="dom">Domu</option>
                   <option value="mieszkanie">Mieszkaniu</option>
@@ -413,38 +432,41 @@ export default function ProfilePage() {
 
               <div className="form-group">
                 <label>Imię:</label>
-                <input type="text" required />
+                <input type="text" value={first_name} id="first_name" name="first_name"
+                onChange={(e) => setFirstName(e.target.value)} required />
               </div>
 
               <div className="form-group">
                 <label>Nazwisko:</label>
-                <input type="text" required />
+                <input type="text" value={last_name} id="last_name" name="last_name"
+                onChange={(e) => setLastName(e.target.value)} required />
               </div>
 
               <div className="form-group">
                 <label>Nr telefonu:</label>
-                <input type="tel" required />
+                <input type="tel" value={phone} id="phone" name="phone"
+                onChange={(e) => setPhone(e.target.value)} required />
               </div>
               <div className="form-group">
                 <label>Miasto:</label>
-                <input type="text" required />
+                <input type="text" name="city" required />
               </div>
 
               <div className="form-group">
                 <label>Ulica:</label>
-                <input type="text" required />
+                <input type="text" name="street" required />
               </div>
 
               {housingType === "mieszkanie" && (
                 <>
                   <div className="form-group">
                     <label>Numer mieszkania:</label>
-                    <input type="text" required />
+                    <input type="text" name="apartmentNumber" required />
                   </div>
 
                   <div className="form-group">
                     <label>Piętro:</label>
-                    <input type="text" />
+                    <input type="text" name="floor" />
                   </div>
                 </>
               )}
@@ -453,6 +475,7 @@ export default function ProfilePage() {
                 <label>Kod pocztowy:</label>
                 <input
                   type="text"
+                  name="postal_code"
                   required
                   pattern="\d{2}-\d{3}"
                   placeholder="00-000"

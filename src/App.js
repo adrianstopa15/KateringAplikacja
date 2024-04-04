@@ -7,7 +7,7 @@ import ProfilePage from "./profilePages";
 import SimplifiedProfilePage from "./simplifiedProfilePage";
 
 function App() {
-  return <MainPage />;
+  return <ProfilePage />;
 }
 
 export default App;
