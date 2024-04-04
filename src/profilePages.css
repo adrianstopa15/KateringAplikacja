@@ -7,10 +7,11 @@ h1 {
 }
 .profile-page {
   display: flex;
+  /* align-items: flex-start; */
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
+  /* justify-content: center; */
+  min-height: 100vh;
   background-image: linear-gradient(
     to right,
     #f09611 0%,
@@ -24,13 +25,13 @@ h1 {
 .f-m {
   font-size: 30px;
 }
-.profile-page--content {
+/* .profile-page--content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-}
+} */
 .form1 {
   display: flex;
   align-items: center;
@@ -73,9 +74,11 @@ h1 {
   filter: drop-shadow(6px 4px 5px #c7c7c7);
   transition: all 0.2s;
   cursor: pointer;
-  display: block;
 }
-
+.choice {
+  display: flex;
+  justify-content: space-around;
+}
 .button-27:disabled {
   pointer-events: none;
 }
@@ -93,6 +96,9 @@ h1 {
 .mt-s {
   margin-top: 1.5rem;
 }
+.mt-sm {
+  margin-top: 3rem;
+}
 .mt-m {
   margin-top: 6rem;
 }
@@ -106,6 +112,9 @@ h1 {
 .mb-m {
   margin-bottom: 3rem;
 }
+.mb-xl {
+  margin-bottom: 10rem;
+}
 
 .content-wrapper {
   display: flex;
@@ -117,7 +126,7 @@ h1 {
   max-width: 35rem;
   margin: 20px;
   text-align: center;
-  margin-bottom: 10rem;
+  margin-top: 3rem;
 }
 
 .t-green {
@@ -128,4 +137,46 @@ h1 {
 }
 .t-orange {
   color: #f07d11;
+}
+.border {
+  background-color: lightblue;
+  border-radius: 18px;
+  padding: 1rem 1rem;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+.border:hover {
+  background-color: rgb(157, 238, 157);
+  transform: scale(1.1);
+  padding: 1rem 1rem;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+}
+.border.selected {
+  background-color: rgb(100, 219, 89);
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 5px;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"],
+.form-group select {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #007bff;
 }
