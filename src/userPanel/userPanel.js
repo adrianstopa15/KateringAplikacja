@@ -3,7 +3,7 @@ import UserDiscounts from "./userDiscounts";
 import UserOrders from "./userOrders";
 import UserPreferences from "./userPreferences";
 import UserStats from "./userStats";
-import DaneUzytkownika from "../photos/DaneUzytkownika.png";
+import DaneUzytkownika from "../photos/DaneUzytkownika.svg";
 import Panel from "../photos/Panel.png";
 import Preferencje from "../photos/Preferencje.png";
 import Promocje from "../photos/Promocje.png";
@@ -36,40 +36,47 @@ export default function UserPanel() {
       <div className="panel-header"></div>
       <div className="panel-container">
         <div className="left-bar">
-          <h2 className="lb-name">
-            <img src={Panel} className="lb-icons" style={{ width: "2.5rem" }} />
-            Panel
-          </h2>
           <a
-            className="left-bar--content"
+            className={`left-bar--content mt-sm ${
+              activeComponent === "UserData" ? "lb-active" : ""
+            }`}
             onClick={() => setActiveComponent("UserData")}
           >
             <img src={DaneUzytkownika} className="lb-icons" />
             Dane użytkownika
           </a>
+
           <a
-            className="left-bar--content"
+            className={`left-bar--content ${
+              activeComponent === "UserPreferences" ? "lb-active" : ""
+            }`}
             onClick={() => setActiveComponent("UserPreferences")}
           >
             <img src={Preferencje} className="lb-icons" />
             Preferencje
           </a>
           <a
-            className="left-bar--content"
+            className={`left-bar--content ${
+              activeComponent === "UserStats" ? "lb-active" : ""
+            }`}
             onClick={() => setActiveComponent("UserStats")}
           >
             <img src={Statystyki} className="lb-icons" />
             Statystyki
           </a>
           <a
-            className="left-bar--content"
+            className={`left-bar--content ${
+              activeComponent === "UserOrders" ? "lb-active" : ""
+            }`}
             onClick={() => setActiveComponent("UserOrders")}
           >
             <img src={Zamowienia} className="lb-icons" />
             Zamówienia
           </a>
           <a
-            className="left-bar--content"
+            className={`left-bar--content ${
+              activeComponent === "UserDiscounts" ? "lb-active" : ""
+            }`}
             onClick={() => setActiveComponent("UserDiscounts")}
           >
             <img src={Promocje} className="lb-icons" />
