@@ -37,4 +37,44 @@ public class AddressService {
 
         return ResponseEntity.ok(list);
     }
+
+    public ResponseEntity<?> addAddress(Address address, String login) {
+        Optional<User> user = userRepository.findByLogin(login);
+        Customer customer = customerRepository.findByUserId(user.get().getUser_id());
+        Address existingAddress = new Address();
+        existingAddress.setCity(address.getCity());
+        existingAddress.setStreet(address.getStreet());
+        existingAddress.setPostal_code(address.getPostal_code());
+        existingAddress.setApartment_number(address.getApartment_number());
+        existingAddress.setFloor(address.getFloor());
+        existingAddress.setHousing_type(address.getHousing_type());
+
+        existingAddress.setCustomer(customer);
+
+        return ResponseEntity.ok(addressRepository.save(existingAddress));
+    }
+
+    public ResponseEntity<?> editAddress(Address address, Integer id) {
+        Address customerAddress = addressRepository.findByAddressId(id);
+        if (address.getCity() != null) {
+            customerAddress.setCity(address.getCity());
+        }
+        if (address.getStreet() != null) {
+            customerAddress.setStreet(address.getStreet());
+        }
+        if (address.getPostal_code() != null) {
+            customerAddress.setPostal_code(address.getPostal_code());
+        }
+        if (address.getApartment_number() != null) {
+            customerAddress.setApartment_number(address.getApartment_number());
+        }
+        if (address.getFloor() != null) {
+            customerAddress.setFloor(address.getFloor());
+        }
+        if (address.getHousing_type() != null) {
+            customerAddress.setHousing_type(address.getHousing_type());
+        }
+
+        return ResponseEntity.ok(addressRepository.save(customerAddress));
+    }
 }

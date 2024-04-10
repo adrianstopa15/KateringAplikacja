@@ -90,6 +90,23 @@ public class CustomerService {
         return ResponseEntity.ok(customerRepository.save(existingCustomer));
     }
 
+    public ResponseEntity<?> editCustomer(Customer customer, String login) {
+        Optional<User> user = userRepository.findByLogin(login);
+        Customer existingCustomer = customerRepository.findByUserId(user.get().getUser_id());
+
+        if (customer.getFirst_name() != null) {
+            existingCustomer.setFirst_name(customer.getFirst_name());
+        }
+        if (customer.getLast_name() != null) {
+            existingCustomer.setLast_name(customer.getLast_name());
+        }
+        if (customer.getPhone() != null) {
+            existingCustomer.setPhone(customer.getPhone());
+        }
+
+        return ResponseEntity.ok(customerRepository.save(existingCustomer));
+    }
+
     private Customer parseCustomer(Map<String, Object> formData) {
         Customer customer = new Customer();
         customer.setFirst_name((String) formData.get("first_name"));

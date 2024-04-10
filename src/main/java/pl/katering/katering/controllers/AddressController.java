@@ -2,10 +2,7 @@ package pl.katering.katering.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.katering.katering.classes.Address;
 import pl.katering.katering.services.AddressService;
 
@@ -29,5 +26,15 @@ public class AddressController {
     @GetMapping("/showCustomerAddresses")
     public ResponseEntity<?> customerAddressesList(@RequestParam String login) {
         return addressService.showCustomerAddresses(login);
+    }
+
+    @PostMapping("/addAddress")
+    public ResponseEntity<?> addAddress(@RequestBody Address address, @RequestParam String login) {
+        return addressService.addAddress(address, login);
+    }
+
+    @PostMapping("/editAddress")
+    public ResponseEntity<?> editAddress(@RequestBody Address address, @RequestParam Integer id) {
+        return addressService.editAddress(address, id);
     }
 }
