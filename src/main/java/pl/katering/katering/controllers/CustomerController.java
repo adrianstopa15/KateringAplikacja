@@ -32,7 +32,7 @@ public class CustomerController {
         return customerService.showCustomer(login);
     }
 
-    @PatchMapping("/editCustomer")
+    @PostMapping("/editCustomer")
     public ResponseEntity<?> editCustomer(@RequestBody Map<String, Object> formData, @RequestParam String login) {
         return ResponseEntity.ok(customerService.edit(formData, login));
     }
