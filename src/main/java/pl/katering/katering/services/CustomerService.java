@@ -44,21 +44,48 @@ public class CustomerService {
         Address address = parseAddress(formData);
 
         Customer existingCustomer = customerRepository.findByUserId(user.get().getUser_id());
-        Address existingAddress = new Address();
+        Address existingAddress = null;
+        List<Address> addresses = existingCustomer.getAddresses();
+        if (!addresses.isEmpty()) {
+            existingAddress = addresses.get(0);
+        } else {
+            existingAddress = new Address();
+        }
 
-        existingCustomer.setFirst_name(customer.getFirst_name());
-        existingCustomer.setLast_name(customer.getLast_name());
-        existingCustomer.setPhone(customer.getPhone());
+        if (formData.containsKey("first_name")) {
+            existingCustomer.setFirst_name(customer.getFirst_name());
+        }
+        if (formData.containsKey("last_name")) {
+            existingCustomer.setLast_name(customer.getLast_name());
+        }
+        if (formData.containsKey("phone")) {
+            existingCustomer.setPhone(customer.getPhone());
+        }
 
-        existingAddress.setCity(address.getCity());
-        existingAddress.setStreet(address.getStreet());
-        existingAddress.setPostal_code(address.getPostal_code());
-        existingAddress.setApartment_number(address.getApartment_number());
-        existingAddress.setFloor(address.getFloor());
-        existingAddress.setHousing_type(address.getHousing_type());
+        if (formData.containsKey("city")) {
+            existingAddress.setCity(address.getCity());
+        }
+        if (formData.containsKey("street")) {
+            existingAddress.setStreet(address.getStreet());
+        }
+        if (formData.containsKey("postal_code")) {
+            existingAddress.setPostal_code(address.getPostal_code());
+        }
+        if (formData.containsKey("apartment_number")) {
+            existingAddress.setApartment_number(address.getApartment_number());
+        }
+        if (formData.containsKey("floor")) {
+            existingAddress.setFloor(address.getFloor());
+        }
+        if (formData.containsKey("housing_type")) {
+            existingAddress.setHousing_type(address.getHousing_type());
+        }
+
         existingAddress.setCustomer(existingCustomer);
 
-        existingCustomer.getAddresses().add(existingAddress);
+        if (addresses.isEmpty()) {
+            existingCustomer.getAddresses().add(existingAddress);
+        }
 
         return ResponseEntity.ok(customerRepository.save(existingCustomer));
     }
