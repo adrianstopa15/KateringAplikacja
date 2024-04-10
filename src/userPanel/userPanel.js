@@ -40,7 +40,9 @@ export default function UserPanel() {
         <div className="left-bar">
           <a
             className={`left-bar--content mt-sm ${
-              activeComponent === "UserData" ? "lb-active" : ""
+              activeComponent === "UserData"
+                ? "lb-active" && "lb-icons--active"
+                : ""
             }`}
             onClick={() => setActiveComponent("UserData")}
           >
@@ -50,7 +52,9 @@ export default function UserPanel() {
 
           <a
             className={`left-bar--content ${
-              activeComponent === "UserPreferences" ? "lb-active" : ""
+              activeComponent === "UserPreferences"
+                ? "lb-active" && "lb-icons--active"
+                : ""
             }`}
             onClick={() => setActiveComponent("UserPreferences")}
           >
@@ -59,7 +63,9 @@ export default function UserPanel() {
           </a>
           <a
             className={`left-bar--content ${
-              activeComponent === "UserStats" ? "lb-active" : ""
+              activeComponent === "UserStats"
+                ? "lb-active" && "lb-icons--active"
+                : ""
             }`}
             onClick={() => setActiveComponent("UserStats")}
           >
@@ -68,7 +74,9 @@ export default function UserPanel() {
           </a>
           <a
             className={`left-bar--content ${
-              activeComponent === "UserOrders" ? "lb-active" : ""
+              activeComponent === "UserOrders"
+                ? "lb-active" && "lb-icons--active"
+                : ""
             }`}
             onClick={() => setActiveComponent("UserOrders")}
           >
@@ -77,7 +85,9 @@ export default function UserPanel() {
           </a>
           <a
             className={`left-bar--content ${
-              activeComponent === "UserDiscounts" ? "lb-active" : ""
+              activeComponent === "UserDiscounts"
+                ? "lb-active" && "lb-icons--active"
+                : ""
             }`}
             onClick={() => setActiveComponent("UserDiscounts")}
           >

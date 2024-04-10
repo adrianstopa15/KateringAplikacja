@@ -88,6 +88,73 @@ h1 {
   transition: all 0.2s;
   cursor: pointer;
 }
+.button-27-e {
+  text-decoration: none;
+  border-radius: 100px;
+  padding: 0.4rem 0.6rem;
+  color: #ffff;
+  background-color: rgb(231, 152, 4);
+  border: none;
+  letter-spacing: 0.8px;
+  filter: drop-shadow(6px 4px 5px #c7c7c7);
+  transition: all 0.2s;
+  cursor: pointer;
+  font-size: 14px;
+}
+.button-27-d {
+  text-decoration: none;
+  border-radius: 100px;
+  padding: 0.4rem 0.6rem;
+  color: #ffff;
+  background-color: rgb(231, 19, 4);
+  border: none;
+  letter-spacing: 0.8px;
+  filter: drop-shadow(6px 4px 5px #c7c7c7);
+  transition: all 0.2s;
+  cursor: pointer;
+  font-size: 14px;
+}
+.button-27-save {
+  text-decoration: none;
+  border-radius: 100px;
+  padding: 0.4rem 0.6rem;
+  color: #ffff;
+  background-color: rgb(85, 192, 13);
+  border: none;
+  letter-spacing: 0.8px;
+  filter: drop-shadow(6px 4px 5px #c7c7c7);
+  transition: all 0.2s;
+  cursor: pointer;
+  font-size: 14px;
+}
+.button-27-e:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 1px 9px;
+  transform: translateY(-1px);
+}
+
+.button-27-e:active {
+  box-shadow: none;
+  transform: translateY(1px);
+}
+.button-27-save:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 1px 9px;
+  transform: translateY(-1px);
+}
+
+.button-27-save:active {
+  box-shadow: none;
+  transform: translateY(1px);
+}
+.button-27-d:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 1px 9px;
+  transform: translateY(-1px);
+}
+
+.button-27-d:active {
+  box-shadow: none;
+  transform: translateY(1px);
+}
+
 .choice {
   display: flex;
   justify-content: space-around;
@@ -236,4 +303,14 @@ h1 {
   100% {
     transform: scale(0.92);
   }
+}
+.ulica {
+  font-weight: 600;
+  margin-bottom: 0;
+}
+.k-pocztowy {
+  font-style: italic;
+  margin-bottom: 0;
+}
+.miasto {
 }
