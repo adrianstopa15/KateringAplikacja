@@ -29,12 +29,13 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody User request, HttpServletResponse response) {
-        AuthenticationResponse authResponse = authService.authenticate(request, response);
-        if (authResponse != null && authResponse.getToken() != null) {
-            return ResponseEntity.ok(authResponse);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
+    public ResponseEntity<?> login(@RequestBody User request, HttpServletResponse response) {
+//        AuthenticationResponse authResponse = authService.authenticate(request, response);
+//        if (authResponse != null && authResponse.getToken() != null) {
+//            return ResponseEntity.ok(authResponse);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+//        }
+        return ResponseEntity.ok(authService.authenticate(request, response));
     }
 }

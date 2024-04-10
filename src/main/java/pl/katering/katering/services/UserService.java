@@ -18,7 +18,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public boolean isUserExists(String login) {
+    public boolean isLoginExists(String login) {
         return userRepository.existsByLogin(login);
     }
 
@@ -30,7 +30,7 @@ public class UserService {
 //        return userRepository.save(user);
 //    }
 
-    public List<User> showUser() {
+    public List<User> showUsers() {
         return userRepository.findAll();
     }
 

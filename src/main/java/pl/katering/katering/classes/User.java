@@ -35,7 +35,7 @@ public class User implements UserDetails {
     Role role;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Customer customer;
 
     @Override

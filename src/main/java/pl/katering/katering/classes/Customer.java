@@ -33,7 +33,6 @@ public class Customer {
     private User user;
 
     @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "customer_id")
-    private List<Address> address;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Address> addresses;
 }
