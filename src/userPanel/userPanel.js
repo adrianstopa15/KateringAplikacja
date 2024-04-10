@@ -10,8 +10,9 @@ import Promocje from "../photos/Promocje.png";
 import Statystyki from "../photos/Statystyki.png";
 import Zamowienia from "../photos/Zamowienia.png";
 import "../userPanelStyle.css";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 export default function UserPanel() {
   const [activeComponent, setActiveComponent] = useState("UserData");
 
@@ -31,6 +32,7 @@ export default function UserPanel() {
         return <UserData />;
     }
   };
+
   return (
     <div className="panel-main--container">
       <div className="panel-header"></div>

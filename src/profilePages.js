@@ -28,9 +28,10 @@ export default function ProfilePage() {
   const handleStartClick = () => {
     setStep(2);
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
+  const handleSubmit = async (e) => {
+    console.log(e);
+    e.preventDefault();
     // Logika dla kroków przed ostatnim formularzem
     if (step < 7) {
       if (step === 2 && (!weight || !height)) {
@@ -71,8 +72,8 @@ export default function ProfilePage() {
         last_name,
         phone,
         street,
-        apartmentNumber, // to opcojnalne
-        floor, // to opcjonalne
+        apartmentNumber: +apartmentNumber, // to opcojnalne
+        floor: +floor, // to opcjonalne
         postalCode,
         city,
         housingType,
@@ -83,14 +84,26 @@ export default function ProfilePage() {
       };
       //do zrobienia!! :
       try {
-        const getCookieValue = (name) => (
-              document.cookie.split('; ').find(row => row.startsWith(name + '='))?.split('=')[1]
-              );
-              const authToken = getCookieValue('authToken');
-              const decodedToken = jwtDecode(authToken);
-              const login = decodedToken.login;
-              console.log(login);
-        const response = await axios.patch(`http://localhost:8080/editCustomer?login=${login}`, formData);
+        const getCookieValue = (name) =>
+          document.cookie
+            .split("; ")
+            .find((row) => row.startsWith(name + "="))
+            ?.split("=")[1];
+        const authToken = getCookieValue("authToken");
+        const decodedToken = jwtDecode(authToken);
+        console.log(authToken);
+
+        const login = decodedToken.sub;
+        console.log(login);
+        const response = await axios.post(
+          `http://localhost:8080/editCustomer?login=${login}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
         console.log("Odpowiedź z serwera:", response.data);
       } catch (error) {
         console.error("Błąd przy wysyłaniu formularza:", error);
@@ -148,7 +161,11 @@ export default function ProfilePage() {
     if (bmi >= 25 && bmi < 30) return <p className="mt-s t-orange">nadwagę!</p>;
     if (bmi >= 30) return <p className="mt-s t-red">otyłość.</p>;
   };
-  const handleNextClick = () => {
+  const handleNextClick = (e) => {
+    console.log(e);
+
+    e.preventDefault();
+
     if (step === 4) {
       const calories = calculateCalories();
       setTotalCalories(calories);
@@ -214,7 +231,6 @@ export default function ProfilePage() {
                     max="251"
                   />
                 </label>
-
                 <select
                   value={gender}
                   name="gender"
@@ -225,6 +241,7 @@ export default function ProfilePage() {
                   <option value="woman">Kobieta</option>
                   <option value="man">Mężczyzna</option>
                 </select>
+
                 <button type="submit" className="button-27 mt-s">
                   Dalej
                 </button>
@@ -432,41 +449,86 @@ export default function ProfilePage() {
 
               <div className="form-group">
                 <label>Imię:</label>
-                <input type="text" value={first_name} id="first_name" name="first_name"
-                onChange={(e) => setFirstName(e.target.value)} required />
+                <input
+                  type="text"
+                  value={first_name}
+                  id="first_name"
+                  name="first_name"
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
               </div>
 
               <div className="form-group">
                 <label>Nazwisko:</label>
-                <input type="text" value={last_name} id="last_name" name="last_name"
-                onChange={(e) => setLastName(e.target.value)} required />
+                <input
+                  type="text"
+                  value={last_name}
+                  id="last_name"
+                  name="last_name"
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                />
               </div>
 
               <div className="form-group">
                 <label>Nr telefonu:</label>
-                <input type="tel" value={phone} id="phone" name="phone"
-                onChange={(e) => setPhone(e.target.value)} required />
+                <input
+                  type="tel"
+                  value={phone}
+                  id="phone"
+                  name="phone"
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
               </div>
               <div className="form-group">
                 <label>Miasto:</label>
-                <input type="text" name="city" required />
+                <input
+                  type="text"
+                  name="city"
+                  value={city}
+                  id="city"
+                  onChange={(e) => setCity(e.target.value)}
+                  required
+                />
               </div>
 
               <div className="form-group">
                 <label>Ulica:</label>
-                <input type="text" name="street" required />
+                <input
+                  type="text"
+                  name="street"
+                  value={street}
+                  id="street"
+                  onChange={(e) => setStreet(e.target.value)}
+                  required
+                />
               </div>
 
               {housingType === "mieszkanie" && (
                 <>
                   <div className="form-group">
                     <label>Numer mieszkania:</label>
-                    <input type="text" name="apartmentNumber" required />
+                    <input
+                      type="text"
+                      name="apartmentNumber"
+                      value={apartmentNumber}
+                      id="apartmentNumber"
+                      onChange={(e) => setApartmentNumber(e.target.value)}
+                      required
+                    />
                   </div>
 
                   <div className="form-group">
                     <label>Piętro:</label>
-                    <input type="text" name="floor" />
+                    <input
+                      type="text"
+                      name="floor"
+                      value={floor}
+                      id="floor"
+                      onChange={(e) => setFloor(e.target.value)}
+                    />
                   </div>
                 </>
               )}
@@ -479,6 +541,9 @@ export default function ProfilePage() {
                   required
                   pattern="\d{2}-\d{3}"
                   placeholder="00-000"
+                  value={postalCode}
+                  id="postalCode"
+                  onChange={(e) => setPostalCode(e.target.value)}
                 />
               </div>
 
