@@ -45,8 +45,12 @@ public class AddressService {
         existingAddress.setCity(address.getCity());
         existingAddress.setStreet(address.getStreet());
         existingAddress.setPostal_code(address.getPostal_code());
-        existingAddress.setApartment_number(address.getApartment_number());
-        existingAddress.setFloor(address.getFloor());
+        if (address.getApartment_number() != null) {
+            existingAddress.setApartment_number(address.getApartment_number());
+        }
+        if (address.getFloor() != null) {
+            existingAddress.setFloor(address.getFloor());
+        }
         existingAddress.setHousing_type(address.getHousing_type());
 
         existingAddress.setCustomer(customer);
@@ -76,5 +80,13 @@ public class AddressService {
         }
 
         return ResponseEntity.ok(addressRepository.save(customerAddress));
+    }
+
+    public ResponseEntity<?> deleteAddress(Integer id) {
+        Address customerAddress = addressRepository.findByAddressId(id);
+
+        addressRepository.delete(customerAddress);
+
+        return ResponseEntity.ok("Pomyślnie usunięto adres");
     }
 }

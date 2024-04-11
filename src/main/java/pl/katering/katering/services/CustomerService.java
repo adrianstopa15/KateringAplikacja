@@ -68,16 +68,16 @@ public class CustomerService {
         if (formData.containsKey("street")) {
             existingAddress.setStreet(address.getStreet());
         }
-        if (formData.containsKey("postalCode")) {
+        if (formData.containsKey("postal_code")) {
             existingAddress.setPostal_code(address.getPostal_code());
         }
-        if (formData.containsKey("apartmentNumber")) {
+        if (formData.containsKey("apartment_number")) {
             existingAddress.setApartment_number(address.getApartment_number());
         }
         if (formData.containsKey("floor")) {
             existingAddress.setFloor(address.getFloor());
         }
-        if (formData.containsKey("housingType")) {
+        if (formData.containsKey("housing_type")) {
             existingAddress.setHousing_type(address.getHousing_type());
         }
 
@@ -121,16 +121,16 @@ public class CustomerService {
         Address address = new Address();
         address.setCity((String) formData.get("city"));
         address.setStreet((String) formData.get("street"));
-        address.setPostal_code((String) formData.get("postalCode"));
+        address.setPostal_code((String) formData.get("postal_code"));
 //        if (formData.get("apartment_name") != null) {
 //            address.setApartment_number(Integer.parseInt((String) formData.get("apartment_number")));
 //        }
-        address.setApartment_number((Integer) formData.get("apartmentNumber"));
+        address.setApartment_number((Integer) formData.get("apartment_number"));
 //        if (formData.get("floor") != null) {
 //            address.setFloor(Integer.parseInt((String) formData.get("floor")));
 //        }
         address.setFloor((Integer) formData.get("floor"));
-        address.setHousing_type((String) formData.get("housingType"));
+        address.setHousing_type((String) formData.get("housing_type"));
         return address;
     }
 }

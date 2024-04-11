@@ -37,4 +37,9 @@ public class AddressController {
     public ResponseEntity<?> editAddress(@RequestBody Address address, @RequestParam Integer id) {
         return addressService.editAddress(address, id);
     }
+
+    @PostMapping("/deleteAddress")
+    public ResponseEntity<?> deleteAddress(@RequestParam Integer id) {
+        return addressService.deleteAddress(id);
+    }
 }
