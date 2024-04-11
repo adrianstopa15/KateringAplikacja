@@ -7,7 +7,7 @@ import ProfilePage from "./profilePages";
 import SimplifiedProfilePage from "./simplifiedProfilePage";
 import UserPanel from "./userPanel/userPanel";
 function App() {
-  return <UserPanel />;
+  return <UserPanel/>;
 }
 
 export default App;

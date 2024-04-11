@@ -10,7 +10,15 @@ export function useAuth() {
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
-
+  const [housing_type, setHousing_type] = useState("dom");
+  const [first_name, setFirst_name] = useState("");
+  const [last_name, setLast_name] = useState("");
+  const [phone, setPhone] = useState("");
+  const [street, setStreet] = useState("");
+  const [apartment_number, setApartment_number] = useState("");
+  const [floor, setFloor] = useState("");
+  const [postal_code, setPostal_code] = useState("");
+  const [city, setCity] = useState("");
   const handleLogin = (success) => {
     setIsLoggedIn(true);
     fetchUserData();
@@ -46,7 +54,19 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, userData, handleLogin, handleLogout }}
+    value={{
+      isLoggedIn, userData, handleLogin, handleLogout,
+     
+      housing_type, setHousing_type,
+      first_name, setFirst_name,
+      last_name, setLast_name,
+      phone, setPhone,
+      street, setStreet,
+      apartment_number, setApartment_number,
+      floor, setFloor,
+      postal_code, setPostal_code,
+      city, setCity,
+    }}
     >
       {children}
     </AuthContext.Provider>

@@ -4,7 +4,7 @@ import looseWeight from "./photos/002-lose-weight.png";
 import keepWeight from "./photos/003-healthy.png";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-
+import { useAuth } from "./AuthContext"
 export default function ProfilePage() {
   const [step, setStep] = useState(1);
   const [weight, setWeight] = useState("");
@@ -16,18 +16,59 @@ export default function ProfilePage() {
   const [gender, setGender] = useState("");
   const [totalCalories, setTotalCalories] = useState(0);
   const [selectedGoal, setSelectedGoal] = useState("");
-  const [housingType, setHousingType] = useState("dom");
-  const [first_name, setFirstName] = useState("");
-  const [last_name, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [street, setStreet] = useState("");
-  const [apartmentNumber, setApartmentNumber] = useState("");
-  const [floor, setFloor] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [city, setCity] = useState("");
+  // const [housing_type, setHousing_type] = useState("dom");
+  // const [first_name, setFirstName] = useState("");
+  // const [last_name, setLastName] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [street, setStreet] = useState("");
+  // const [apartment_number, setApartment_number] = useState("");
+  // const [floor, setFloor] = useState("");
+  // const [postal_code, setPostal_code] = useState("");
+  // const [city, setCity] = useState("");
+  const {  housing_type, setHousing_type,
+    first_name, setFirst_name,
+    last_name, setLast_name,
+    phone, setPhone,
+    street, setStreet,
+    apartment_number, setApartment_number,
+    floor, setFloor,
+    postal_code, setPostal_code,
+    city, setCity,} = useAuth();
   const handleStartClick = () => {
     setStep(2);
   };
+
+  //  Dla sprawdzenia czy sie dobrze wpisuje:
+  // useEffect(() => {
+  //   console.log(`Imię zmienione na: ${first_name}`);
+  // }, [first_name]);
+
+  // useEffect(() => {
+  //   console.log(`Nazwisko zmienione na: ${last_name}`);
+  // }, [last_name]);
+
+  // useEffect(() => {
+  //   console.log(`Telefon zmieniony na: ${phone}`);
+  // }, [phone]);
+
+  // useEffect(() => {
+  //   console.log(`Kod pocztowy zmieniony na: ${postal_code}`);
+  // }, [postal_code]);
+
+  // useEffect(() => {
+  //   console.log(`miasto na:: ${city}`);
+  // }, [city]);
+  // useEffect(() => {
+  //   console.log(`floor:: ${floor}`);
+  // }, [floor]);
+
+  // useEffect(() => {
+  //   console.log(`Apartment number na: ${apartment_number}`);
+  // }, [apartment_number]);
+  // useEffect(() => {
+  //   console.log(`Ulica na: ${street}`);
+  // }, [street]);
+
 
   const handleSubmit = async (e) => {
     console.log(e);
@@ -54,14 +95,14 @@ export default function ProfilePage() {
         !last_name ||
         !phone ||
         !street ||
-        !postalCode ||
+        !postal_code ||
         !city
       ) {
         alert("Proszę wypełnić wszystkie wymagane pola.");
         return;
       }
 
-      if (!postalCode.match(/^\d{2}-\d{3}$/)) {
+      if (!postal_code.match(/^\d{2}-\d{3}$/)) {
         alert("Kod pocztowy musi być w formacie XX-XXX.");
         return;
       }
@@ -72,11 +113,11 @@ export default function ProfilePage() {
         last_name,
         phone,
         street,
-        apartmentNumber: +apartmentNumber, // to opcojnalne
+        apartment_number: +apartment_number, // to opcojnalne
         floor: +floor, // to opcjonalne
-        postalCode,
+        postal_code,
         city,
-        housingType,
+        housing_type,
         // to zobaczymy czy bedziemy w ogole dawac do backendu
         bmi: bmi,
         weightIndicator: weightIndicator,
@@ -96,7 +137,7 @@ export default function ProfilePage() {
         const login = decodedToken.sub;
         console.log(login);
         const response = await axios.post(
-          `http://localhost:8080/editCustomer?login=${login}`,
+          `http://localhost:8080/edit?login=${login}`,
           formData,
           {
             headers: {
@@ -437,10 +478,10 @@ export default function ProfilePage() {
               <div className="form-group">
                 <label>Mieszkam w:</label>
                 <select
-                  value={housingType}
-                  onChange={(e) => setHousingType(e.target.value)}
-                  name="housingType"
-                  id="housingType"
+                  value={housing_type}
+                  onChange={(e) => setHousing_type(e.target.value)}
+                  name="housing_type"
+                  id="housing_type"
                 >
                   <option value="dom">Domu</option>
                   <option value="mieszkanie">Mieszkaniu</option>
@@ -454,7 +495,7 @@ export default function ProfilePage() {
                   value={first_name}
                   id="first_name"
                   name="first_name"
-                  onChange={(e) => setFirstName(e.target.value)}
+                  onChange={(e) => setFirst_name(e.target.value)}
                   required
                 />
               </div>
@@ -466,7 +507,7 @@ export default function ProfilePage() {
                   value={last_name}
                   id="last_name"
                   name="last_name"
-                  onChange={(e) => setLastName(e.target.value)}
+                  onChange={(e) => setLast_name(e.target.value)}
                   required
                 />
               </div>
@@ -506,16 +547,16 @@ export default function ProfilePage() {
                 />
               </div>
 
-              {housingType === "mieszkanie" && (
+              {housing_type === "mieszkanie" && (
                 <>
                   <div className="form-group">
                     <label>Numer mieszkania:</label>
                     <input
                       type="text"
-                      name="apartmentNumber"
-                      value={apartmentNumber}
-                      id="apartmentNumber"
-                      onChange={(e) => setApartmentNumber(e.target.value)}
+                      name="apartment_number"
+                      value={apartment_number}
+                      id="apartment_number"
+                      onChange={(e) => setApartment_number(e.target.value)}
                       required
                     />
                   </div>
@@ -541,9 +582,9 @@ export default function ProfilePage() {
                   required
                   pattern="\d{2}-\d{3}"
                   placeholder="00-000"
-                  value={postalCode}
-                  id="postalCode"
-                  onChange={(e) => setPostalCode(e.target.value)}
+                  value={postal_code}
+                  id="postal_code"
+                  onChange={(e) => setPostal_code(e.target.value)}
                 />
               </div>
 
