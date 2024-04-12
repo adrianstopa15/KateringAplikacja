@@ -19,13 +19,16 @@ const UserData = () => {
       apartment_number, setApartment_number,
       floor, setFloor,
       postal_code, setPostal_code,
-      city, setCity,} = useAuth();
+      city, setCity,
+    currentEdit, setCurrentEdit, handleEdit, onEdit,
+    editAddressIndex, setEditAddressIndex, handleDelete} = useAuth();
+    const [modalMode, setModalMode] = useState(null);
   // const [housingType, setHousingType] = useState("dom");
   // const [apartmentNumber, setApartmentNumber] = useState("");
   // const [floor, setFloor] = useState("");
   // const [postalCode, setPostalCode] = useState("");
-  const [editAddressIndex, setEditAddressIndex] = useState(null);
-  const [currentEdit, setCurrentEdit] = useState();
+  // const [editAddressIndex, setEditAddressIndex] = useState(null);
+  // const [currentEdit, setCurrentEdit] = useState();
 
 
 
@@ -67,38 +70,41 @@ const UserData = () => {
     e.preventDefault();
   };
 
-  const handleEdit = async () => {
+  // const handleEdit = async () => {
 
-    const formData = {
-      street,
-      apartment_number: +apartment_number, 
-      floor: +floor, 
-      postal_code,
-      city,
-      housing_type,
-    };
-
-
-    const getCookieValue = (name) =>
-    document.cookie
-      .split("; ")
-      .find((row) => row.startsWith(name + "="))
-      ?.split("=")[1];
-  const authToken = getCookieValue("authToken");
+  //   const formData = {
+  //     street,
+  //     apartment_number: +apartment_number, 
+  //     floor: +floor, 
+  //     postal_code,
+  //     city,
+  //     housing_type,
+  //   };
 
 
-  const response = await axios.post(
-    `http://localhost:8080/editAddress?id=${currentEdit}`,
-    formData,
+  //   const getCookieValue = (name) =>
+  //   document.cookie
+  //     .split("; ")
+  //     .find((row) => row.startsWith(name + "="))
+  //     ?.split("=")[1];
+  // const authToken = getCookieValue("authToken");
+
+
+  // const response = await axios.post(
+  //   `http://localhost:8080/editAddress?id=${currentEdit}`,
+  //   formData,
     
-    {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    }
-  );
-  }
+  //   {
+  //     headers: {
+  //       Authorization: `Bearer ${authToken}`,
+  //     },
+  //   }
+  // );
+  // }
 
+  // const onEdit = (x) => {
+  //  setCurrentEdit(x);
+  // };
 
 
   const ulica =
@@ -108,9 +114,17 @@ const UserData = () => {
   const Miasto =
     addresses.map((address) => address.city).join(", ") || "Lublin";
 
-  const onEdit = (x) => {
-   setCurrentEdit(x);
-  };
+    useEffect(() => {
+      if (addresses.length > 0 && editAddressIndex != null) {
+        const address = addresses[editAddressIndex];
+        setStreet(address.street);
+        setApartment_number(address.apartment_number);
+        setPostal_code(address.postal_code);
+        setCity(address.city);
+        
+      }
+    }, [addresses, editAddressIndex]);
+
 
   return (
     <div>
@@ -140,7 +154,9 @@ const UserData = () => {
             <button className="button-27-e " onClick={() => {setIsOpen(true); setEditAddressIndex(index); onEdit(address.address_id)}}>
               Zaktualizuj adres
             </button>
-            <button className="button-27-d ml-s">Usuń adres</button>
+            <button className="button-27-d ml-s"
+             onClick={() => handleDelete(address.address_id)}
+            >Usuń adres</button>
           </div>
         
         ))}
@@ -212,6 +228,7 @@ const UserData = () => {
             </form>
             )}
           </PanelModal>
+          <button className="button-27-save ml-s">dodaj adres</button>
         </div>
       </div>
     </div>

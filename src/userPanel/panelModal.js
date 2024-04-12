@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDom from "react-dom";
+import { useAuth } from "../AuthContext";
+
 
 const MODAL_STYLES = {
   position: "fixed",
@@ -26,6 +28,29 @@ const OVERLAY_STYLES = {
 };
 
 export default function PanelModal({ open, children, onClose }) {
+
+
+  const { 
+    housing_type, setHousing_type,
+      first_name, setFirst_name,
+      last_name, setLast_name,
+      phone, setPhone,
+      street, setStreet,
+      apartment_number, setApartment_number,
+      floor, setFloor,
+      postal_code, setPostal_code,
+      city, setCity,
+    currentEdit, setCurrentEdit, handleEdit, onEdit,
+    editAddressIndex, setEditAddressIndex} = useAuth();
+    const [formMode, setFormMode] = useState(null);
+   
+
+    const handleSave = async () => {
+      await handleEdit();
+      onClose();
+      window.location.reload();
+    }
+
   if (!open) return null;
   return ReactDom.createPortal(
     <>
@@ -33,7 +58,7 @@ export default function PanelModal({ open, children, onClose }) {
       <div style={MODAL_STYLES}>
         {children}
         <div className="flex-c mt-sm">
-          <button className="button-27-save" type="submit">
+          <button onClick={handleSave} className="button-27-save" type="button">
             Zapisz
           </button>
           <button onClick={onClose} className="button-27-d ml-s">
