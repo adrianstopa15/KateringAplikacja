@@ -46,4 +46,19 @@ public class UserController {
         boolean exists = userService.isEmailExists(email);
         return ResponseEntity.ok(Map.of("isAvailable", !exists));
     }
+    @PostMapping("/updateFirstLogin")
+    public ResponseEntity<?> updateFirstLoginStatus(@RequestParam String login) {
+        userService.updateUserFirstLoginStatus(login, false);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/isFirstLogin")
+    public ResponseEntity<?> isFirstLogin(@RequestParam String login) {
+        try {
+            User user = userService.getUserByLogin(login);
+            return ResponseEntity.ok(Map.of("isFirstLogin", user.getFirstLogin()));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

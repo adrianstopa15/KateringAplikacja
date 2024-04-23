@@ -31,6 +31,8 @@ public class User implements UserDetails {
 
     private String email;
 
+    private Boolean firstLogin = true;
+
     @Enumerated(value = EnumType.STRING)
     Role role;
 
@@ -67,4 +69,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

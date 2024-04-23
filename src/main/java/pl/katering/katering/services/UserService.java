@@ -34,13 +34,25 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public String getUserByLogin(String login) {
-        Optional<User> user = userRepository.findByLogin(login);
-        return user.get().getEmail();
+    public User getUserByLogin(String login) {
+        return userRepository.findByLogin(login)
+                .orElseThrow(() -> new IllegalStateException("Użytkownik nie znaleziony"));
     }
 
     public Integer getUserId(String login) {
-        Optional<User> user = userRepository.findByLogin(login);
-        return user.get().getUser_id();
+        return userRepository.findByLogin(login)
+                .map(User::getUser_id)
+                .orElseThrow(() -> new IllegalStateException("Użytkownik nie znaleziony"));
+    }
+    public void updateUserFirstLoginStatus(String login, Boolean isFirstLogin) {
+        Optional<User> userOptional = userRepository.findByLogin(login);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setFirstLogin(isFirstLogin);
+            userRepository.save(user);
+        } else {
+            throw new IllegalStateException("Użytkownik nie znaleziony");
+        }
     }
 }
+
