@@ -1,0 +1,98 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.panel-main--container {
+  /* background-image: linear-gradient(
+    to right,
+    #f3cc92 0%,
+    #f8d4b8 50%,
+    #f7c985 100%
+  ); */
+  background-color: rgb(226, 224, 224);
+  /* background-color: orange; */
+  height: 100vh;
+}
+.panel-container {
+  display: flex;
+  flex-direction: row;
+  /* background-color: rgba(255, 255, 255, 0.123);
+  backdrop-filter: blur(50px);
+  border-radius: 50px;
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+  box-shadow: 3px 3px 3px rgba(255, 197, 38, 0.11);
+  padding-bottom: 13rem; */
+}
+.left-bar {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+
+  background-color: white;
+  min-height: 80vh;
+  min-width: 17.5%;
+}
+.panel-header {
+  padding-bottom: 15vh;
+}
+
+.left-bar--content {
+  text-decoration: none;
+  /* margin-bottom: 1rem; */
+  padding: 1.5rem 0.5rem;
+  cursor: pointer;
+  display: inline-block;
+  color: rgb(68, 67, 67);
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+.left-bar--content:hover .lb-icons {
+  filter: brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%)
+    hue-rotate(200deg) brightness(100%);
+}
+.left-bar--content:hover {
+  color: rgb(76, 76, 245);
+  background-color: rgba(37, 50, 238, 0.048);
+}
+.lb-icons {
+  filter: drop-shadow(1px 1px 1px #c7c7c7);
+  width: 2rem;
+  margin-right: 1.5rem;
+}
+.lb-icons--active {
+  filter: brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%)
+    hue-rotate(200deg) brightness(100%);
+}
+.lb-name {
+  margin: 2rem 0 4rem 0;
+}
+.main-content {
+  /* margin-top: 8.5rem; */
+  /* margin-left: 5rem; */
+  background-color: rgb(240, 238, 238);
+  min-width: 80%;
+  min-height: 80%;
+}
+.lb-active {
+  /* font-weight: 600; */
+  color: rgb(76, 76, 245);
+  background-color: rgba(37, 50, 238, 0.07);
+}
+.address-info {
+  /* width: 60%;
+  padding: 1rem 1rem; */
+  /* border: #c7c7c7 solid; */
+  /* border-radius: 10px; */
+}
+.flex-c {
+  display: flex;
+  justify-content: center;
+}
+
+.address-display--element{
+  border: #c7c7c7 solid;
+  border-radius:10px;
+  width: 60%;
+  padding: 1rem 1rem;
+ 
+}
