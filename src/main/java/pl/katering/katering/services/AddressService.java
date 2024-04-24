@@ -44,6 +44,7 @@ public class AddressService {
         Address existingAddress = new Address();
         existingAddress.setCity(address.getCity());
         existingAddress.setStreet(address.getStreet());
+        existingAddress.setHouse_number(address.getHouse_number());
         existingAddress.setPostal_code(address.getPostal_code());
         if (address.getApartment_number() != null) {
             existingAddress.setApartment_number(address.getApartment_number());
@@ -65,6 +66,9 @@ public class AddressService {
         }
         if (address.getStreet() != null) {
             customerAddress.setStreet(address.getStreet());
+        }
+        if (address.getHouse_number() != null) {
+            customerAddress.setHouse_number(address.getHouse_number());
         }
         if (address.getPostal_code() != null) {
             customerAddress.setPostal_code(address.getPostal_code());

@@ -125,11 +125,11 @@ public class CustomerService {
 //        if (formData.get("apartment_name") != null) {
 //            address.setApartment_number(Integer.parseInt((String) formData.get("apartment_number")));
 //        }
-        address.setApartment_number((Integer) formData.get("apartment_number"));
+        address.setApartment_number((String) formData.get("apartment_number"));
 //        if (formData.get("floor") != null) {
 //            address.setFloor(Integer.parseInt((String) formData.get("floor")));
 //        }
-        address.setFloor((Integer) formData.get("floor"));
+        address.setFloor((String) formData.get("floor"));
         address.setHousing_type((String) formData.get("housing_type"));
         return address;
     }

@@ -12,29 +12,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "address")
-public class Address {
+@Table(name = "preference")
+public class Preference {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer address_id;
+    private Integer preference_id;
 
-    private String city;
+    private String weight;
 
-    private String street;
+    private String height;
 
-    private String house_number;
+    private String age;
 
-    private String postal_code;
+    private String gender;
 
-    private String apartment_number;
+    private String bmi;
 
-    private String floor;
-
-    private String housing_type;
+    private String selected_goal;
 
     @JsonIgnore
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 }

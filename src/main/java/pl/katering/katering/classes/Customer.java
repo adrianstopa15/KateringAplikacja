@@ -33,6 +33,10 @@ public class Customer {
     private User user;
 
     @JsonIgnore
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Preference preference;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Address> addresses;
 }
