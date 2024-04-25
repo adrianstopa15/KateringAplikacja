@@ -68,6 +68,9 @@ public class CustomerService {
         if (formData.containsKey("street")) {
             existingAddress.setStreet(address.getStreet());
         }
+        if  (formData.containsKey("house_number")) {
+            existingAddress.setHouse_number(address.getHouse_number());
+        }
         if (formData.containsKey("postal_code")) {
             existingAddress.setPostal_code(address.getPostal_code());
         }
@@ -121,6 +124,9 @@ public class CustomerService {
         Address address = new Address();
         address.setCity((String) formData.get("city"));
         address.setStreet((String) formData.get("street"));
+        if (formData.get("house_number") != null) {
+            address.setHouse_number((String) formData.get("house_number"));
+        }
         address.setPostal_code((String) formData.get("postal_code"));
 //        if (formData.get("apartment_name") != null) {
 //            address.setApartment_number(Integer.parseInt((String) formData.get("apartment_number")));
