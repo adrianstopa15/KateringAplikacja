@@ -33,10 +33,8 @@ export default function LoginPopup({ onClose, onToggleToRegister, onLoginSuccess
       setShowRegistrationAlert({ show: true, message: "Zostałeś zalogowany." });
       onClose();
   
-      // Pobranie tokenu JWT z ciasteczek
       const authToken = document.cookie.split('; ').find(row => row.startsWith('authToken=')).split('=')[1];
   
-      // Wykorzystanie tokenu JWT w nagłówku Authorization
       axios.get(`http://localhost:8080/isFirstLogin?login=${userData.login}`, { 
         headers: {
           Authorization: `Bearer ${authToken}`
@@ -45,30 +43,15 @@ export default function LoginPopup({ onClose, onToggleToRegister, onLoginSuccess
       })
       .then(response => {
         if(response.data.isFirstLogin) {
-          onFirstLogin();
-          axios.post(`http://localhost:8080/updateFirstLogin?login=${userData.login}`, {}, { 
-            headers: {
-              Authorization: `Bearer ${authToken}`
-            },
-            withCredentials: true 
-          })
-          .then(() => {
-            console.log("Status pierwszego logowania został zaktualizowany.");
-          })
-          .catch(error => console.error("Błąd przy aktualizacji statusu pierwszego logowania:", error));
+          onFirstLogin(); 
         } else {
-          onLoginSuccess();
+          onLoginSuccess(); 
         }
       })
       .catch(error => console.error("Błąd przy sprawdzaniu pierwszego logowania:", error));
     } catch (error) {
-      if (error.response) {
-        console.log('Błąd logowania:', error.response.data);
-        setLoginError('Niepoprawny email lub hasło.');
-      } else {
-        console.log('Błąd:', error.message);
-        setLoginError('Wystąpił błąd podczas logowania. Spróbuj ponownie.');
-      }
+      console.error('Błąd logowania:', error);
+      setLoginError('Niepoprawny login lub hasło lub wystąpił błąd serwera.');
     }
   };
   

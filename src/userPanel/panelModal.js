@@ -48,7 +48,6 @@ export default function PanelModal({ open, children, onClose }) {
     const handleSave = async () => {
       await handleEdit();
       onClose();
-      window.location.reload();
     }
 
   if (!open) return null;

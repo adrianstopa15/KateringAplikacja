@@ -6,6 +6,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "./AuthContext"
 
+
 export default function ProfilePage(props) {
 
   const [step, setStep] = useState(1);
@@ -18,61 +19,24 @@ export default function ProfilePage(props) {
   const [gender, setGender] = useState("");
   const [totalCalories, setTotalCalories] = useState(0);
   const [selectedGoal, setSelectedGoal] = useState("");
-  // const [housing_type, setHousing_type] = useState("dom");
-  // const [first_name, setFirstName] = useState("");
-  // const [last_name, setLastName] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [street, setStreet] = useState("");
-  // const [apartment_number, setApartment_number] = useState("");
-  // const [floor, setFloor] = useState("");
-  // const [postal_code, setPostal_code] = useState("");
-  // const [city, setCity] = useState("");
+  axios.defaults.withCredentials = true;
+
   const {  housing_type, setHousing_type,
     first_name, setFirst_name,
     last_name, setLast_name,
     phone, setPhone,
     street, setStreet,
     apartment_number, setApartment_number,
+    //house_number, setHouse_number,
     floor, setFloor,
     postal_code, setPostal_code,
     city, setCity,} = useAuth();
-  const handleStartClick = () => {
+  
+    const handleStartClick = () => {
     setStep(2);
-  };
+    };
 
-  //  Dla sprawdzenia czy sie dobrze wpisuje:
-  // useEffect(() => {
-  //   console.log(`Imię zmienione na: ${first_name}`);
-  // }, [first_name]);
-
-  // useEffect(() => {
-  //   console.log(`Nazwisko zmienione na: ${last_name}`);
-  // }, [last_name]);
-
-  // useEffect(() => {
-  //   console.log(`Telefon zmieniony na: ${phone}`);
-  // }, [phone]);
-
-  // useEffect(() => {
-  //   console.log(`Kod pocztowy zmieniony na: ${postal_code}`);
-  // }, [postal_code]);
-
-  // useEffect(() => {
-  //   console.log(`miasto na:: ${city}`);
-  // }, [city]);
-  // useEffect(() => {
-  //   console.log(`floor:: ${floor}`);
-  // }, [floor]);
-
-  // useEffect(() => {
-  //   console.log(`Apartment number na: ${apartment_number}`);
-  // }, [apartment_number]);
-  // useEffect(() => {
-  //   console.log(`Ulica na: ${street}`);
-  // }, [street]);
-
-
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     console.log(e);
     e.preventDefault();
     if (step < 7) {
@@ -80,7 +44,6 @@ export default function ProfilePage(props) {
         alert("Proszę podać wagę i wzrost!");
         return;
       }
-      // Obliczenia BMI i przypisanie celu jeśli jest to odpowiedni krok
       if (step === 2 || step === 5) {
         const calculatedBMI = calculateBMI();
         const indicator = getWeightIndicator(calculatedBMI);
@@ -111,8 +74,9 @@ export default function ProfilePage(props) {
         last_name,
         phone,
         street,
-        apartment_number: +apartment_number, 
-        floor: +floor, 
+        apartment_number, 
+        floor,
+       // house_number, 
         postal_code,
         city,
         housing_type,
@@ -120,39 +84,29 @@ export default function ProfilePage(props) {
         weightIndicator: weightIndicator,
         selectedGoal: selectedGoal,
       };
-      //do zrobienia!! :
       try {
-        const getCookieValue = (name) =>
-          document.cookie
-            .split("; ")
-            .find((row) => row.startsWith(name + "="))
-            ?.split("=")[1];
-        const authToken = getCookieValue("authToken");
+        const authToken = document.cookie.split('; ').find(row => row.startsWith('authToken=')).split('=')[1];
+        console.log("Token JWT:", authToken); 
+  
         const decodedToken = jwtDecode(authToken);
-        console.log(authToken);
-
-        const login = decodedToken.sub;
-        console.log(login);
-        const response = await axios.post(
-          `http://localhost:8080/edit?login=${login}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
-        );
+        console.log("Zdekodowany token:", decodedToken); 
+  
+        await axios.post(`http://localhost:8080/updateFirstLogin?login=${decodedToken.sub}`, {}, {
+          headers: { Authorization: `Bearer ${authToken}` }
+        });
+  
+        const response = await axios.post(`http://localhost:8080/edit?login=${decodedToken.sub}`, formData, {
+          headers: { Authorization: `Bearer ${authToken}` }
+        });
         console.log("Odpowiedź z serwera:", response.data);
-        
+  
         if (props.onCompleted) {
-          props.onCompleted();
-          window.location.reload();
-        } else {
-          console.error('onCompleted function is not provided');
+          props.onCompleted(); 
         }
-
+        window.location.reload();
       } catch (error) {
         console.error("Błąd przy wysyłaniu formularza:", error);
+        alert("Nie można wysłać formularza, sprawdź logi dla więcej informacji.");
       }
     }
   };
@@ -170,6 +124,15 @@ export default function ProfilePage(props) {
   };
 
   useEffect(() => {
+    const handleRefresh = (event) => {
+      if (step > 0 && step < 8) {
+        event.preventDefault();
+        event.returnValue = '';
+        alert("Nie można odświeżyć strony podczas wypełniania formularza.");
+      }
+    };
+    window.addEventListener('beforeunload', handleRefresh);
+
     if (bmi) {
       if (bmi < 18.5) {
         setSelectedGoal("gain");
@@ -179,20 +142,14 @@ export default function ProfilePage(props) {
         setSelectedGoal("maintain");
       }
     }
-  }, [bmi]);
+    return () => {
+      window.removeEventListener('beforeunload', handleRefresh);
+    };
+  }, [bmi,step]);
   const calculateBMI = () => {
     const heightInMeters = height / 100;
     const calculateBMI = weight / (heightInMeters * heightInMeters);
     setBMI(calculateBMI);
-    // if (!selectedGoal) {
-    //   if (bmi < 18.5) {
-    //     setSelectedGoal("gain");
-    //   } else if (bmi > 25) {
-    //     setSelectedGoal("lose");
-    //   } else {
-    //     setSelectedGoal("maintain");
-    //   }
-    // }
     return calculateBMI;
   };
 
@@ -229,7 +186,7 @@ export default function ProfilePage(props) {
       <div className="profile-page--content">
         {step === 1 && (
           <div className="content-wrapper">
-            <h1 className="mb-m">Witaj Imię!</h1>
+            <h1 className="mb-m">Witaj</h1>
 
             <p className="f-m">Jest to Twoje pierwsze logowanie</p>
             <p className="mt-sm f-s ">
@@ -551,7 +508,6 @@ export default function ProfilePage(props) {
                   required
                 />
               </div>
-
               {housing_type === "mieszkanie" && (
                 <>
                   <div className="form-group">
