@@ -41,7 +41,7 @@ export default function PanelModal({ open, children, onClose }) {
       postal_code, setPostal_code,
       city, setCity,
     currentEdit, setCurrentEdit, handleEdit, onEdit,
-    editAddressIndex, setEditAddressIndex} = useAuth();
+    editAddressIndex, setEditAddressIndex, } = useAuth();
     const [formMode, setFormMode] = useState(null);
    
 

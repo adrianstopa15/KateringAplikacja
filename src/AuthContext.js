@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
   const [city, setCity] = useState("");
   const [currentEdit, setCurrentEdit] = useState();
   const [editAddressIndex, setEditAddressIndex] = useState(null);
+  const [house_number, setHouse_number] = useState();
   const [newAddress, setNewAddress] = useState({
     street: '',
     apartment_number: '',
@@ -29,6 +30,7 @@ export const AuthProvider = ({ children }) => {
     postal_code: '',
     city: '',
     housing_type: '',
+    house_number: '',
   });
   const handleLogin = (success) => {
     setIsLoggedIn(true);
@@ -59,11 +61,12 @@ export const AuthProvider = ({ children }) => {
 
     const formData = {
       street,
-      apartment_number: +apartment_number, 
-      floor: +floor, 
+      apartment_number,
+      floor,
       postal_code,
       city,
       housing_type,
+      house_number
     };
 
 
@@ -140,7 +143,7 @@ export const AuthProvider = ({ children }) => {
       currentEdit, setCurrentEdit,
       handleEdit, onEdit,
       editAddressIndex, setEditAddressIndex,
-      handleDelete
+      handleDelete, house_number, setHouse_number
     }}
     >
       {children}

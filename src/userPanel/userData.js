@@ -21,7 +21,7 @@ const UserData = () => {
       postal_code, setPostal_code,
       city, setCity,
     currentEdit, setCurrentEdit, handleEdit, onEdit,
-    editAddressIndex, setEditAddressIndex, handleDelete} = useAuth();
+    editAddressIndex, setEditAddressIndex, handleDelete, house_number, setHouse_number} = useAuth();
     const [modalMode, setModalMode] = useState(null);
   // const [housingType, setHousingType] = useState("dom");
   // const [apartmentNumber, setApartmentNumber] = useState("");
@@ -121,7 +121,7 @@ const UserData = () => {
         setApartment_number(address.apartment_number);
         setPostal_code(address.postal_code);
         setCity(address.city);
-        
+        setHouse_number(address.house_number); // ? 
       }
     }, [addresses, editAddressIndex]);
 
@@ -147,10 +147,9 @@ const UserData = () => {
             <div key={index} className="address-display--element" style={{marginBottom:"1rem"}}>
             
               
-            <p className="ulica">{address.street || "Ulica"}</p>
+            <p className="ulica">{(address.street && address.house_number) ? `${address.street} ${address.house_number}` : "Ulica"}</p>
             <p className="k-pocztowy">{address.postal_code}</p>
             <p className="miasto">{address.city || "Lublin"}</p>
-           
             <button className="button-27-e " onClick={() => {setIsOpen(true); setEditAddressIndex(index); onEdit(address.address_id)}}>
               Zaktualizuj adres
             </button>
@@ -174,12 +173,20 @@ const UserData = () => {
                   <option value="dom">Domu</option>
                   <option value="mieszkanie">Mieszkaniu</option>
                 </select><br/>
-                Nazwa ulicy i numer:
+                Nazwa ulicy
                 <input
         type="text"
         name="street"
         defaultValue={addresses[editAddressIndex].street}
         onChange={(e) => setStreet(e.target.value)}
+      />
+      <br/>
+        numer:
+                <input
+        type="text"
+        name="house"
+        defaultValue={addresses[editAddressIndex].house_number}
+        onChange={(e) => setHouse_number(e.target.value)}
       />
               </label>
               <label>

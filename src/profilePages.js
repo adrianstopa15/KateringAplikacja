@@ -13,9 +13,9 @@ export default function ProfilePage() {
   const [weightIndicator, setWeightIndicator] = useState("");
   const [age, setAge] = useState("");
   const [activityLevel, setActivityLevel] = useState("");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState("woman");
   const [totalCalories, setTotalCalories] = useState(0);
-  const [selectedGoal, setSelectedGoal] = useState("");
+  const [selected_goal, setSelected_goal] = useState("");
   // const [housing_type, setHousing_type] = useState("dom");
   // const [first_name, setFirstName] = useState("");
   // const [last_name, setLastName] = useState("");
@@ -33,7 +33,7 @@ export default function ProfilePage() {
     apartment_number, setApartment_number,
     floor, setFloor,
     postal_code, setPostal_code,
-    city, setCity,} = useAuth();
+    city, setCity, house_number, setHouse_number} = useAuth();
   const handleStartClick = () => {
     setStep(2);
   };
@@ -71,10 +71,29 @@ export default function ProfilePage() {
 
 
   const handleSubmit = async (e) => {
+
+    if(step<7){
+      setStep(step + 1);
+    }
+
     console.log(e);
     e.preventDefault();
-    // Logika dla kroków przed ostatnim formularzem
+    // Logika dla kroków przed ostatnim formularze
+
+    if (step === 4) {
+      const calories = calculateCalories();
+      setTotalCalories(calories);
+    
+    } else {
+      const calculatedBMI = calculateBMI();
+      const indicator = getWeightIndicator(calculatedBMI);
+      setWeightIndicator(indicator);
+     
+    }
+
+
     if (step < 7) {
+
       if (step === 2 && (!weight || !height)) {
         alert("Proszę podać wagę i wzrost!");
         return;
@@ -86,8 +105,50 @@ export default function ProfilePage() {
         const indicator = getWeightIndicator(calculatedBMI);
         setWeightIndicator(indicator);
       }
+      
 
-      setStep(step + 1);
+      
+      const getCookieValue = (name) =>
+        document.cookie
+          .split("; ")
+          .find((row) => row.startsWith(name + "="))
+          ?.split("=")[1];
+      const authToken = getCookieValue("authToken");
+      const decodedToken = jwtDecode(authToken);
+      console.log(authToken);
+
+      const login = decodedToken.sub;
+      console.log(login);
+  
+
+
+      try {
+        const preference = {
+          weight,
+          height,
+          bmi,
+          // weightIndicator: indicator,
+          selected_goal,
+          age,
+          gender,
+        };
+
+        const response = await axios.post(
+          `http://localhost:8080/addPreference?login=${login}`,
+          preference,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        console.log("Odpowiedź z serwera:", response.data);
+      } catch (error) {
+        console.error("Błąd przy wysyłaniu preferenceData:", error);
+      }
+
+
+
     } else {
       // walidacja
       if (
@@ -113,17 +174,23 @@ export default function ProfilePage() {
         last_name,
         phone,
         street,
-        apartment_number: +apartment_number, // to opcojnalne
-        floor: +floor, // to opcjonalne
+        apartment_number,
+        floor,
         postal_code,
         city,
-        housing_type,
-        // to zobaczymy czy bedziemy w ogole dawac do backendu
-        bmi: bmi,
-        weightIndicator: weightIndicator,
-        selectedGoal: selectedGoal,
+        housing_type,    
+        house_number
       };
-      //do zrobienia!! :
+      // const preference = {
+      //   weight: weight,
+      //   height: height,
+      //   // bmi: bmi,
+      //   // weightIndicator: weightIndicator,
+      //   // selectedGoal: selectedGoal,
+      //   // age: age,
+      //   // gender: gender,
+      // }
+     
       try {
         const getCookieValue = (name) =>
           document.cookie
@@ -150,7 +217,12 @@ export default function ProfilePage() {
         console.error("Błąd przy wysyłaniu formularza:", error);
       }
     }
+
+
+    
   };
+  
+  
   const calculateCalories = () => {
     let BMR;
     const PAL = parseFloat(activityLevel);
@@ -167,11 +239,11 @@ export default function ProfilePage() {
   useEffect(() => {
     if (bmi) {
       if (bmi < 18.5) {
-        setSelectedGoal("gain");
+        setSelected_goal("gain");
       } else if (bmi > 25) {
-        setSelectedGoal("lose");
+        setSelected_goal("lose");
       } else {
-        setSelectedGoal("maintain");
+        setSelected_goal("maintain");
       }
     }
   }, [bmi]);
@@ -192,7 +264,7 @@ export default function ProfilePage() {
   };
 
   const handleGoalSelect = (goal) => {
-    setSelectedGoal(goal);
+    setSelected_goal(goal);
   };
 
   const getWeightIndicator = (bmi) => {
@@ -205,13 +277,15 @@ export default function ProfilePage() {
   const handleNextClick = (e) => {
     console.log(e);
 
+    
+
     e.preventDefault();
 
     if (step === 4) {
       const calories = calculateCalories();
       setTotalCalories(calories);
       setStep(step + 1);
-    } else {
+    } else{
       const calculatedBMI = calculateBMI();
       const indicator = getWeightIndicator(calculatedBMI);
       setWeightIndicator(indicator);
@@ -245,11 +319,11 @@ export default function ProfilePage() {
             <h3 className="mb-s">Jaka jest Twoja aktualna waga i wzrost?</h3>
 
             <div className="form1">
-              <form onSubmit={handleSubmit} className="form1">
+              <form onSubmit={handleNextClick} className="form1">
                 <label>
                   <input
                     type="number"
-                    name="weight"
+                    name="weight"       
                     id="weight"
                     placeholder="waga w kilogramach"
                     value={weight}
@@ -262,17 +336,18 @@ export default function ProfilePage() {
                 <label>
                   <input
                     type="number"
+                    value={height}
                     name="height"
                     id="height"
-                    placeholder="Wzrost w centymetrach"
-                    value={height}
                     onChange={(e) => setHeight(e.target.value)}
+                    placeholder="Wzrost w centymetrach"
                     required
                     min="100"
                     max="251"
                   />
                 </label>
                 <select
+               
                   value={gender}
                   name="gender"
                   id="gender"
@@ -346,71 +421,77 @@ export default function ProfilePage() {
             </p>
           </div>
         )}
-        {step === 5 && (
-          <div className="content-wrapper">
-            <h2 className="mb-m">Zapotrzebowanie kaloryczne</h2>
-            <h3 className="mb-s">
-              Twoje zero kaloryczne wynosi około: {totalCalories.toFixed(0)}{" "}
-              kalorii.
-            </h3>
-            <p>
-              Tyle kalorii powinieneś spożywać aby utrzymać swoją wagę. Twoje
-              BMI sugeruję, że powinieneś dobrać dietę{" "}
-              {bmi < 18.5
-                ? "z nadwyżką kaloryczną."
-                : bmi > 25
-                ? "z deficytem kalorycznym."
-                : "oscylującą w Twoim zerze kalorycznym."}
-            </p>
-            <p className="mt-s">
-              Jeśli jednak uważasz inaczej, zaznacz swój cel sylwetkowy.
-            </p>
-            <div className="choice mt-sm">
-              <div
-                className={`border ${
-                  selectedGoal === "lose" ? "selected" : ""
-                }`}
-                onClick={() => handleGoalSelect("lose")}
-              >
-                <img src={looseWeight} alt="Utrasa wagi" />
-              </div>
-              <div
-                onClick={() => handleGoalSelect("maintain")}
-                className={`border ${
-                  selectedGoal === "maintain" ? "selected" : ""
-                }`}
-              >
-                <img src={keepWeight} alt="Utrzymanie wagi" />
-              </div>
-              <div
-                onClick={() => handleGoalSelect("gain")}
-                className={`border ${
-                  selectedGoal === "gain" ? "selected" : ""
-                }`}
-              >
-                <img src={buildMuscles} alt="Budowa Masy mięśniowej" />
-              </div>
-            </div>
-            <div>
-              <button className="button-27 mt-sm" onClick={handleNextClick}>
-                Dalej
-              </button>
-            </div>
-          </div>
-        )}
+       {step === 5 && (
+  <div className="content-wrapper">
+    <h2 className="mb-m">Zapotrzebowanie kaloryczne</h2>
+    <h3 className="mb-s">
+      Twoje zero kaloryczne wynosi około: {totalCalories.toFixed(0)}{" "}
+      kalorii.
+    </h3>
+    <p>
+      Tyle kalorii powinieneś spożywać aby utrzymać swoją wagę. Twoje
+      BMI sugeruję, że powinieneś dobrać dietę{" "}
+      {bmi < 18.5
+        ? "z nadwyżką kaloryczną."
+        : bmi > 25
+        ? "z deficytem kalorycznym."
+        : "oscylującą w Twoim zerze kalorycznym."}
+    </p>
+    <p className="mt-s">
+      Jeśli jednak uważasz inaczej, zaznacz swój cel sylwetkowy.
+    </p>
+    <div className="choice mt-sm">
+      <div
+        className={`border ${
+          selected_goal === "lose" ? "selected" : ""
+        }`}
+        onClick={() => handleGoalSelect("lose")}
+      >
+        <img src={looseWeight} alt="Utrasa wagi" />
+      </div>
+      <div
+        onClick={() => handleGoalSelect("maintain")}
+        className={`border ${
+          selected_goal === "maintain" ? "selected" : ""
+        }`}
+      >
+        <img src={keepWeight} alt="Utrzymanie wagi" />
+      </div>
+      <div
+        onClick={() => handleGoalSelect("gain")}
+      
+        className={`border ${
+          selected_goal === "gain" ? "selected" : ""
+        }`}
+      >
+        <img src={buildMuscles} alt="Budowa Masy mięśniowej" />
+      </div>
+    </div>
+    <div>
+      <form onSubmit={handleNextClick}>
+        <input type="hidden" name="selected_goal" value={selected_goal} />
+        <input type="hidden" name="bmi" value={bmi} />
+        <button type="submit" className="button-27 mt-s">
+          Dalej
+        </button>
+      </form>
+    </div>
+  </div>
+)}
+
         {step === 6 && (
           <div className="content-wrapper">
             <h2 className="mb-m">Twoja kaloryczność diety</h2>
             <div className="i-center">
               <div className="border-t">
                 {" "}
-                {selectedGoal === "maintain" ? (
+                {selected_goal === "maintain" ? (
                   <img
                     src={keepWeight}
                     alt="Utrzymanie wagi"
                     className="img-xs"
                   />
-                ) : selectedGoal === "gain" ? (
+                ) : selected_goal === "gain" ? (
                   <img
                     src={buildMuscles}
                     alt="Utrzymanie wagi"
@@ -428,27 +509,27 @@ export default function ProfilePage() {
             <p className="mt-s">
               <strong>
                 Ustawiono cel na{" "}
-                {selectedGoal === "maintain"
+                {selected_goal === "maintain"
                   ? "utrzymanie wagi"
-                  : selectedGoal === "gain"
+                  : selected_goal === "gain"
                   ? "budowanie masy mięśniowej"
                   : "redukcję tkanki tłuszczowej"}
               </strong>
             </p>
             <p>
               W celu{" "}
-              {selectedGoal === "maintain"
+              {selected_goal === "maintain"
                 ? "utrzymania wagi"
-                : selectedGoal === "gain"
+                : selected_goal === "gain"
                 ? "zbudowania masy mięśniowej"
                 : "utraty wagi"}{" "}
               ustawiliśmy Twoją bazową dietę na zakres
               <strong>
-                {selectedGoal === "lose"
+                {selected_goal === "lose"
                   ? `${(0.84 * totalCalories).toFixed(
                       0
                     )} - ${totalCalories.toFixed(0)}`
-                  : selectedGoal === "maintain"
+                  : selected_goal === "maintain"
                   ? `${(0.94 * totalCalories).toFixed(0)} - ${(
                       1.08 * totalCalories
                     ).toFixed(0)}`
@@ -460,7 +541,7 @@ export default function ProfilePage() {
               zmienić w każdym momencie w panelu użytkownika.
             </p>
             <div>
-              <button className="button-27 mt-s" onClick={handleNextClick}>
+              <button className="button-27 mt-s" onClick={handleSubmit}>
                 Dalej
               </button>
             </div>
@@ -536,13 +617,25 @@ export default function ProfilePage() {
               </div>
 
               <div className="form-group">
-                <label>Ulica:</label>
+                <label>Nazwa ulicy:</label>
                 <input
                   type="text"
                   name="street"
                   value={street}
                   id="street"
                   onChange={(e) => setStreet(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Numer ulicy:</label>
+                <input
+                  type="text"
+                  name="house_number"
+                  value={house_number}
+                  id="house_numbert"
+                  onChange={(e) => setHouse_number(e.target.value)}
                   required
                 />
               </div>
