@@ -7,4 +7,7 @@ import pl.katering.katering.classes.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     @Query("SELECT c FROM Customer c WHERE c.user.user_id = :id")
     Customer findByUserId(Integer id);
+
+    @Query("SELECT c FROM Customer c WHERE c.customer_id = :id")
+    Customer findByCustomerId(Integer id);
 }

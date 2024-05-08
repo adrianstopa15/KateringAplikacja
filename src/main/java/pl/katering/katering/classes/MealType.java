@@ -7,34 +7,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "preference")
-public class Preference {
+@Table(name = "meal_type")
+public class MealType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer preference_id;
+    private Integer type_id;
 
-    private String weight;
-
-    private String height;
-
-    private String age;
-
-    private String gender;
-
-    private String bmi;
-
-    private String selected_goal;
-
-    private String activity_level;
+    private String name;
 
     @JsonIgnore
-    @OneToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @OneToMany(mappedBy = "mealType")
+    private List<Meal> meal;
 }

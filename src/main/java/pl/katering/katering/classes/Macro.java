@@ -12,29 +12,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "preference")
-public class Preference {
+@Table(name = "macro")
+public class Macro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer preference_id;
+    private Integer macro_id;
 
-    private String weight;
+    private Double protein;
 
-    private String height;
+    private Double fat;
 
-    private String age;
+    private Double carbs;
 
-    private String gender;
-
-    private String bmi;
-
-    private String selected_goal;
-
-    private String activity_level;
+    private Double calories;
 
     @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JoinColumn(name = "meal_id")
+    private Meal meal;
 }

@@ -110,6 +110,14 @@ public class CustomerService {
         return ResponseEntity.ok(customerRepository.save(existingCustomer));
     }
 
+    public ResponseEntity<?> deleteCustomer(Integer id) {
+        Customer customer = customerRepository.findByCustomerId(id);
+
+        customerRepository.delete(customer);
+
+        return ResponseEntity.ok("Pomyślnie usunięto customera");
+    }
+
     private Customer parseCustomer(Map<String, Object> formData) {
         Customer customer = new Customer();
         customer.setFirst_name((String) formData.get("first_name"));

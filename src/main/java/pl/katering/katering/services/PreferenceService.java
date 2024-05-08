@@ -46,6 +46,7 @@ public class PreferenceService {
         existingPreference.setGender(preference.getGender());
         existingPreference.setBmi(preference.getBmi());
         existingPreference.setSelected_goal(preference.getSelected_goal());
+        existingPreference.setActivity_level(preference.getActivity_level());
         existingPreference.setCustomer(customer);
 
         return ResponseEntity.ok(preferenceRepository.save(existingPreference));
@@ -69,6 +70,9 @@ public class PreferenceService {
         }
         if (preference.getSelected_goal() != null) {
             customerPreference.setSelected_goal(preference.getSelected_goal());
+        }
+        if (preference.getActivity_level() != null) {
+            customerPreference.setActivity_level(preference.getActivity_level());
         }
 
         return ResponseEntity.ok(preferenceRepository.save(customerPreference));
