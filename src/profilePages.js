@@ -5,6 +5,7 @@ import keepWeight from "./photos/003-healthy.png";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "./AuthContext"
+
 export default function ProfilePage() {
   const [step, setStep] = useState(1);
   const [weight, setWeight] = useState("");
@@ -16,15 +17,7 @@ export default function ProfilePage() {
   const [gender, setGender] = useState("woman");
   const [totalCalories, setTotalCalories] = useState(0);
   const [selected_goal, setSelected_goal] = useState("");
-  // const [housing_type, setHousing_type] = useState("dom");
-  // const [first_name, setFirstName] = useState("");
-  // const [last_name, setLastName] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [street, setStreet] = useState("");
-  // const [apartment_number, setApartment_number] = useState("");
-  // const [floor, setFloor] = useState("");
-  // const [postal_code, setPostal_code] = useState("");
-  // const [city, setCity] = useState("");
+
   const {  housing_type, setHousing_type,
     first_name, setFirst_name,
     last_name, setLast_name,
@@ -34,41 +27,10 @@ export default function ProfilePage() {
     floor, setFloor,
     postal_code, setPostal_code,
     city, setCity, house_number, setHouse_number} = useAuth();
+
   const handleStartClick = () => {
     setStep(2);
   };
-
-  //  Dla sprawdzenia czy sie dobrze wpisuje:
-  // useEffect(() => {
-  //   console.log(`Imię zmienione na: ${first_name}`);
-  // }, [first_name]);
-
-  // useEffect(() => {
-  //   console.log(`Nazwisko zmienione na: ${last_name}`);
-  // }, [last_name]);
-
-  // useEffect(() => {
-  //   console.log(`Telefon zmieniony na: ${phone}`);
-  // }, [phone]);
-
-  // useEffect(() => {
-  //   console.log(`Kod pocztowy zmieniony na: ${postal_code}`);
-  // }, [postal_code]);
-
-  // useEffect(() => {
-  //   console.log(`miasto na:: ${city}`);
-  // }, [city]);
-  // useEffect(() => {
-  //   console.log(`floor:: ${floor}`);
-  // }, [floor]);
-
-  // useEffect(() => {
-  //   console.log(`Apartment number na: ${apartment_number}`);
-  // }, [apartment_number]);
-  // useEffect(() => {
-  //   console.log(`Ulica na: ${street}`);
-  // }, [street]);
-
 
   const handleSubmit = async (e) => {
 
@@ -78,7 +40,6 @@ export default function ProfilePage() {
 
     console.log(e);
     e.preventDefault();
-    // Logika dla kroków przed ostatnim formularze
 
     if (step === 4) {
       const calories = calculateCalories();
@@ -91,7 +52,6 @@ export default function ProfilePage() {
      
     }
 
-
     if (step < 7) {
 
       if (step === 2 && (!weight || !height)) {
@@ -99,14 +59,11 @@ export default function ProfilePage() {
         return;
       }
 
-      // Obliczenia BMI i przypisanie celu jeśli jest to odpowiedni krok
       if (step === 2 || step === 5) {
         const calculatedBMI = calculateBMI();
         const indicator = getWeightIndicator(calculatedBMI);
         setWeightIndicator(indicator);
       }
-      
-
       
       const getCookieValue = (name) =>
         document.cookie
@@ -120,14 +77,11 @@ export default function ProfilePage() {
       const login = decodedToken.sub;
       console.log(login);
   
-
-
       try {
         const preference = {
           weight,
           height,
           bmi,
-          // weightIndicator: indicator,
           selected_goal,
           age,
           gender,
@@ -146,8 +100,6 @@ export default function ProfilePage() {
       } catch (error) {
         console.error("Błąd przy wysyłaniu preferenceData:", error);
       }
-
-
 
     } else {
       // walidacja
@@ -168,7 +120,6 @@ export default function ProfilePage() {
         return;
       }
 
-      // formularz dane itp
       const formData = {
         first_name,
         last_name,
@@ -181,16 +132,7 @@ export default function ProfilePage() {
         housing_type,    
         house_number
       };
-      // const preference = {
-      //   weight: weight,
-      //   height: height,
-      //   // bmi: bmi,
-      //   // weightIndicator: weightIndicator,
-      //   // selectedGoal: selectedGoal,
-      //   // age: age,
-      //   // gender: gender,
-      // }
-     
+
       try {
         const getCookieValue = (name) =>
           document.cookie
@@ -217,11 +159,7 @@ export default function ProfilePage() {
         console.error("Błąd przy wysyłaniu formularza:", error);
       }
     }
-
-
-    
-  };
-  
+};
   
   const calculateCalories = () => {
     let BMR;
@@ -246,20 +184,12 @@ export default function ProfilePage() {
         setSelected_goal("maintain");
       }
     }
+
   }, [bmi]);
   const calculateBMI = () => {
     const heightInMeters = height / 100;
     const calculateBMI = weight / (heightInMeters * heightInMeters);
     setBMI(calculateBMI);
-    // if (!selectedGoal) {
-    //   if (bmi < 18.5) {
-    //     setSelectedGoal("gain");
-    //   } else if (bmi > 25) {
-    //     setSelectedGoal("lose");
-    //   } else {
-    //     setSelectedGoal("maintain");
-    //   }
-    // }
     return calculateBMI;
   };
 
@@ -277,7 +207,6 @@ export default function ProfilePage() {
   const handleNextClick = (e) => {
     console.log(e);
 
-    
 
     e.preventDefault();
 

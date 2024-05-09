@@ -11,16 +11,19 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Logout from '@mui/icons-material/Logout';
 import { useAuth } from './AuthContext';
 
-export default function AccountMenu() {
-const { handleLogout } = useAuth();
+export default function AccountMenu({ onNavigateToProfile }) {
+  const { handleLogout } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -28,12 +31,12 @@ const { handleLogout } = useAuth();
           <IconButton
             onClick={handleClick}
             size="small"
-            sx={{ ml: 2 }}
+            sx={{ ml: 1 }}
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 60, height: 60 }}>P</Avatar>
+            <Avatar sx={{ width: 55, height: 55, bgcolor: 'orange' }}>U</Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -72,24 +75,24 @@ const { handleLogout } = useAuth();
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
+        <MenuItem onClick={() => {
+          handleClose();
+          onNavigateToProfile();
+        }}>
+          <Avatar /> Mój Profil
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
-          Add another account
+          Dodaj kolejne konto
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          Logout
+          Wyloguj
         </MenuItem>
       </Menu>
     </React.Fragment>

@@ -1,13 +1,22 @@
 import "./App.css";
 import MainPage from "./mainPage";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import "./mainPageStyle.css";
 import "./profilePages.css";
-import Alert from "react-bootstrap/Alert";
+import UserPanel from './userPanel/userPanel'; 
 import ProfilePage from "./profilePages";
-import SimplifiedProfilePage from "./simplifiedProfilePage";
-import UserPanel from "./userPanel/userPanel";
+
+
 function App() {
-  return <UserPanel/>;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/profile" element={<UserPanel />} />
+        <Route path="/profilePages" element={<ProfilePage/>} />
+        <Route path="/" element={<MainPage />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

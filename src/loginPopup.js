@@ -2,6 +2,8 @@ import { useState} from "react";
 import axios from "axios";
 import Alert from 'react-bootstrap/Alert';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
+
 
 // klucz do recapcha: 6LeQeZopAAAAAAlHABkaNzSJXLcAq9x1DxdflXWJ
 
@@ -14,62 +16,48 @@ export default function LoginPopup({ onClose, onToggleToRegister, onLoginSuccess
   const [loginUsername, setLoginUsername] = useState('');
   const [loginError, setLoginError] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
-//   useEffect(() => {
-//     const getCookieValue = (name) => (
-//     document.cookie.split('; ').find(row => row.startsWith(name + '='))?.split('=')[1]
-//     );
-//     const authToken = getCookieValue('authToken');
-//     console.log(authToken);
-//     if (authToken) {
-//       setIsLoggedIn(true);
-//     }
-// }, []);
 
-const handleLogin = async (event) => {
-    event.preventDefault(); 
+  const handleLogin = async (event) => {
+    event.preventDefault();
   
     const userData = {
       login: document.getElementById("loginUsername").value,
       password: document.getElementById("password").value,
     };
-
+  
     const apiEndpoint = "http://localhost:8080/login";
   
     try {
-      const response = await axios.post(apiEndpoint, userData, {
-        withCredentials: true 
-      });
+      const response = await axios.post(apiEndpoint, userData, { withCredentials: true });
       console.log('Zalogowano pomyślnie:', response.data);
-      setIsLogin(true);
       setIsLoggedIn(true);
       setLoginError('');
       setShowRegistrationAlert({ show: true, message: "Zostałeś zalogowany." });
-      onLoginSuccess(); 
-      onClose(); 
+      onClose();
+  
+      const authToken = document.cookie.split('; ').find(row => row.startsWith('authToken=')).split('=')[1];
+  
+      axios.get(`http://localhost:8080/isFirstLogin?login=${userData.login}`, { 
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        },
+        withCredentials: true 
+      })
+      .then(response => {
+        if(response.data.isFirstLogin) {
+          navigate('/profilePages'); 
+        } else {
+          onLoginSuccess(); 
+        }
+      })
+      .catch(error => console.error("Błąd przy sprawdzaniu pierwszego logowania:", error));
     } catch (error) {
-      if (error.response) {
-        console.log('Błąd logowania:', error.response.data);
-        setLoginError('Niepoprawny email lub hasło.');
-      } else {
-        console.log('Błąd:', error.message);
-        setLoginError('Wystąpił błąd podczas logowania. Spróbuj ponownie.');
-      }
+      console.error('Błąd logowania:', error);
+      setLoginError('Niepoprawny login lub hasło lub wystąpił błąd serwera.');
     }
   };
-  
-//Funkcja wylogowania
-  //   const handleLogout = () => {
-  //   setIsLoggedIn(false);
-  
-  //   const cookies = document.cookie.split(";");
-  //   for (let i = 0; i < cookies.length; i++) {
-  //     const cookie = cookies[i];
-  //     const eqPos = cookie.indexOf("=");
-  //     const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-  //     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-  //   }
-  // };
 
   function handleResetPassword(e) {
     e.preventDefault();

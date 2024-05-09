@@ -82,7 +82,6 @@ export const AuthProvider = ({ children }) => {
   const response = await axios.post(
     `http://localhost:8080/editAddress?id=${currentEdit}`,
     formData,
-    
     {
       headers: {
         Authorization: `Bearer ${authToken}`,

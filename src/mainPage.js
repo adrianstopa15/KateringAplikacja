@@ -1,22 +1,23 @@
+import React, { useState, useRef, useEffect } from "react";
 import posilekImage from "./photos/posilek1.png";
 import posilekImage2 from "./photos/posilek2.png";
 import posilekImage3 from "./photos/posilek3.png";
 import posilekImage4 from "./photos/posilek4.png";
 import filters from "./photos/filters.gif";
 import alistar from "./photos/alistar.gif";
-import { useState } from "react";
-import { useRef } from "react";
-import { useEffect } from "react";
 import dietuzjemLogo from "./photos/logo.png";
 import RegistrationPopup from "./registrationPopup";
 import LoginPopup from "./loginPopup";
-
 import SimplifiedProfilePage from "./simplifiedProfilePage";
 import ProfilePage from "./profilePages";
-
 import MenuListComposition from "./MenuListComposition";
+import Modal from "./modalbutton/Modal"; 
+import parowkizubr from "./photos/parowkizubr.png";
+import zdjpromki from "./photos/zdjpromki.png"
+import { useNavigate } from 'react-router-dom';
 
 export default function MainPage() {
+  const navigate = useNavigate();
   const homeRef = useRef(null);
   const aboutRef = useRef(null);
   const promotionsRef = useRef(null);
@@ -25,8 +26,9 @@ export default function MainPage() {
   const cooperationButtonRef = useRef(null);
   const callToActionRef = useRef(null);
   const [popupType, setPopupType] = useState("none");
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [modalData, setModalData] = useState({ isOpen: false, title: "", content: "", iframeSrc: "" });
+ 
 
   useEffect(() => {
     const getCookieValue = (name) =>
@@ -38,63 +40,258 @@ export default function MainPage() {
     if (authToken) {
       setIsLoggedIn(true);
     }
-  }, []);
 
+  }, []);
   useEffect(() => {
+    const callToActionRefCurrent = callToActionRef.current;
+    const cooperationButtonRefCurrent = cooperationButtonRef.current;
+  
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            if (entry.target === callToActionRef.current) {
+            if (entry.target === callToActionRefCurrent) {
               entry.target.classList.add("fadeIn");
-            } else if (entry.target === cooperationButtonRef.current) {
+            } else if (entry.target === cooperationButtonRefCurrent) {
               entry.target.classList.add("slideIn");
             }
-
             observer.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.1 }
     );
-
-    if (callToActionRef.current) {
-      observer.observe(callToActionRef.current);
+  
+    if (callToActionRefCurrent) {
+      observer.observe(callToActionRefCurrent);
     }
-    if (cooperationButtonRef.current) {
-      observer.observe(cooperationButtonRef.current);
+    if (cooperationButtonRefCurrent) {
+      observer.observe(cooperationButtonRefCurrent);
     }
-
+  
     return () => {
-      if (callToActionRef.current) {
-        observer.unobserve(callToActionRef.current);
+      if (callToActionRefCurrent) {
+        observer.unobserve(callToActionRefCurrent);
       }
-      if (cooperationButtonRef.current) {
-        observer.unobserve(cooperationButtonRef.current);
+      if (cooperationButtonRefCurrent) {
+        observer.unobserve(cooperationButtonRefCurrent);
       }
     };
   }, []);
+
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
     togglePopup("none");
   };
 
-  const togglePopup = (type) =>
-    setPopupType(type === popupType ? "none" : type);
+  const togglePopup = (type) => setPopupType(type === popupType ? "none" : type);
 
   const scrollToRef = (ref) => {
     if (ref.current) {
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
   };
-  //   if (isLoggedIn) {
-  //     return (
-  //         <>
-  //             <ProfilePage/>
 
-  //         </>
-  //     );
-  // }
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Kod został skopiowany do schowka");
+    }).catch(err => {
+      console.log('Coś poszło nie tak', err);
+    });
+  };
+
+  const handleOpenModal = (title, content = "", iframeSrc = "", isCatering = false, isPromotions = false, isCooperation = false) => {
+    if (isCatering) {
+      setModalData({
+        isOpen: true,
+        title,
+        content: (
+          <div>
+            <div style={{ display: "flex", marginBottom: "20px" }}>
+              <img src="https://cateromarket.pl/media/diet-photo/400x270_Odchudzaj%C4%85ca.webp" alt="Catering 1" style={{ width: "250px", marginRight: "20px" }} />
+              <div>
+                <h3>Dieta Pomidor - Odchudzająca</h3>
+                <p>Dieta, która jest nie tylko skuteczna, ale także smaczna i sycąca...</p>
+                <p><b>1000 - 2500 kcal</b> · Dietetyk</p>
+                <p>Zamów do <b>07:00</b> aby otrzymać za <b>4 dni</b></p>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ color: "#66bb6a" }}>66%</span>
+                  <div style={{ marginLeft: "10px" }}>
+                    {[...Array(5)].map((_, i) => (
+                      <span key={i} style={{ color: "#ffb400" }}>&#9733;</span>
+                    ))}
+                    <span>(6)</span>
+                  </div>
+                </div>
+                <p><b>od 42,0 zł / dzień</b></p>
+                <button className="button-regular">Wybierz</button>
+              </div>
+            </div>
+            <div style={{ display: "flex", marginBottom: "20px" }}>
+              <img src="https://cateromarket.pl/media/diet-photo/odchudzanie.webp" alt="Catering 2" style={{ width: "250px", marginRight: "20px" }} />
+              <div>
+                <h3>Mój Catering - Standard</h3>
+                <p>Witaj w świecie Mój Catering!...</p>
+                <p><b>1200 - 2500 kcal</b> · Opcjonalna BIO</p>
+                <p>Zamów do <b>12:00</b> aby otrzymać za <b>2 dni</b></p>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ color: "#66bb6a" }}>97%</span>
+                  <div style={{ marginLeft: "10px" }}>
+                    {[...Array(5)].map((_, i) => (
+                      <span key={i} style={{ color: "#ffb400" }}>&#9733;</span>
+                    ))}
+                    <span>(251)</span>
+                  </div>
+                </div>
+                <p><b>od 66,27 zł / dzień</b></p>
+                <button className="button-regular">Wybierz</button>
+              </div>
+            </div>
+            <div style={{ display: "flex", marginBottom: "20px" }}>
+              <img src={parowkizubr} alt="Catering 3" style={{ width: "250px", marginRight: "20px" }} />
+              <div>
+                <h3>Studencki Catering - Masa</h3>
+                <p>Zestaw na Masę – to pakiet wysokokalorycznych produktów idealnie połączonych ze sobą, poczuj się jak prawdziwy student.</p>
+                <p><b>1500 - 2000 kcal</b> · Opcjonalny z 4-pak</p>
+                <p>Zamów do <b>21:00 (jutro)</b> aby otrzymać za <b>1 dzień</b></p>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ color: "#66bb6a" }}>93%</span>
+                  <div style={{ marginLeft: "10px" }}>
+                    {[...Array(5)].map((_, i) => (
+                      <span key={i} style={{ color: "#ffb400" }}>&#9733;</span>
+                    ))}
+                    <span>(128)</span>
+                  </div>
+                </div>
+                <p><b>od 16,60 zł / dzień</b></p>
+                <button className="button-regular">Wybierz</button>
+              </div>
+            </div>
+          </div>
+        ),
+        iframeSrc: "",
+      });
+    } else if (isPromotions) {
+      setModalData({
+        isOpen: true,
+        title,
+        content: (
+          <div>
+            <h3>Skorzystaj z promocji już dziś</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img src={zdjpromki} alt="Promocja 1" style={{ marginRight: '20px' }} />
+                <div>
+                  <h4>Promocja na Dięta Pomidor</h4>
+                  <p>20% zniżki na wszystkie diety odchudzające.</p>
+                  <p><b>Kod: DIETA20</b></p>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img src={zdjpromki} alt="Promocja 2" style={{ marginRight: '20px' }} />
+                <div>
+                  <h4>Promocja na Mój Catering</h4>
+                  <p>10% zniżki na diety standardowe.</p>
+                  <p><b>Kod: STANDARD10</b></p>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img src={zdjpromki} alt="Promocja 3" style={{ marginRight: '20px' }} />
+                <div>
+                  <h4>Promocja na Mój Catering - Odchudzanie</h4>
+                  <p>15% zniżki na diety niskokaloryczne.</p>
+                  <p><b>Kod: SLIM15</b></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ),
+        iframeSrc: "",
+      });
+    } else if (isCooperation) {
+      setModalData({
+        isOpen: true,
+        title,
+        content: (
+          <div>
+            <h3>Warunki Współpracy</h3>
+            <p>Jeśli jesteś firmą kateringową i chcesz dołączyć do naszej platformy, musisz spełnić następujące wymagania:</p>
+            <ul>
+              <li>Posiadać aktualne certyfikaty sanitarne.</li>
+              <li>Oferować różnorodne diety zgodne z naszymi standardami.</li>
+              <li>Gwarantować świeżość i wysoką jakość produktów.</li>
+              <li>Zapewniać terminowe dostawy.</li>
+              <li>Ważne jest aby katering zapewnił dokładne podanie makrosładników i kaloryczności.</li>
+            </ul>
+            <h3>Formularz Zgłoszeniowy</h3>
+            <form onSubmit={handleFormSubmit} style={{ display: 'grid', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label style={{ width: '150px' }}>Nazwa Firmy:</label>
+                <input type="text" name="companyName" required />
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label style={{ width: '150px' }}>Adres Email:</label>
+                <input type="email" name="email" required />
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label style={{ width: '150px' }}>Numer Telefonu:</label>
+                <input type="tel" name="phone" required />
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label style={{ width: '150px' }}>Rodzaj Oferowanych Diet:</label>
+                <textarea name="dietTypes" required style={{ flex: '1' }} />
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label style={{ width: '150px' }}>Uwagi:</label>
+                <textarea name="comments" style={{ flex: '1' }} />
+              </div>
+              <button type="submit" className="modal-button">Wyślij</button>
+            </form>
+          </div>
+        ),
+        iframeSrc: "",
+      });
+    } else {
+      setModalData({ isOpen: true, title, content, iframeSrc });
+    }
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+  
+    const data = {
+      companyName: formData.get('companyName'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      dietTypes: formData.get('dietTypes'),
+      comments: formData.get('comments')
+    };
+  
+    
+    if (!data.companyName || !data.email || !data.phone || !data.dietTypes) {
+      alert("Proszę wypełnić wszystkie wymagane pola.");
+      return;
+    }
+  
+    // dodac wysylanie danych
+    console.log("Dane formularza:", data);
+    alert("Formularz został wysłany!");
+  
+    
+    setModalData({ isOpen: false, title: "", content: "", iframeSrc: "" });
+  };
+
+  const handleCloseModal = () => {
+    setModalData({ isOpen: false, title: "", content: "", iframeSrc: "" });
+  };
+  
+  const handleNavigateToProfile = () => {
+    navigate('/profile'); 
+  };
+
+
   return (
     <div className="main-page" ref={homeRef}>
       {popupType === "login" && (
@@ -114,11 +311,7 @@ export default function MainPage() {
       <div className="top-bar">
         <div className="top-bar-container">
           <div className="left-section">
-            <img
-              src={dietuzjemLogo}
-              alt="DieTuzjem Logo"
-              className="logo-image"
-            />
+            <img src={dietuzjemLogo} alt="DieTuzjem Logo" className="logo-image" />
             <p className="logo">DieTuzjem</p>
           </div>
           <div className="menu-links">
@@ -130,8 +323,8 @@ export default function MainPage() {
           </div>
           <div className="right-section">
             {isLoggedIn ? (
-              <MenuListComposition />
-            ) : (
+              <MenuListComposition onNavigateToProfile={handleNavigateToProfile} />
+              ) : (
               <button
                 className="button-regular--white"
                 onClick={() => togglePopup("login")}
@@ -154,8 +347,8 @@ export default function MainPage() {
             sylwetkę!
           </h2>
 
-          <button id="button-check" className="button-regular-l">
-            Sprawdź <span class="arrow">&#x2192;</span>
+          <button id="button-check" className="button-regular-l" onClick={() => handleOpenModal("Spersonalizowane posiłki", "Jedz pyszne spersonalizowane posiłki oraz zbuduj zdrową sylwetkę!")}>
+            Sprawdź <span className="arrow">&#x2192;</span>
           </button>
         </div>
         <div className="mid-container--right">
@@ -183,11 +376,18 @@ export default function MainPage() {
             którego chcesz skorzystać. Każdy katering ma coś w sobie, użyj
             filtrów i znajdź swój ulubiony!
             <p></p>
-            <button className="button-regular">Nasze Kateringi</button>
+            <button className="button-regular" onClick={() => handleOpenModal("Nasze Kateringi", "", "", true)}>
+              Nasze Kateringi
+            </button>
             <img src={filters} alt="filters" />
           </h2>
         </div>
       </div>
+
+      <Modal show={modalData.isOpen} onClose={handleCloseModal} title={modalData.title} iframeSrc={modalData.iframeSrc}>
+        {modalData.content && <div>{modalData.content}</div>}
+      </Modal>
+
       <div className="mid-third" ref={promotionsRef}>
         <div className="mid-third--left">
           <h1 className="h1-regular">Zniżki dla stałych klientów</h1>
@@ -198,9 +398,11 @@ export default function MainPage() {
             Szanujemy naszych stałych klientów, dlatego w podziękowaniu za Wasze
             zaufanie oferujemy zniżki zależne od ilości zamówień. Oprócz
             regularnych promocji, okazjonalnie pojawiać się będą również nowe
-            promocję.
+            promocje.
           </h2>
-          <button className="button-regular">Aktualne Promocje</button>
+          <button className="button-regular" onClick={() => handleOpenModal("Aktualne Promocje", "", "", false, true)}>
+            Aktualne Promocje
+          </button>
         </div>
 
         <div className="mid-third--right">
@@ -210,7 +412,7 @@ export default function MainPage() {
               Z kodem <p className="scribbles">"Alistar"</p> 20% zniżki na
               posiłki oraz diety zawierającę dania mięsne z Wołowiny.
             </h3>
-            <p className="text-copy">
+            <p className="text-copy" onClick={() => copyToClipboard("Alistar")}>
               <i>Skopiuj kod do schowka</i>
             </p>
           </div>
@@ -257,7 +459,6 @@ export default function MainPage() {
             <h1
               className="h1-regular"
               style={{
-                // color: "white",
                 paddingTop: "5rem",
               }}
             >
@@ -275,7 +476,8 @@ export default function MainPage() {
             ref={cooperationButtonRef}
             className="button-regular"
             style={{ marginTop: "4.5rem", opacity: "0" }}
-          >
+            onClick={() => handleOpenModal("Zasady Współpracy", "", "", false, false, true)}
+            >
             Zasady Współpracy
           </button>
         </div>
@@ -290,6 +492,9 @@ export default function MainPage() {
         surowo zabroniona i może skutkować odpowiedzialnością cywilną oraz
         karną.
       </footer>
+      <Modal show={modalData.isOpen} onClose={handleCloseModal} title={modalData.title} iframeSrc={modalData.iframeSrc}>
+        {modalData.content && <p>{modalData.content}</p>}
+      </Modal>
     </div>
   );
 }
