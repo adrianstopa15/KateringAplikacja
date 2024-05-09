@@ -159,82 +159,85 @@ const UserData = () => {
           </div>
         
         ))}
-          <PanelModal open={isOpen} onClose={() => {setIsOpen(false); setEditAddressIndex(null);}}>
-            {editAddressIndex !== null && (
-            <form onSubmit={handleSubmit} className="form1">
-              <label>
-                Mieszkam w:
-              <select
-                  value={housing_type}
-                  onChange={(e) => setHousing_type(e.target.value)}
-                  name="housing_type"
-                  id="housing_type"
-                >
-                  <option value="dom">Domu</option>
-                  <option value="mieszkanie">Mieszkaniu</option>
-                </select><br/>
-                Nazwa ulicy
-                <input
-        type="text"
-        name="street"
-        defaultValue={addresses[editAddressIndex].street}
-        onChange={(e) => setStreet(e.target.value)}
-      />
-      <br/>
-        numer:
-                <input
-        type="text"
-        name="house"
-        defaultValue={addresses[editAddressIndex].house_number}
-        onChange={(e) => setHouse_number(e.target.value)}
-      />
-              </label>
-              <label>
-                Kod pocztowy:
-                <input
-        type="text"
-        name="postal_code"
-        defaultValue={addresses[editAddressIndex].postal_code}
-        onChange={(e) => setPostal_code(e.target.value)}
-      />
-              </label>
-              <label>
-                Miasto:
-                <input type="text" name="city" defaultValue={addresses[editAddressIndex].city} onChange={(e) => setCity(e.target.value)} />
-                </label>
-                {housing_type === "mieszkanie" && (
-                <>
-                  
-                  <label>Numer mieszkania: 
-                    <input
-                      type="text"
-                      name="apartment_number"
-                      value={apartment_number}
-                      id="apartment_number"
-                      onChange={(e) => setApartment_number(e.target.value)}
-                      required
-                      />
-                      </label>
-                   
-                 
-
-                  <label>
-                    Piętro:
-                    <input
-                      type="text"
-                      name="floor"
-                      value={floor}
-                      id="floor"
-                      onChange={(e) => setFloor(e.target.value)}
-                    />
-                  </label>
-                </>
-              
-              )}
-              
-            </form>
-            )}
-          </PanelModal>
+       <PanelModal open={isOpen} onClose={() => { setIsOpen(false); setEditAddressIndex(null); }}>
+  {editAddressIndex !== null && (
+    <form onSubmit={handleSubmit} className="form1">
+      <div className="form-group">
+        <label>Mieszkam w:</label>
+        <select
+          value={housing_type}
+          onChange={(e) => setHousing_type(e.target.value)}
+          name="housing_type"
+          id="housing_type"
+        >
+          <option value="dom">Domu</option>
+          <option value="mieszkanie">Mieszkaniu</option>
+        </select>
+      </div>
+      <div className="form-group">
+        <label>Nazwa ulicy</label>
+        <input
+          type="text"
+          name="street"
+          defaultValue={addresses[editAddressIndex].street}
+          onChange={(e) => setStreet(e.target.value)}
+        />
+      </div>
+      <div className="form-group">
+        <label>Numer:</label>
+        <input
+          type="text"
+          name="house"
+          defaultValue={addresses[editAddressIndex].house_number}
+          onChange={(e) => setHouse_number(e.target.value)}
+        />
+      </div>
+      <div className="form-group">
+        <label>Kod pocztowy:</label>
+        <input
+          type="text"
+          name="postal_code"
+          defaultValue={addresses[editAddressIndex].postal_code}
+          onChange={(e) => setPostal_code(e.target.value)}
+        />
+      </div>
+      <div className="form-group">
+        <label>Miasto:</label>
+        <input
+          type="text"
+          name="city"
+          defaultValue={addresses[editAddressIndex].city}
+          onChange={(e) => setCity(e.target.value)}
+        />
+      </div>
+      {housing_type === "mieszkanie" && (
+        <>
+          <div className="form-group">
+            <label>Numer mieszkania:</label>
+            <input
+              type="text"
+              name="apartment_number"
+              value={apartment_number}
+              id="apartment_number"
+              onChange={(e) => setApartment_number(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Piętro:</label>
+            <input
+              type="text"
+              name="floor"
+              value={floor}
+              id="floor"
+              onChange={(e) => setFloor(e.target.value)}
+            />
+          </div>
+        </>
+      )}
+    </form>
+  )}
+</PanelModal>
           <button className="button-27-save ml-s">dodaj adres</button>
         </div>
       </div>

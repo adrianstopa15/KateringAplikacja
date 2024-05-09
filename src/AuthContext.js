@@ -38,6 +38,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   
+
+
+
   const fetchUserData = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -94,7 +97,10 @@ export const AuthProvider = ({ children }) => {
 
   const handleDelete = async (id) => {
 
-    
+    const confirmDelete = window.confirm("Czy na pewno chcesz usunąć adres?");
+    if(!confirmDelete){
+      return;
+    }
 
     const getCookieValue = (name) =>
     document.cookie
@@ -143,7 +149,7 @@ export const AuthProvider = ({ children }) => {
       currentEdit, setCurrentEdit,
       handleEdit, onEdit,
       editAddressIndex, setEditAddressIndex,
-      handleDelete, house_number, setHouse_number
+      handleDelete, house_number, setHouse_number,
     }}
     >
       {children}
