@@ -5,6 +5,8 @@ import keepWeight from "./photos/003-healthy.png";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "./AuthContext"
+import { useNavigate } from 'react-router-dom';
+
 
 export default function ProfilePage() {
   const [step, setStep] = useState(1);
@@ -17,6 +19,7 @@ export default function ProfilePage() {
   const [gender, setGender] = useState("woman");
   const [totalCalories, setTotalCalories] = useState(0);
   const [selected_goal, setSelected_goal] = useState("");
+  const navigate = useNavigate();
 
   const {  housing_type, setHousing_type,
     first_name, setFirst_name,
@@ -133,7 +136,7 @@ export default function ProfilePage() {
         house_number
       };
 
-      try {
+    try {
         const getCookieValue = (name) =>
           document.cookie
             .split("; ")
@@ -145,6 +148,17 @@ export default function ProfilePage() {
 
         const login = decodedToken.sub;
         console.log(login);
+
+        axios.post(`http://localhost:8080/updateFirstLogin?login=${login}`, {}, { 
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          },
+          withCredentials: true 
+        })
+        .then(() => {
+          console.log("Status pierwszego logowania został zaktualizowany.");
+        })
+        .catch(error => console.error("Błąd przy aktualizacji statusu pierwszego logowania:", error));
         const response = await axios.post(
           `http://localhost:8080/edit?login=${login}`,
           formData,
@@ -158,6 +172,7 @@ export default function ProfilePage() {
       } catch (error) {
         console.error("Błąd przy wysyłaniu formularza:", error);
       }
+      navigate('/'); 
     }
 };
   
@@ -227,7 +242,7 @@ export default function ProfilePage() {
       <div className="profile-page--content">
         {step === 1 && (
           <div className="content-wrapper">
-            <h1 className="mb-m">Witaj Imię!</h1>
+            <h1 className="mb-m">Witaj!</h1>
 
             <p className="f-m">Jest to Twoje pierwsze logowanie</p>
             <p className="mt-sm f-s ">
@@ -529,6 +544,8 @@ export default function ProfilePage() {
                   value={phone}
                   id="phone"
                   name="phone"
+                  pattern="\d{9}"        
+                  maxLength="9"
                   onChange={(e) => setPhone(e.target.value)}
                   required
                 />
@@ -603,6 +620,7 @@ export default function ProfilePage() {
                   name="postal_code"
                   required
                   pattern="\d{2}-\d{3}"
+                  maxLength="6"
                   placeholder="00-000"
                   value={postal_code}
                   id="postal_code"

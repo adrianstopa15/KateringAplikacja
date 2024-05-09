@@ -37,10 +37,6 @@ export const AuthProvider = ({ children }) => {
     fetchUserData();
   };
 
-  
-
-
-
   const fetchUserData = async () => {
     try {
       const token = localStorage.getItem("token");
