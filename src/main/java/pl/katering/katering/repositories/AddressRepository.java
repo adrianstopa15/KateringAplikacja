@@ -7,9 +7,9 @@ import pl.katering.katering.classes.Address;
 import java.util.List;
 
 public interface AddressRepository extends JpaRepository<Address, Integer> {
-    @Query("SELECT a FROM Address a WHERE a.customer.customer_id = :id")
+    @Query("SELECT a FROM Address a WHERE a.customer.customerId = :id")
     List<Address> findByCustomerId(Integer id);
 
-    @Query("SELECT a FROM Address a WHERE a.address_id = :id")
+    @Query("SELECT a FROM Address a WHERE a.addressId = :id")
     Address findByAddressId(Integer id);
 }

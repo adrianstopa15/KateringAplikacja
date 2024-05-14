@@ -8,7 +8,6 @@ import pl.katering.katering.services.MealTypeService;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class MealTypeController {
     private final MealTypeService mealTypeService;

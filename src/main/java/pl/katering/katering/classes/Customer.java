@@ -19,17 +19,17 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer customer_id;
+    private Integer customerId;
 
-    private String first_name;
+    private String firstName;
 
-    private String last_name;
+    private String lastName;
 
     private Integer phone;
 
     @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     @JsonIgnore

@@ -12,7 +12,6 @@ import pl.katering.katering.classes.AuthenticationResponse;
 import pl.katering.katering.classes.User;
 import pl.katering.katering.services.AuthenticationService;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class AuthenticationController {
 

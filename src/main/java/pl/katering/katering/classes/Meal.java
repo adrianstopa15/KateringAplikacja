@@ -17,7 +17,7 @@ public class Meal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer meal_id;
+    private Integer mealId;
 
     private String name;
 
@@ -29,12 +29,12 @@ public class Meal {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "type_id")
+    @JoinColumn(name = "typeId")
     private MealType mealType;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "diet_id")
+    @JoinColumn(name = "dietId")
     private Diet diet;
 
     @JsonIgnore

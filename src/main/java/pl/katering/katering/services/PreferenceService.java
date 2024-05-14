@@ -31,22 +31,22 @@ public class PreferenceService {
     }
     public ResponseEntity<?> showCustomerPreferences(String login) {
         Optional<User> user = userRepository.findByLogin(login);
-        Customer customer = customerRepository.findByUserId(user.get().getUser_id());
-        List<Preference> list = preferenceRepository.findByCustomerId(customer.getCustomer_id());
+        Customer customer = customerRepository.findByUserId(user.get().getUserId());
+        List<Preference> list = preferenceRepository.findByCustomerId(customer.getCustomerId());
 
         return ResponseEntity.ok(list);
     }
     public ResponseEntity<?> addPreference(Preference preference, String login) {
         Optional<User> user = userRepository.findByLogin(login);
-        Customer customer = customerRepository.findByUserId(user.get().getUser_id());
+        Customer customer = customerRepository.findByUserId(user.get().getUserId());
         Preference existingPreference = new Preference();
         existingPreference.setWeight(preference.getWeight());
         existingPreference.setHeight(preference.getHeight());
         existingPreference.setAge(preference.getAge());
         existingPreference.setGender(preference.getGender());
         existingPreference.setBmi(preference.getBmi());
-        existingPreference.setSelected_goal(preference.getSelected_goal());
-        existingPreference.setActivity_level(preference.getActivity_level());
+        existingPreference.setSelectedGoal(preference.getSelectedGoal());
+        existingPreference.setActivityLevel(preference.getActivityLevel());
         existingPreference.setCustomer(customer);
 
         return ResponseEntity.ok(preferenceRepository.save(existingPreference));
@@ -68,11 +68,11 @@ public class PreferenceService {
         if (preference.getBmi() != null) {
             customerPreference.setBmi(preference.getBmi());
         }
-        if (preference.getSelected_goal() != null) {
-            customerPreference.setSelected_goal(preference.getSelected_goal());
+        if (preference.getSelectedGoal() != null) {
+            customerPreference.setSelectedGoal(preference.getSelectedGoal());
         }
-        if (preference.getActivity_level() != null) {
-            customerPreference.setActivity_level(preference.getActivity_level());
+        if (preference.getActivityLevel() != null) {
+            customerPreference.setActivityLevel(preference.getActivityLevel());
         }
 
         return ResponseEntity.ok(preferenceRepository.save(customerPreference));

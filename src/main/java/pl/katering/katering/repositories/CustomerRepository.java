@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import pl.katering.katering.classes.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
-    @Query("SELECT c FROM Customer c WHERE c.user.user_id = :id")
+    @Query("SELECT c FROM Customer c WHERE c.user.userId = :id")
     Customer findByUserId(Integer id);
 
-    @Query("SELECT c FROM Customer c WHERE c.customer_id = :id")
+    @Query("SELECT c FROM Customer c WHERE c.customerId = :id")
     Customer findByCustomerId(Integer id);
 }

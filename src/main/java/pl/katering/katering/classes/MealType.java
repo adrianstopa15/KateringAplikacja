@@ -19,7 +19,7 @@ public class MealType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer type_id;
+    private Integer typeId;
 
     private String name;
 

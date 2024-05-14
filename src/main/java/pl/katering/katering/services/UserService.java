@@ -41,7 +41,7 @@ public class UserService {
 
     public Integer getUserId(String login) {
         return userRepository.findByLogin(login)
-                .map(User::getUser_id)
+                .map(User::getUserId)
                 .orElseThrow(() -> new IllegalStateException("Użytkownik nie znaleziony"));
     }
     public void updateUserFirstLoginStatus(String login, Boolean isFirstLogin) {

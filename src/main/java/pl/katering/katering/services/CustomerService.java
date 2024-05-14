@@ -34,7 +34,7 @@ public class CustomerService {
 
     public ResponseEntity<?> showCustomer(String login) {
         Optional<User> user = userRepository.findByLogin(login);
-        Customer customer = customerRepository.findByUserId(user.get().getUser_id());
+        Customer customer = customerRepository.findByUserId(user.get().getUserId());
         return ResponseEntity.ok(customer);
     }
 
@@ -43,7 +43,7 @@ public class CustomerService {
         Customer customer = parseCustomer(formData);
         Address address = parseAddress(formData);
 
-        Customer existingCustomer = customerRepository.findByUserId(user.get().getUser_id());
+        Customer existingCustomer = customerRepository.findByUserId(user.get().getUserId());
         Address existingAddress = null;
         List<Address> addresses = existingCustomer.getAddresses();
         if (!addresses.isEmpty()) {
@@ -52,11 +52,11 @@ public class CustomerService {
             existingAddress = new Address();
         }
 
-        if (formData.containsKey("first_name")) {
-            existingCustomer.setFirst_name(customer.getFirst_name());
+        if (formData.containsKey("firstName")) {
+            existingCustomer.setFirstName(customer.getFirstName());
         }
-        if (formData.containsKey("last_name")) {
-            existingCustomer.setLast_name(customer.getLast_name());
+        if (formData.containsKey("lastName")) {
+            existingCustomer.setLastName(customer.getLastName());
         }
         if (formData.containsKey("phone")) {
             existingCustomer.setPhone(customer.getPhone());
@@ -68,20 +68,20 @@ public class CustomerService {
         if (formData.containsKey("street")) {
             existingAddress.setStreet(address.getStreet());
         }
-        if  (formData.containsKey("house_number")) {
-            existingAddress.setHouse_number(address.getHouse_number());
+        if  (formData.containsKey("houseNumber")) {
+            existingAddress.setHouseNumber(address.getHouseNumber());
         }
-        if (formData.containsKey("postal_code")) {
-            existingAddress.setPostal_code(address.getPostal_code());
+        if (formData.containsKey("postalCode")) {
+            existingAddress.setPostalCode(address.getPostalCode());
         }
-        if (formData.containsKey("apartment_number")) {
-            existingAddress.setApartment_number(address.getApartment_number());
+        if (formData.containsKey("apartmentNumber")) {
+            existingAddress.setApartmentNumber(address.getApartmentNumber());
         }
         if (formData.containsKey("floor")) {
             existingAddress.setFloor(address.getFloor());
         }
-        if (formData.containsKey("housing_type")) {
-            existingAddress.setHousing_type(address.getHousing_type());
+        if (formData.containsKey("housingType")) {
+            existingAddress.setHousingType(address.getHousingType());
         }
 
         existingAddress.setCustomer(existingCustomer);
@@ -95,13 +95,13 @@ public class CustomerService {
 
     public ResponseEntity<?> editCustomer(Customer customer, String login) {
         Optional<User> user = userRepository.findByLogin(login);
-        Customer existingCustomer = customerRepository.findByUserId(user.get().getUser_id());
+        Customer existingCustomer = customerRepository.findByUserId(user.get().getUserId());
 
-        if (customer.getFirst_name() != null) {
-            existingCustomer.setFirst_name(customer.getFirst_name());
+        if (customer.getFirstName() != null) {
+            existingCustomer.setFirstName(customer.getFirstName());
         }
-        if (customer.getLast_name() != null) {
-            existingCustomer.setLast_name(customer.getLast_name());
+        if (customer.getLastName() != null) {
+            existingCustomer.setLastName(customer.getLastName());
         }
         if (customer.getPhone() != null) {
             existingCustomer.setPhone(customer.getPhone());
@@ -120,8 +120,8 @@ public class CustomerService {
 
     private Customer parseCustomer(Map<String, Object> formData) {
         Customer customer = new Customer();
-        customer.setFirst_name((String) formData.get("first_name"));
-        customer.setLast_name((String) formData.get("last_name"));
+        customer.setFirstName((String) formData.get("firstName"));
+        customer.setLastName((String) formData.get("lastName"));
         if (formData.get("phone") != null) {
             customer.setPhone(Integer.parseInt((String) formData.get("phone")));
         }
@@ -132,19 +132,19 @@ public class CustomerService {
         Address address = new Address();
         address.setCity((String) formData.get("city"));
         address.setStreet((String) formData.get("street"));
-        if (formData.get("house_number") != null) {
-            address.setHouse_number((String) formData.get("house_number"));
+        if (formData.get("houseNumber") != null) {
+            address.setHouseNumber((String) formData.get("houseNumber"));
         }
-        address.setPostal_code((String) formData.get("postal_code"));
+        address.setPostalCode((String) formData.get("postalCode"));
 //        if (formData.get("apartment_name") != null) {
 //            address.setApartment_number(Integer.parseInt((String) formData.get("apartment_number")));
 //        }
-        address.setApartment_number((String) formData.get("apartment_number"));
+        address.setApartmentNumber((String) formData.get("apartmentNumber"));
 //        if (formData.get("floor") != null) {
 //            address.setFloor(Integer.parseInt((String) formData.get("floor")));
 //        }
         address.setFloor((String) formData.get("floor"));
-        address.setHousing_type((String) formData.get("housing_type"));
+        address.setHousingType((String) formData.get("housingType"));
         return address;
     }
 }

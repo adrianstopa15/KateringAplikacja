@@ -31,12 +31,12 @@ public class MealService {
         return mealRepository.findAll();
     }
 
-    public ResponseEntity<?> add(Map<String, Object> formData, Integer diet_id, Integer type_id) {
+    public ResponseEntity<?> add(Map<String, Object> formData, Integer dietId, Integer typeId) {
         Meal meal = parseMeal(formData);
         Macro macro = parseMacro(formData);
 
-        Diet diet = dietRepository.findByDietId(diet_id);
-        MealType mealType = mealTypeRepository.findByMealTypeId(type_id);
+        Diet diet = dietRepository.findByDietId(dietId);
+        MealType mealType = mealTypeRepository.findByMealTypeId(typeId);
 
         Meal newMeal = new Meal();
         Macro newMacro = new Macro();

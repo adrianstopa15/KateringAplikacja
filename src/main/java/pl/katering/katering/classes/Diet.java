@@ -19,7 +19,7 @@ public class Diet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer diet_id;
+    private Integer dietId;
 
     private String name;
 

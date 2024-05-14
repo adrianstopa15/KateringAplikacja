@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import pl.katering.katering.classes.Meal;
 
 public interface MealRepository extends JpaRepository<Meal, Integer> {
-    @Query("SELECT m FROM Meal m WHERE m.meal_id = :id")
+    @Query("SELECT m FROM Meal m WHERE m.mealId = :id")
     Meal findByMealId(Integer id);
 }

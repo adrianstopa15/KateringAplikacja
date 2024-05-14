@@ -17,24 +17,24 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer address_id;
+    private Integer addressId;
 
     private String city;
 
     private String street;
 
-    private String house_number;
+    private String houseNumber;
 
-    private String postal_code;
+    private String postalCode;
 
-    private String apartment_number;
+    private String apartmentNumber;
 
     private String floor;
 
-    private String housing_type;
+    private String housingType;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customerId")
     private Customer customer;
 }

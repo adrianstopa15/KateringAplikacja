@@ -8,7 +8,6 @@ import pl.katering.katering.services.AddressService;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class AddressController {
     private final AddressService addressService;

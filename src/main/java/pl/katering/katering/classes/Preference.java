@@ -17,7 +17,7 @@ public class Preference {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer preference_id;
+    private Integer preferenceId;
 
     private String weight;
 
@@ -29,12 +29,12 @@ public class Preference {
 
     private String bmi;
 
-    private String selected_goal;
+    private String selectedGoal;
 
-    private String activity_level;
+    private String activityLevel;
 
     @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customerId")
     private Customer customer;
 }

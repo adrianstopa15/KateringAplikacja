@@ -8,7 +8,6 @@ import pl.katering.katering.services.PreferenceService;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class PreferenceController {
     private final PreferenceService preferenceService;

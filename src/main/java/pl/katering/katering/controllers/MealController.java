@@ -9,7 +9,6 @@ import pl.katering.katering.services.MealService;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class MealController {
     private final MealService mealService;
@@ -25,8 +24,8 @@ public class MealController {
     }
 
     @PostMapping("/addMeal")
-    public ResponseEntity<?> addMeal(@RequestBody Map<String, Object> formData, @RequestParam Integer diet_id, @RequestParam Integer type_id) {
-        return mealService.add(formData, diet_id, type_id);
+    public ResponseEntity<?> addMeal(@RequestBody Map<String, Object> formData, @RequestParam Integer dietId, @RequestParam Integer typeId) {
+        return mealService.add(formData, dietId, typeId);
     }
 
     @PostMapping("/acceptMeal")

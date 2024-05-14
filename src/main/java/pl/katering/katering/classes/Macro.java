@@ -17,7 +17,7 @@ public class Macro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer macro_id;
+    private Integer macroId;
 
     private Double protein;
 
@@ -29,6 +29,6 @@ public class Macro {
 
     @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "meal_id")
+    @JoinColumn(name = "mealId")
     private Meal meal;
 }

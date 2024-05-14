@@ -32,27 +32,27 @@ public class AddressService {
 
     public ResponseEntity<?> showCustomerAddresses(String login) {
         Optional<User> user = userRepository.findByLogin(login);
-        Customer customer = customerRepository.findByUserId(user.get().getUser_id());
-        List<Address> list = addressRepository.findByCustomerId(customer.getCustomer_id());
+        Customer customer = customerRepository.findByUserId(user.get().getUserId());
+        List<Address> list = addressRepository.findByCustomerId(customer.getCustomerId());
 
         return ResponseEntity.ok(list);
     }
 
     public ResponseEntity<?> addAddress(Address address, String login) {
         Optional<User> user = userRepository.findByLogin(login);
-        Customer customer = customerRepository.findByUserId(user.get().getUser_id());
+        Customer customer = customerRepository.findByUserId(user.get().getUserId());
         Address existingAddress = new Address();
         existingAddress.setCity(address.getCity());
         existingAddress.setStreet(address.getStreet());
-        existingAddress.setHouse_number(address.getHouse_number());
-        existingAddress.setPostal_code(address.getPostal_code());
-        if (address.getApartment_number() != null) {
-            existingAddress.setApartment_number(address.getApartment_number());
+        existingAddress.setHouseNumber(address.getHouseNumber());
+        existingAddress.setPostalCode(address.getPostalCode());
+        if (address.getApartmentNumber() != null) {
+            existingAddress.setApartmentNumber(address.getApartmentNumber());
         }
         if (address.getFloor() != null) {
             existingAddress.setFloor(address.getFloor());
         }
-        existingAddress.setHousing_type(address.getHousing_type());
+        existingAddress.setHousingType(address.getHousingType());
 
         existingAddress.setCustomer(customer);
 
@@ -67,20 +67,20 @@ public class AddressService {
         if (address.getStreet() != null) {
             customerAddress.setStreet(address.getStreet());
         }
-        if (address.getHouse_number() != null) {
-            customerAddress.setHouse_number(address.getHouse_number());
+        if (address.getHouseNumber() != null) {
+            customerAddress.setHouseNumber(address.getHouseNumber());
         }
-        if (address.getPostal_code() != null) {
-            customerAddress.setPostal_code(address.getPostal_code());
+        if (address.getPostalCode() != null) {
+            customerAddress.setPostalCode(address.getPostalCode());
         }
-        if (address.getApartment_number() != null) {
-            customerAddress.setApartment_number(address.getApartment_number());
+        if (address.getApartmentNumber() != null) {
+            customerAddress.setApartmentNumber(address.getApartmentNumber());
         }
         if (address.getFloor() != null) {
             customerAddress.setFloor(address.getFloor());
         }
-        if (address.getHousing_type() != null) {
-            customerAddress.setHousing_type(address.getHousing_type());
+        if (address.getHousingType() != null) {
+            customerAddress.setHousingType(address.getHousingType());
         }
 
         return ResponseEntity.ok(addressRepository.save(customerAddress));
