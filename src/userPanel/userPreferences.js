@@ -123,10 +123,10 @@ const UserPreferences = () => {
    
   //     const preferences = preferences[editPre];
   //     setStreet(address.street);
-  //     setApartment_number(address.apartment_number);
-  //     setPostal_code(address.postal_code);
+  //     setApartmentNumber(address.apartmentNumber);
+  //     setPostalCode(address.postalCode);
   //     setCity(address.city);
-  //     setHouse_number(address.house_number); // ? 
+  //     setHouseNumber(address.HouseNumber); // ? 
   // }, [addresses, editAddressIndex]);
 
   return (
@@ -139,7 +139,7 @@ const UserPreferences = () => {
           <p className="preference-item">Wiek: {preferences.age || "Brak danych"}</p>
           <p className="preference-item">Płeć: {preferences.gender || "Brak danych"}</p>
           <p className="preference-item">BMI: {preferences.bmi || "Brak danych"}</p>
-          <p className="preference-item">Wybrany cel: {preferences.selected_goal || "Brak danych"}</p>
+          <p className="preference-item">Wybrany cel: {preferences.selectedGoal || "Brak danych"}</p>
           <button className="button-27-e" onClick={() => setIsOpen(true)}>Edytuj preferencje</button>
         </div>
         <PanelModal open={isOpen} onClose={() => setIsOpen(false)}>
@@ -195,8 +195,8 @@ const UserPreferences = () => {
     <div className="form-group">
       <label>Wybrany cel:</label>
       <select
-        name="selected_goal"
-        value={preferences.selected_goal}
+        name="selectedGoal"
+        value={preferences.selectedGoal}
         onChange={handleChange}
       >
         <option value="">Wybierz</option>

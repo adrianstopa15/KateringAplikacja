@@ -11,26 +11,26 @@ export function useAuth() {
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
-  const [housing_type, setHousing_type] = useState("dom");
-  const [first_name, setFirst_name] = useState("");
-  const [last_name, setLast_name] = useState("");
+  const [housingType, setHousingType] = useState("dom");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [street, setStreet] = useState("");
-  const [apartment_number, setApartment_number] = useState("");
+  const [apartmentNumber, setApartmentNumber] = useState("");
   const [floor, setFloor] = useState("");
-  const [postal_code, setPostal_code] = useState("");
+  const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [currentEdit, setCurrentEdit] = useState();
   const [editAddressIndex, setEditAddressIndex] = useState(null);
-  const [house_number, setHouse_number] = useState();
+  const [houseNumber, setHouseNumber] = useState();
   const [newAddress, setNewAddress] = useState({
     street: '',
-    apartment_number: '',
+    apartmentNumber: '',
     floor: '',
-    postal_code: '',
+    postalCode: '',
     city: '',
-    housing_type: '',
-    house_number: '',
+    housingType: '',
+    houseNumber: '',
   });
   const handleLogin = (success) => {
     setIsLoggedIn(true);
@@ -60,12 +60,12 @@ export const AuthProvider = ({ children }) => {
 
     const formData = {
       street,
-      apartment_number,
+      apartmentNumber,
       floor,
-      postal_code,
+      postalCode,
       city,
-      housing_type,
-      house_number
+      housingType,
+      houseNumber
     };
 
 
@@ -132,19 +132,19 @@ export const AuthProvider = ({ children }) => {
     value={{
       isLoggedIn, userData, handleLogin, handleLogout,
      
-      housing_type, setHousing_type,
-      first_name, setFirst_name,
-      last_name, setLast_name,
+      housingType, setHousingType,
+      firstName, setFirstName,
+      lastName, setLastName,
       phone, setPhone,
       street, setStreet,
-      apartment_number, setApartment_number,
+      apartmentNumber, setApartmentNumber,
       floor, setFloor,
-      postal_code, setPostal_code,
+      postalCode, setPostalCode,
       city, setCity,
       currentEdit, setCurrentEdit,
       handleEdit, onEdit,
       editAddressIndex, setEditAddressIndex,
-      handleDelete, house_number, setHouse_number,
+      handleDelete, houseNumber, setHouseNumber,
     }}
     >
       {children}

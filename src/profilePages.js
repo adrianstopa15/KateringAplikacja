@@ -18,18 +18,18 @@ export default function ProfilePage() {
   const [activityLevel, setActivityLevel] = useState("");
   const [gender, setGender] = useState("woman");
   const [totalCalories, setTotalCalories] = useState(0);
-  const [selected_goal, setSelected_goal] = useState("");
+  const [selectedGoal, setselectedGoal] = useState("");
   const navigate = useNavigate();
 
-  const {  housing_type, setHousing_type,
-    first_name, setFirst_name,
-    last_name, setLast_name,
+  const {  housingType, setHousingType,
+    firstName, setFirstName,
+    lastName, setLastName,
     phone, setPhone,
     street, setStreet,
-    apartment_number, setApartment_number,
+    apartmentNumber, setApartmentNumber,
     floor, setFloor,
-    postal_code, setPostal_code,
-    city, setCity, house_number, setHouse_number} = useAuth();
+    postalCode, setPostalCode,
+    city, setCity, houseNumber, setHouseNumber} = useAuth();
 
   const handleStartClick = () => {
     setStep(2);
@@ -85,7 +85,7 @@ export default function ProfilePage() {
           weight,
           height,
           bmi,
-          selected_goal,
+          selectedGoal,
           age,
           gender,
         };
@@ -107,33 +107,33 @@ export default function ProfilePage() {
     } else {
       // walidacja
       if (
-        !first_name ||
-        !last_name ||
+        !firstName ||
+        !lastName ||
         !phone ||
         !street ||
-        !postal_code ||
+        !postalCode ||
         !city
       ) {
         alert("Proszę wypełnić wszystkie wymagane pola.");
         return;
       }
 
-      if (!postal_code.match(/^\d{2}-\d{3}$/)) {
+      if (!postalCode.match(/^\d{2}-\d{3}$/)) {
         alert("Kod pocztowy musi być w formacie XX-XXX.");
         return;
       }
 
       const formData = {
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         phone,
         street,
-        apartment_number,
+        apartmentNumber,
         floor,
-        postal_code,
+        postalCode,
         city,
-        housing_type,    
-        house_number
+        housingType,    
+        houseNumber
       };
 
     try {
@@ -192,11 +192,11 @@ export default function ProfilePage() {
   useEffect(() => {
     if (bmi) {
       if (bmi < 18.5) {
-        setSelected_goal("gain");
+        setselectedGoal("gain");
       } else if (bmi > 25) {
-        setSelected_goal("lose");
+        setselectedGoal("lose");
       } else {
-        setSelected_goal("maintain");
+        setselectedGoal("maintain");
       }
     }
 
@@ -209,7 +209,7 @@ export default function ProfilePage() {
   };
 
   const handleGoalSelect = (goal) => {
-    setSelected_goal(goal);
+    setselectedGoal(goal);
   };
 
   const getWeightIndicator = (bmi) => {
@@ -387,7 +387,7 @@ export default function ProfilePage() {
     <div className="choice mt-sm">
       <div
         className={`border ${
-          selected_goal === "lose" ? "selected" : ""
+          selectedGoal === "lose" ? "selected" : ""
         }`}
         onClick={() => handleGoalSelect("lose")}
       >
@@ -396,7 +396,7 @@ export default function ProfilePage() {
       <div
         onClick={() => handleGoalSelect("maintain")}
         className={`border ${
-          selected_goal === "maintain" ? "selected" : ""
+          selectedGoal === "maintain" ? "selected" : ""
         }`}
       >
         <img src={keepWeight} alt="Utrzymanie wagi" />
@@ -405,7 +405,7 @@ export default function ProfilePage() {
         onClick={() => handleGoalSelect("gain")}
       
         className={`border ${
-          selected_goal === "gain" ? "selected" : ""
+          selectedGoal === "gain" ? "selected" : ""
         }`}
       >
         <img src={buildMuscles} alt="Budowa Masy mięśniowej" />
@@ -413,7 +413,7 @@ export default function ProfilePage() {
     </div>
     <div>
       <form onSubmit={handleNextClick}>
-        <input type="hidden" name="selected_goal" value={selected_goal} />
+        <input type="hidden" name="selectedGoal" value={selectedGoal} />
         <input type="hidden" name="bmi" value={bmi} />
         <button type="submit" className="button-27 mt-s">
           Dalej
@@ -429,13 +429,13 @@ export default function ProfilePage() {
             <div className="i-center">
               <div className="border-t">
                 {" "}
-                {selected_goal === "maintain" ? (
+                {selectedGoal === "maintain" ? (
                   <img
                     src={keepWeight}
                     alt="Utrzymanie wagi"
                     className="img-xs"
                   />
-                ) : selected_goal === "gain" ? (
+                ) : selectedGoal === "gain" ? (
                   <img
                     src={buildMuscles}
                     alt="Utrzymanie wagi"
@@ -453,27 +453,27 @@ export default function ProfilePage() {
             <p className="mt-s">
               <strong>
                 Ustawiono cel na{" "}
-                {selected_goal === "maintain"
+                {selectedGoal === "maintain"
                   ? "utrzymanie wagi"
-                  : selected_goal === "gain"
+                  : selectedGoal === "gain"
                   ? "budowanie masy mięśniowej"
                   : "redukcję tkanki tłuszczowej"}
               </strong>
             </p>
             <p>
               W celu{" "}
-              {selected_goal === "maintain"
+              {selectedGoal === "maintain"
                 ? "utrzymania wagi"
-                : selected_goal === "gain"
+                : selectedGoal === "gain"
                 ? "zbudowania masy mięśniowej"
                 : "utraty wagi"}{" "}
               ustawiliśmy Twoją bazową dietę na zakres
               <strong>
-                {selected_goal === "lose"
+                {selectedGoal === "lose"
                   ? `${(0.84 * totalCalories).toFixed(
                       0
                     )} - ${totalCalories.toFixed(0)}`
-                  : selected_goal === "maintain"
+                  : selectedGoal === "maintain"
                   ? `${(0.94 * totalCalories).toFixed(0)} - ${(
                       1.08 * totalCalories
                     ).toFixed(0)}`
@@ -503,10 +503,10 @@ export default function ProfilePage() {
               <div className="form-group">
                 <label>Mieszkam w:</label>
                 <select
-                  value={housing_type}
-                  onChange={(e) => setHousing_type(e.target.value)}
-                  name="housing_type"
-                  id="housing_type"
+                  value={housingType}
+                  onChange={(e) => setHousingType(e.target.value)}
+                  name="housingType"
+                  id="housingType"
                 >
                   <option value="dom">Domu</option>
                   <option value="mieszkanie">Mieszkaniu</option>
@@ -517,10 +517,10 @@ export default function ProfilePage() {
                 <label>Imię:</label>
                 <input
                   type="text"
-                  value={first_name}
-                  id="first_name"
-                  name="first_name"
-                  onChange={(e) => setFirst_name(e.target.value)}
+                  value={firstName}
+                  id="firstName"
+                  name="firstName"
+                  onChange={(e) => setFirstName(e.target.value)}
                   required
                 />
               </div>
@@ -529,10 +529,10 @@ export default function ProfilePage() {
                 <label>Nazwisko:</label>
                 <input
                   type="text"
-                  value={last_name}
-                  id="last_name"
-                  name="last_name"
-                  onChange={(e) => setLast_name(e.target.value)}
+                  value={lastName}
+                  id="lastName"
+                  name="lastName"
+                  onChange={(e) => setLastName(e.target.value)}
                   required
                 />
               </div>
@@ -578,24 +578,24 @@ export default function ProfilePage() {
                 <label>Numer ulicy:</label>
                 <input
                   type="text"
-                  name="house_number"
-                  value={house_number}
-                  id="house_numbert"
-                  onChange={(e) => setHouse_number(e.target.value)}
+                  name="houseNumber"
+                  value={houseNumber}
+                  id="houseNumber"
+                  onChange={(e) => setHouseNumber(e.target.value)}
                   required
                 />
               </div>
 
-              {housing_type === "mieszkanie" && (
+              {housingType === "mieszkanie" && (
                 <>
                   <div className="form-group">
                     <label>Numer mieszkania:</label>
                     <input
                       type="text"
-                      name="apartment_number"
-                      value={apartment_number}
-                      id="apartment_number"
-                      onChange={(e) => setApartment_number(e.target.value)}
+                      name="apartmentNumber"
+                      value={apartmentNumber}
+                      id="apartmentNumber"
+                      onChange={(e) => setApartmentNumber(e.target.value)}
                       required
                     />
                   </div>
@@ -617,14 +617,14 @@ export default function ProfilePage() {
                 <label>Kod pocztowy:</label>
                 <input
                   type="text"
-                  name="postal_code"
+                  name="postalCode"
                   required
                   pattern="\d{2}-\d{3}"
                   maxLength="6"
                   placeholder="00-000"
-                  value={postal_code}
-                  id="postal_code"
-                  onChange={(e) => setPostal_code(e.target.value)}
+                  value={postalCode}
+                  id="postalCode"
+                  onChange={(e) => setPostalCode(e.target.value)}
                 />
               </div>
 

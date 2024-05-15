@@ -31,14 +31,14 @@ export default function PanelModal({ open, children, onClose }) {
 
 
   const { 
-    housing_type, setHousing_type,
-      first_name, setFirst_name,
-      last_name, setLast_name,
+    housingType, setHousingType,
+      firstName, setFirstName,
+      lastName, setLastName,
       phone, setPhone,
       street, setStreet,
-      apartment_number, setApartment_number,
+      apartmentNumber, setApartmentNumber,
       floor, setFloor,
-      postal_code, setPostal_code,
+      postalCode, setPostalCode,
       city, setCity,
     currentEdit, setCurrentEdit, handleEdit, onEdit,
     editAddressIndex, setEditAddressIndex} = useAuth();

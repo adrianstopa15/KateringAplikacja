@@ -11,17 +11,17 @@ const UserData = () => {
   const [activeComponent, setActiveComponent] = useState("UserData");
   const [addresses, setAddresses] = useState([]);
   const { 
-    housing_type, setHousing_type,
-      first_name, setFirst_name,
-      last_name, setLast_name,
+    housingType, setHousingType,
+      firstName, setFirstName,
+      lastName, setLastName,
       phone, setPhone,
       street, setStreet,
-      apartment_number, setApartment_number,
+      apartmentNumber, setApartmentNumber,
       floor, setFloor,
-      postal_code, setPostal_code,
+      postalCode, setPostalCode,
       city, setCity,
     currentEdit, setCurrentEdit, handleEdit, onEdit,
-    editAddressIndex, setEditAddressIndex, handleDelete, house_number, setHouse_number} = useAuth();
+    editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber} = useAuth();
     const [modalMode, setModalMode] = useState(null);
   // const [housingType, setHousingType] = useState("dom");
   // const [apartmentNumber, setApartmentNumber] = useState("");
@@ -74,11 +74,11 @@ const UserData = () => {
 
   //   const formData = {
   //     street,
-  //     apartment_number: +apartment_number, 
+  //     apartmentNumber: +apartmentNumber, 
   //     floor: +floor, 
-  //     postal_code,
+  //     postalCode,
   //     city,
-  //     housing_type,
+  //     housingType,
   //   };
 
 
@@ -110,7 +110,7 @@ const UserData = () => {
   const ulica =
     addresses.map((address) => `${address.street}`).join(", ") || "Narutowicza 14";
   const kodPocztowy =
-    addresses.map((address) => address.postal_code).join(", ") || "20-248";
+    addresses.map((address) => address.postalCode).join(", ") || "20-248";
   const Miasto =
     addresses.map((address) => address.city).join(", ") || "Lublin";
 
@@ -118,10 +118,10 @@ const UserData = () => {
       if (addresses.length > 0 && editAddressIndex != null) {
         const address = addresses[editAddressIndex];
         setStreet(address.street);
-        setApartment_number(address.apartment_number);
-        setPostal_code(address.postal_code);
+        setApartmentNumber(address.apartmentNumber);
+        setPostalCode(address.postalCode);
         setCity(address.city);
-        setHouse_number(address.house_number); // ? 
+        setHouseNumber(address.houseNumber); // ? 
       }
     }, [addresses, editAddressIndex]);
 
@@ -147,14 +147,14 @@ const UserData = () => {
             <div key={index} className="address-display--element" style={{marginBottom:"1rem"}}>
             
               
-            <p className="ulica">{(address.street && address.house_number) ? `${address.street} ${address.house_number}` : "Ulica"}</p>
-            <p className="k-pocztowy">{address.postal_code}</p>
+            <p className="ulica">{(address.street && address.houseNumber) ? `${address.street} ${address.houseNumber}` : "Ulica"}</p>
+            <p className="k-pocztowy">{address.postalCode}</p>
             <p className="miasto">{address.city || "Lublin"}</p>
-            <button className="button-27-e " onClick={() => {setIsOpen(true); setEditAddressIndex(index); onEdit(address.address_id)}}>
+            <button className="button-27-e " onClick={() => {setIsOpen(true); setEditAddressIndex(index); onEdit(address.addressId)}}>
               Zaktualizuj adres
             </button>
             <button className="button-27-d ml-s"
-             onClick={() => handleDelete(address.address_id)}
+             onClick={() => handleDelete(address.addressId)}
             >Usuń adres</button>
           </div>
         
@@ -165,10 +165,10 @@ const UserData = () => {
       <div className="form-group">
         <label>Mieszkam w:</label>
         <select
-          value={housing_type}
-          onChange={(e) => setHousing_type(e.target.value)}
-          name="housing_type"
-          id="housing_type"
+          value={housingType}
+          onChange={(e) => setHousingType(e.target.value)}
+          name="housingType"
+          id="housingType"
         >
           <option value="dom">Domu</option>
           <option value="mieszkanie">Mieszkaniu</option>
@@ -187,18 +187,18 @@ const UserData = () => {
         <label>Numer:</label>
         <input
           type="text"
-          name="house"
-          defaultValue={addresses[editAddressIndex].house_number}
-          onChange={(e) => setHouse_number(e.target.value)}
+          name="houseNumber"
+          defaultValue={addresses[editAddressIndex].houseNumber}
+          onChange={(e) => setHouseNumber(e.target.value)}
         />
       </div>
       <div className="form-group">
         <label>Kod pocztowy:</label>
         <input
           type="text"
-          name="postal_code"
-          defaultValue={addresses[editAddressIndex].postal_code}
-          onChange={(e) => setPostal_code(e.target.value)}
+          name="postalCode"
+          defaultValue={addresses[editAddressIndex].postalCode}
+          onChange={(e) => setPostalCode(e.target.value)}
         />
       </div>
       <div className="form-group">
@@ -210,16 +210,16 @@ const UserData = () => {
           onChange={(e) => setCity(e.target.value)}
         />
       </div>
-      {housing_type === "mieszkanie" && (
+      {housingType === "mieszkanie" && (
         <>
           <div className="form-group">
             <label>Numer mieszkania:</label>
             <input
               type="text"
-              name="apartment_number"
-              value={apartment_number}
-              id="apartment_number"
-              onChange={(e) => setApartment_number(e.target.value)}
+              name="apartmentNumber"
+              value={apartmentNumber}
+              id="apartmentNumber"
+              onChange={(e) => setApartmentNumber(e.target.value)}
               required
             />
           </div>
