@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "address")
-public class Address {
+@Table(name = "temporary_address")
+public class TemporaryAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,12 +31,7 @@ public class Address {
 
     private String floor;
 
-    private String housingType;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "customerId")
-    private Customer customer;
+    private String housingType = "firma";
 
     @JsonIgnore
     @OneToOne
