@@ -84,9 +84,11 @@ public class CustomerService {
             existingAddress.setHousingType(address.getHousingType());
         }
 
+
         existingAddress.setCustomer(existingCustomer);
 
         if (addresses.isEmpty()) {
+            existingAddress.setDefault(true);
             existingCustomer.getAddresses().add(existingAddress);
         }
 

@@ -33,6 +33,8 @@ public class Address {
 
     private String housingType;
 
+    private boolean isDefault;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "customerId")

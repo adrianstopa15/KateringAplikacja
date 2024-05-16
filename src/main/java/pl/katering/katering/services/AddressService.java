@@ -54,6 +54,10 @@ public class AddressService {
         }
         existingAddress.setHousingType(address.getHousingType());
 
+        if (customer.getAddresses().isEmpty()) {
+            existingAddress.setDefault(true);
+        }
+
         existingAddress.setCustomer(customer);
 
         return ResponseEntity.ok(addressRepository.save(existingAddress));
@@ -92,5 +96,21 @@ public class AddressService {
         addressRepository.delete(customerAddress);
 
         return ResponseEntity.ok("Pomyślnie usunięto adres");
+    }
+
+    public ResponseEntity<?> changeDefaultAddress(String login, Integer id) {
+        Optional<User> user = userRepository.findByLogin(login);
+        Customer customer = customerRepository.findByUserId(user.get().getUserId());
+        List<Address> addresses = customer.getAddresses();
+
+        for (Address addr : addresses) {
+            addr.setDefault(false);
+            addressRepository.save(addr);
+        }
+
+        Address address = customer.getAddresses().get(id);
+        address.setDefault(true);
+
+        return ResponseEntity.ok("Pomyślnie zmieniono domyślny adres");
     }
 }

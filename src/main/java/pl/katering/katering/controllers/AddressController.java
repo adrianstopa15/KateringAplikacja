@@ -41,4 +41,9 @@ public class AddressController {
     public ResponseEntity<?> deleteAddress(@RequestParam Integer id) {
         return addressService.deleteAddress(id);
     }
+
+    @PostMapping("/setDefaultAddress")
+    public ResponseEntity<?> setDefaultAddress(@RequestParam String login, @RequestParam Integer id) {
+        return addressService.changeDefaultAddress(login, id);
+    }
 }
