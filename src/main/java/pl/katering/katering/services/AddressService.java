@@ -108,8 +108,10 @@ public class AddressService {
             addressRepository.save(addr);
         }
 
-        Address address = customer.getAddresses().get(id);
+        Address address = addressRepository.findByAddressId(id);
         address.setDefault(true);
+
+        addressRepository.save(address);
 
         return ResponseEntity.ok("Pomyślnie zmieniono domyślny adres");
     }
