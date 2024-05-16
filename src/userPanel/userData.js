@@ -5,11 +5,15 @@ import "../profilePages.css";
 import Modal from "react-modal";
 import { jwtDecode } from "jwt-decode";
 import PanelModal from "./panelModal";
+import PanelModalAdd from "./panelModalAdd";
+
 const UserData = () => {
-  const { userData, fetchUserData } = useAuth();
+  const { userData, fetchUserData, handleSetDefaultAddress } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [activeComponent, setActiveComponent] = useState("UserData");
+  const [modalMode, setModalMode] = useState(null);
   const [addresses, setAddresses] = useState([]);
+  
   const { 
     housingType, setHousingType,
       firstName, setFirstName,
@@ -19,30 +23,21 @@ const UserData = () => {
       apartmentNumber, setApartmentNumber,
       floor, setFloor,
       postalCode, setPostalCode,
-      city, setCity,
-    currentEdit, setCurrentEdit, handleEdit, onEdit,
-    editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber} = useAuth();
-    const [modalMode, setModalMode] = useState(null);
-  // const [housingType, setHousingType] = useState("dom");
-  // const [apartmentNumber, setApartmentNumber] = useState("");
-  // const [floor, setFloor] = useState("");
-  // const [postalCode, setPostalCode] = useState("");
-  // const [editAddressIndex, setEditAddressIndex] = useState(null);
-  // const [currentEdit, setCurrentEdit] = useState();
-
-
+      city, setCity, addressId,
+      currentEdit, setCurrentEdit, handleEdit, onEdit,
+      editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber} = useAuth();
 
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const getCookieValue = (name) =>
-          document.cookie
-            .split("; ")
-            .find((row) => row.startsWith(name + "="))
-            ?.split("=")[1];
+        const getCookieValue = (name) => {
+          const value = `; ${document.cookie}`;
+          const parts = value.split(`; ${name}=`);
+          if (parts.length === 2) return parts.pop().split(';').shift();
+          return null;
+        };
         const authToken = getCookieValue("authToken");
         const decodedToken = jwtDecode(authToken);
-        console.log(authToken);
 
         const login = decodedToken.sub;
 
@@ -61,51 +56,23 @@ const UserData = () => {
       }
     };
 
-  
-
     fetchAddresses();
   }, []);
+
+  const handleOpenModal = (mode) => {
+    setModalMode(mode);
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+    setModalMode(null);
+    setEditAddressIndex(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
   };
-
-  // const handleEdit = async () => {
-
-  //   const formData = {
-  //     street,
-  //     apartmentNumber: +apartmentNumber, 
-  //     floor: +floor, 
-  //     postalCode,
-  //     city,
-  //     housingType,
-  //   };
-
-
-  //   const getCookieValue = (name) =>
-  //   document.cookie
-  //     .split("; ")
-  //     .find((row) => row.startsWith(name + "="))
-  //     ?.split("=")[1];
-  // const authToken = getCookieValue("authToken");
-
-
-  // const response = await axios.post(
-  //   `http://localhost:8080/editAddress?id=${currentEdit}`,
-  //   formData,
-    
-  //   {
-  //     headers: {
-  //       Authorization: `Bearer ${authToken}`,
-  //     },
-  //   }
-  // );
-  // }
-
-  // const onEdit = (x) => {
-  //  setCurrentEdit(x);
-  // };
-
 
   const ulica =
     addresses.map((address) => `${address.street}`).join(", ") || "Narutowicza 14";
@@ -121,55 +88,46 @@ const UserData = () => {
         setApartmentNumber(address.apartmentNumber);
         setPostalCode(address.postalCode);
         setCity(address.city);
-        setHouseNumber(address.houseNumber); // ? 
+        setHouseNumber(address.houseNumber); 
       }
     }, [addresses, editAddressIndex]);
-
-
+    
   return (
     <div>
       <div className="user-da   ta-display ml-s mt-s">
         <h1 className="h1-regular mb-m">Adresy</h1>
         <div className="address-info">
-       
-          
-          {/* <div className="">
-            <p className="ulica">{ulica ?? "Ulica"}</p>
-            <p className="k-pocztowy">{kodPocztowy}</p>
-            <p className="miasto">{Miasto || "Lublin"}</p>
-          </div>
-          <button className="button-27-e " onClick={() => setIsOpen(true)}>
-            Zaktualizuj adres
-          </button>
-          <button className="button-27-d ml-s">Usuń adres</button> */}
           {addresses.map((address, index) => (
-          
             <div key={index} className="address-display--element" style={{marginBottom:"1rem"}}>
-            
-              
             <p className="ulica">{(address.street && address.houseNumber) ? `${address.street} ${address.houseNumber}` : "Ulica"}</p>
             <p className="k-pocztowy">{address.postalCode}</p>
             <p className="miasto">{address.city || "Lublin"}</p>
-            <button className="button-27-e " onClick={() => {setIsOpen(true); setEditAddressIndex(index); onEdit(address.addressId)}}>
+            <button className="button-27-e " onClick={() => {setIsOpen(true); handleOpenModal('edit'); setEditAddressIndex(index); onEdit(address.addressId)}}>
               Zaktualizuj adres
             </button>
             <button className="button-27-d ml-s"
              onClick={() => handleDelete(address.addressId)}
-            >Usuń adres</button>
+            >Usuń adres
+            </button>
+            {console.log(`Address ID: ${address.addressId}, Is Default: ${address.isDefault}, Adres:${address.city}`)}
+              {address.isDefault === false && (
+                <button className="button-27-c" onClick={() => handleSetDefaultAddress(address.addressId)}>
+                  Ustaw jako domyślny
+                </button>
+              )}
           </div>
-        
-        ))}
-       <PanelModal open={isOpen} onClose={() => { setIsOpen(false); setEditAddressIndex(null); }}>
-  {editAddressIndex !== null && (
-    <form onSubmit={handleSubmit} className="form1">
-      <div className="form-group">
-        <label>Mieszkam w:</label>
-        <select
-          value={housingType}
-          onChange={(e) => setHousingType(e.target.value)}
-          name="housingType"
-          id="housingType"
-        >
+    ))}
+  <PanelModal open={isOpen && modalMode === 'edit'} onClose={() => {handleCloseModal(); setEditAddressIndex(null); }}>
+      {editAddressIndex !== null && (
+        <form onSubmit={handleSubmit} className="form1">
+          <div className="form-group">
+            <label>Mieszkam w:</label>
+            <select
+            value={housingType}
+            onChange={(e) => setHousingType(e.target.value)}
+            name="housingType"
+            id="housingType"
+            >
           <option value="dom">Domu</option>
           <option value="mieszkanie">Mieszkaniu</option>
         </select>
@@ -238,10 +196,11 @@ const UserData = () => {
     </form>
   )}
 </PanelModal>
-          <button className="button-27-save ml-s">dodaj adres</button>
-        </div>
+      <button className="button-27-save ml-s" onClick={() => {setIsOpen(true); handleOpenModal('add')}}>Dodaj adres</button>
+      <PanelModalAdd open={isOpen && modalMode === 'add'} onClose={handleCloseModal} />
       </div>
     </div>
+  </div>
   );
 };
 

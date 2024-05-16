@@ -29,7 +29,6 @@ const OVERLAY_STYLES = {
 
 export default function PanelModal({ open, children, onClose }) {
 
-
   const { 
     housingType, setHousingType,
       firstName, setFirstName,

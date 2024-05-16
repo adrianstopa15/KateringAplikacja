@@ -18,11 +18,11 @@ function RegistrationPopup({ onClose, onToggleToLogin }) {
 
     const evaluatePasswordStrength = (password) => {
       let strength = 0;
-      if (password.length >= 8) strength += 1; // Długość hasła
-      if (/[A-Z]/.test(password)) strength += 1; // Duże litery
-      if (/[a-z]/.test(password)) strength += 1; // Małe litery
-      if (/\d/.test(password)) strength += 1; // Cyfry
-      if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 1; // Znaki specjalne
+      if (password.length >= 8) strength += 1; 
+      if (/[A-Z]/.test(password)) strength += 1;
+      if (/[a-z]/.test(password)) strength += 1; 
+      if (/\d/.test(password)) strength += 1; 
+      if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 1; 
     
       setPasswordStrength(strength);
     };

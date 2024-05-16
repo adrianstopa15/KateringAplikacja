@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState} from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
+
 
 const AuthContext = createContext();
 
@@ -23,6 +25,11 @@ export const AuthProvider = ({ children }) => {
   const [currentEdit, setCurrentEdit] = useState();
   const [editAddressIndex, setEditAddressIndex] = useState(null);
   const [houseNumber, setHouseNumber] = useState();
+  const [addresses, setAddresses] = useState([]);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalMode, setModalMode] = useState(null);
+
   const [newAddress, setNewAddress] = useState({
     street: '',
     apartmentNumber: '',
@@ -32,6 +39,7 @@ export const AuthProvider = ({ children }) => {
     housingType: '',
     houseNumber: '',
   });
+
   const handleLogin = (success) => {
     setIsLoggedIn(true);
     fetchUserData();
@@ -55,6 +63,57 @@ export const AuthProvider = ({ children }) => {
     setCurrentEdit(x);
    };
 
+   const handleCloseModal = () => {
+    setIsOpen(false);
+    setModalMode(null);
+    setEditAddressIndex(null);
+  };
+
+   const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const addressData = {
+      city,
+      street,
+      houseNumber,
+      postalCode,
+      apartmentNumber,
+      floor,
+      housingType,
+    };
+
+    try {
+      const getCookieValue = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null; 
+      };
+      const authToken = getCookieValue("authToken");
+      const decodedToken = jwtDecode(authToken);
+      const login = decodedToken.sub;
+      
+      if (!authToken) {
+        console.error("JWT token is missing");
+        return;
+      }
+
+      const response = await axios.post(
+        `http://localhost:8080/addAddress?login=${login}`,
+        addressData,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          },
+        }
+      );
+      setAddresses(prevAddresses => [...prevAddresses, response.data]);
+      handleCloseModal();
+      window.location.reload();
+    } catch (error) {
+      console.error('Error adding address:', error.response?.data || error.message);
+    }
+  };
 
   const handleEdit = async () => {
 
@@ -113,6 +172,31 @@ export const AuthProvider = ({ children }) => {
     console.error("Błąd przy usuwaniu adresu:", error);
   }}
 
+  const handleSetDefaultAddress = async (addressId) => {
+    const getCookieValue = (name) =>
+      document.cookie
+        .split("; ")
+        .find((row) => row.startsWith(name + "="))
+        ?.split("=")[1];
+    const authToken = getCookieValue("authToken");
+    const decodedToken = jwtDecode(authToken);
+    const login = decodedToken.sub;
+
+    try {
+      await axios.post(
+        `http://localhost:8080/setDefaultAddress?id=${addressId}&login=${login}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      fetchUserData();
+    } catch (error) {
+      console.error("Błąd przy ustawianiu domyślnego adresu:", error);
+    }
+  };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -121,6 +205,7 @@ export const AuthProvider = ({ children }) => {
     setUserData({});
     window.location.reload();
   };
+
   useEffect(() => {
     if (isLoggedIn) {
       fetchUserData();
@@ -131,7 +216,6 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
     value={{
       isLoggedIn, userData, handleLogin, handleLogout,
-     
       housingType, setHousingType,
       firstName, setFirstName,
       lastName, setLastName,
@@ -143,6 +227,8 @@ export const AuthProvider = ({ children }) => {
       city, setCity,
       currentEdit, setCurrentEdit,
       handleEdit, onEdit,
+      handleSubmit, handleSetDefaultAddress,
+      modalMode, setModalMode,
       editAddressIndex, setEditAddressIndex,
       handleDelete, houseNumber, setHouseNumber,
     }}
