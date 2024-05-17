@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from "./AuthContext";
 import axios from "axios";
 import CateringForm from "./cateringForm";
+
 export default function MainPage() {
   const navigate = useNavigate();
   const homeRef = useRef(null);
