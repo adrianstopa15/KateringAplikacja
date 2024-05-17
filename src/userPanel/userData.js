@@ -98,7 +98,7 @@ const UserData = () => {
         <h1 className="h1-regular mb-m">Adresy</h1>
         <div className="address-info">
           {addresses.map((address, index) => (
-            <div key={index} className="address-display--element" style={{marginBottom:"1rem"}}>
+            <div key={index} className="address-display--element " style={{marginBottom:"1rem" ,  borderColor: address.default ? "green" : "#c7c7c7"}}>            
             <p className="ulica">{(address.street && address.houseNumber) ? `${address.street} ${address.houseNumber}` : "Ulica"}</p>
             <p className="k-pocztowy">{address.postalCode}</p>
             <p className="miasto">{address.city || "Lublin"}</p>

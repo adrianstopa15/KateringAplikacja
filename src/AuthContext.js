@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState} from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import { BorderAll, Style } from "@mui/icons-material";
 
 
 const AuthContext = createContext();
@@ -179,7 +180,7 @@ export const AuthProvider = ({ children }) => {
     console.error("Błąd przy usuwaniu adresu:", error);
   }}
 
-  
+
   const handleSetDefaultAddress = async (addressId) => {
     const getCookieValue = (name) =>
       document.cookie
