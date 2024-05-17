@@ -24,6 +24,7 @@ export const AuthProvider = ({ children }) => {
   const [city, setCity] = useState("");
   const [currentEdit, setCurrentEdit] = useState();
   const [editAddressIndex, setEditAddressIndex] = useState(null);
+  const [addresses, setAddresses] = useState([]);
   const [houseNumber, setHouseNumber] = useState();
   const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState('');
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }) => {
   const [comments, setComments] = useState('');
   const [description, setDescription] = useState('');
   const [nip, setNip] = useState("");
+  
   const [isOpen, setIsOpen] = useState(false);
   const [modalMode, setModalMode] = useState(null);
   
