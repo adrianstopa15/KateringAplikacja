@@ -14,8 +14,8 @@ const UserData = () => {
   const [activeComponent, setActiveComponent] = useState("UserData");
   const [modalMode, setModalMode] = useState(null);
   const [addresses, setAddresses] = useState([]);
-  
-  const { 
+ 
+  const {
     housingType, setHousingType,
       firstName, setFirstName,
       lastName, setLastName,
@@ -27,7 +27,7 @@ const UserData = () => {
       city, setCity, addressId,
       currentEdit, setCurrentEdit, handleEdit, onEdit,
       editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber} = useAuth();
-
+ 
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
@@ -39,9 +39,9 @@ const UserData = () => {
         };
         const authToken = getCookieValue("authToken");
         const decodedToken = jwtDecode(authToken);
-
+ 
         const login = decodedToken.sub;
-
+ 
         const response = await axios.get(
           `http://localhost:8080/showCustomerAddresses?login=${login}`,
           {
@@ -50,38 +50,38 @@ const UserData = () => {
             },
           }
         );
-
+ 
         setAddresses(response.data);
       } catch (error) {
         console.error("Error fetching addresses:", error);
       }
     };
-
+ 
     fetchAddresses();
   }, []);
-
+ 
   const handleOpenModal = (mode) => {
     setModalMode(mode);
     setIsOpen(true);
   };
-
+ 
   const handleCloseModal = () => {
     setIsOpen(false);
     setModalMode(null);
     setEditAddressIndex(null);
   };
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
   };
-
+ 
   const ulica =
     addresses.map((address) => `${address.street}`).join(", ") || "Narutowicza 14";
   const kodPocztowy =
     addresses.map((address) => address.postalCode).join(", ") || "20-248";
   const Miasto =
     addresses.map((address) => address.city).join(", ") || "Lublin";
-
+ 
     useEffect(() => {
       if (addresses.length > 0 && editAddressIndex != null) {
         const address = addresses[editAddressIndex];
@@ -89,10 +89,10 @@ const UserData = () => {
         setApartmentNumber(address.apartmentNumber);
         setPostalCode(address.postalCode);
         setCity(address.city);
-        setHouseNumber(address.houseNumber); 
+        setHouseNumber(address.houseNumber);
       }
     }, [addresses, editAddressIndex]);
-    
+   
   return (
     <div>
       <div className="user-da   ta-display ml-s mt-s">
@@ -204,5 +204,5 @@ const UserData = () => {
   </div>
   );
 };
-
+ 
 export default UserData;

@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
   const [comments, setComments] = useState('');
   const [description, setDescription] = useState('');
   const [nip, setNip] = useState("");
-
+  const [popupType, setPopupType] = useState("none");
   const [isOpen, setIsOpen] = useState(false);
   const [modalMode, setModalMode] = useState(null);
   
@@ -51,6 +51,8 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(true);
     fetchUserData();
   };
+
+  const togglePopup = (type) => setPopupType(type === popupType ? "none" : type);
 
   const fetchUserData = async () => {
     try {
@@ -203,6 +205,8 @@ export const AuthProvider = ({ children }) => {
       );
       fetchUserData();
       window.location.reload();
+      const addressElements = document.querySelectorAll('.address-display--element');
+      addressElements.style.borderColor = 'green';
     } catch (error) {
       console.error("Błąd przy ustawianiu domyślnego adresu:", error);
     }
@@ -242,7 +246,7 @@ export const AuthProvider = ({ children }) => {
       editAddressIndex, setEditAddressIndex,
       handleDelete, houseNumber, setHouseNumber,
       companyName, setCompanyName,email, setEmail,
-      dietType, setDietType, description, setDescription, nip, setNip
+      dietType, setDietType, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType
     }}
     >
       {children}

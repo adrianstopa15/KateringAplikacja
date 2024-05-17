@@ -47,6 +47,8 @@ export default function CateringForm(){
           
             
               console.log('dodano pomyślnie:', response.data);
+              alert("Dane zostały pomyślnie wysłane! Odpowiedż zostanie wysłana na wiadomość email w ciągu 124 dni roboczych.")
+              window.location.reload();
             } catch (error) {
           
               console.error('Failed to add firm:', error.response?.data || error.message);
@@ -75,7 +77,8 @@ return(
   </div>
   <div style={{ display: 'flex', alignItems: 'center' }}>
     <label style={{ width: '150px' }}>Numer Telefonu:</label>
-    <input type="tel" name="phone" id="phone" value={phone}  required onChange={(e) => setPhone(e.target.value)} />
+    <input type="tel" name="phone" id="phone" value={phone} pattern="\d{9}"        
+                  maxLength="9"   required onChange={(e) => setPhone(e.target.value)} />
   </div>
   <div style={{ display: 'flex', alignItems: 'center' }}>
     <label style={{ width: '150px' }}>Miasto:</label>
@@ -91,15 +94,15 @@ return(
   </div>
   <div style={{ display: 'flex', alignItems: 'center' }}>
     <label style={{ width: '150px' }}>Kod pocztowy:</label>
-    <input type="text" name="postalCode" id="postalCode" value={postalCode} pattern="\d{2}-\d{3}" placeholder="00-000" required onChange={(e) => setPostalCode(e.target.value)} />
+    <input type="text" name="postalCode" id="postalCode" value={postalCode} pattern="\d{2}-\d{3}" maxLength="6" placeholder="00-000" required onChange={(e) => setPostalCode(e.target.value)} />
   </div>
   <div style={{ display: 'flex', alignItems: 'center' }}>
     <label style={{ width: '150px' }}>Rodzaj Oferowanych Diet:</label>
-    <textarea name="dietType" id="dietType" required value={dietType} style={{ flex: '1' }} onChange={(e) => setDietType(e.target.value)} />
+    <textarea name="dietType" id="dietType" required value={dietType} maxLength="650" style={{ flex: '1' }} onChange={(e) => setDietType(e.target.value)} />
   </div>
   <div style={{ display: 'flex', alignItems: 'center' }}>
-    <label style={{ width: '150px' }}>Uwagi:</label>
-    <textarea name="description" id="description" style={{ flex: '1' }} onChange={(e) => setDescription(e.target.value)} />
+    <label style={{ width: '150px' }}>Dodatkowy opis:</label>
+    <textarea name="description" id="description" maxLength="650" style={{ flex: '1' }} onChange={(e) => setDescription(e.target.value)} />
   </div>
   <button type="submit" className="modal-button">Wyślij</button>
 </form>
