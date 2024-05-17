@@ -172,6 +172,7 @@ export const AuthProvider = ({ children }) => {
     console.error("Błąd przy usuwaniu adresu:", error);
   }}
 
+  
   const handleSetDefaultAddress = async (addressId) => {
     const getCookieValue = (name) =>
       document.cookie
