@@ -25,11 +25,13 @@ export const AuthProvider = ({ children }) => {
   const [currentEdit, setCurrentEdit] = useState();
   const [editAddressIndex, setEditAddressIndex] = useState(null);
   const [houseNumber, setHouseNumber] = useState();
-  const [addresses, setAddresses] = useState([]);
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [modalMode, setModalMode] = useState(null);
-
+  const [companyName, setCompanyName] = useState("");
+  const [email, setEmail] = useState('');
+  const [dietType, setDietType] = useState('');
+  const [comments, setComments] = useState('');
+  const [description, setDescription] = useState('');
+  const [nip, setNip] = useState("");
+  
   const [newAddress, setNewAddress] = useState({
     street: '',
     apartmentNumber: '',
@@ -63,60 +65,9 @@ export const AuthProvider = ({ children }) => {
     setCurrentEdit(x);
    };
 
-   const handleCloseModal = () => {
-    setIsOpen(false);
-    setModalMode(null);
-    setEditAddressIndex(null);
-  };
 
-   const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const addressData = {
-      city,
-      street,
-      houseNumber,
-      postalCode,
-      apartmentNumber,
-      floor,
-      housingType,
-    };
-
-    try {
-      const getCookieValue = (name) => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-        return null; 
-      };
-      const authToken = getCookieValue("authToken");
-      const decodedToken = jwtDecode(authToken);
-      const login = decodedToken.sub;
-      
-      if (!authToken) {
-        console.error("JWT token is missing");
-        return;
-      }
-
-      const response = await axios.post(
-        `http://localhost:8080/addAddress?login=${login}`,
-        addressData,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`
-          },
-        }
-      );
-      setAddresses(prevAddresses => [...prevAddresses, response.data]);
-      handleCloseModal();
-      window.location.reload();
-    } catch (error) {
-      console.error('Error adding address:', error.response?.data || error.message);
-    }
-  };
-
-  const handleEdit = async () => {
-
+  const handleEdit = async (e) => {
+  
     const formData = {
       street,
       apartmentNumber,
@@ -124,8 +75,9 @@ export const AuthProvider = ({ children }) => {
       postalCode,
       city,
       housingType,
-      houseNumber
+      houseNumber,
     };
+
 
 
     const getCookieValue = (name) =>
@@ -232,6 +184,8 @@ export const AuthProvider = ({ children }) => {
       modalMode, setModalMode,
       editAddressIndex, setEditAddressIndex,
       handleDelete, houseNumber, setHouseNumber,
+      companyName, setCompanyName,email, setEmail,
+      dietType, setDietType, description, setDescription, nip, setNip
     }}
     >
       {children}
