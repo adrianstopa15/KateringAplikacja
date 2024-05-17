@@ -15,7 +15,7 @@ export default function ProfilePage() {
   const [bmi, setBMI] = useState(null);
   const [weightIndicator, setWeightIndicator] = useState("");
   const [age, setAge] = useState("");
-  const [activityLevel, setActivityLevel] = useState("");
+  const [activityLevel, setActivityLevel] = useState(0);
   const [gender, setGender] = useState("woman");
   const [totalCalories, setTotalCalories] = useState(0);
   const [selectedGoal, setselectedGoal] = useState("");
@@ -87,6 +87,7 @@ export default function ProfilePage() {
           selectedGoal,
           age,
           gender,
+          activityLevel
         };
 
         const response = await axios.post(
@@ -347,7 +348,7 @@ export default function ProfilePage() {
                   value={activityLevel}
                   name="activity"
                   id="activity"
-                  onChange={(e) => setActivityLevel(e.target.value)}
+                  onChange={(e) => setActivityLevel(parseFloat(e.target.value))}
                   required
                 >
                   <option value="">Wybierz...</option>

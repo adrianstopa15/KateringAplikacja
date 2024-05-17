@@ -28,7 +28,7 @@ export default function MainPage() {
   const contactRef = useRef(null);
   const cooperationButtonRef = useRef(null);
   const callToActionRef = useRef(null);
-  const [popupType, setPopupType] = useState("none");
+  // const [popupType, setPopupType] = useState("none");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [modalData, setModalData] = useState({ isOpen: false, title: "", content: "", iframeSrc: "" });
   const { 
@@ -43,7 +43,7 @@ export default function MainPage() {
       city, setCity,
     currentEdit, setCurrentEdit, handleEdit, onEdit,
     editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber, email, setEmail,
-   dietType, setDietType,companyName, setCompanyName, description, setDescription, nip, setNip } = useAuth();
+   dietType, setDietType,companyName, setCompanyName, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType } = useAuth();
 
   useEffect(() => {
     const getCookieValue = (name) =>
@@ -99,7 +99,7 @@ export default function MainPage() {
     togglePopup("none");
   };
 
-  const togglePopup = (type) => setPopupType(type === popupType ? "none" : type);
+  // const togglePopup = (type) => setPopupType(type === popupType ? "none" : type);
 
   const scrollToRef = (ref) => {
     if (ref.current) {

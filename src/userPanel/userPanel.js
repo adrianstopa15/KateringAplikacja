@@ -13,6 +13,7 @@ import "../userPanelStyle.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import Header from "../Header";
 export default function UserPanel() {
   const [activeComponent, setActiveComponent] = useState("UserData");
 
@@ -36,6 +37,7 @@ export default function UserPanel() {
   return (
     <div className="panel-main--container">
       <div className="panel-header"></div>
+      {/* <Header/> */}
       <div className="panel-container">
         <div className="left-bar">
           <a
