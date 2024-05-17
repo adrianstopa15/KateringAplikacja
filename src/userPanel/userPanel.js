@@ -13,8 +13,14 @@ import "../userPanelStyle.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
+import dietuzjemLogo from "../photos/logo.png";
+
+
 export default function UserPanel() {
   const [activeComponent, setActiveComponent] = useState("UserData");
+  const navigate = useNavigate();
+
 
   const renderComponent = () => {
     switch (activeComponent) {
@@ -34,8 +40,14 @@ export default function UserPanel() {
   };
 
   return (
+    <div className="top-bar">
+      <div className="top-bar-container">
+        <div className="left-section" onClick={() => navigate('/')}>
+          <img src={dietuzjemLogo} alt="DieTuzjem Logo" className="logo-image" style={{cursor: 'pointer'}} />
+          <p className="logo" style={{cursor: 'pointer'}}>DieTuzjem</p>
+        </div>
+      </div>
     <div className="panel-main--container">
-      <div className="panel-header"></div>
       <div className="panel-container">
         <div className="left-bar">
           <a
@@ -98,5 +110,6 @@ export default function UserPanel() {
         <div className="main-content">{renderComponent()}</div>
       </div>
     </div>
+  </div>
   );
 }

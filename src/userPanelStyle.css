@@ -17,6 +17,7 @@
 .panel-container {
   display: flex;
   flex-direction: row;
+  height: auto;
   /* background-color: rgba(255, 255, 255, 0.123);
   backdrop-filter: blur(50px);
   border-radius: 50px;
@@ -29,12 +30,9 @@
   flex-direction: column;
   margin-left: 1rem;
 
-  background-color: white;
+  background-color: rgb(226, 224, 224)  ;
   min-height: 80vh;
   min-width: 17.5%;
-}
-.panel-header {
-  padding-bottom: 15vh;
 }
 
 .left-bar--content {
@@ -78,12 +76,7 @@
   color: rgb(76, 76, 245);
   background-color: rgba(37, 50, 238, 0.07);
 }
-.address-info {
-  /* width: 60%;
-  padding: 1rem 1rem; */
-  /* border: #c7c7c7 solid; */
-  /* border-radius: 10px; */
-}
+
 .flex-c {
   display: flex;
   justify-content: center;

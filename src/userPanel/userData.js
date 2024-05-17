@@ -6,6 +6,7 @@ import Modal from "react-modal";
 import { jwtDecode } from "jwt-decode";
 import PanelModal from "./panelModal";
 import PanelModalAdd from "./panelModalAdd";
+import dietuzjemLogo from "../photos/logo.png"
 
 const UserData = () => {
   const { userData, fetchUserData, handleSetDefaultAddress } = useAuth();
@@ -132,21 +133,21 @@ const UserData = () => {
         </select>
       </div>
       <div className="form-group">
-        <label>Nazwa ulicy</label>
+        <label>Nazwa ulicy:</label>
         <input
           type="text"
           name="street"
           defaultValue={addresses[editAddressIndex].street}
-          onChange={(e) => setStreet(e.target.value)}
+          onChange={(e) => setStreet(e.target.value)} required 
         />
       </div>
       <div className="form-group">
-        <label>Numer:</label>
+        <label>Numer ulicy/domu:</label>
         <input
           type="text"
           name="houseNumber"
           defaultValue={addresses[editAddressIndex].houseNumber}
-          onChange={(e) => setHouseNumber(e.target.value)}
+          onChange={(e) => setHouseNumber(e.target.value)} required 
         />
       </div>
       <div className="form-group">
@@ -154,8 +155,9 @@ const UserData = () => {
         <input
           type="text"
           name="postalCode"
+          pattern="\d{2}-\d{3}" maxLength="6" placeholder="00-000"
           defaultValue={addresses[editAddressIndex].postalCode}
-          onChange={(e) => setPostalCode(e.target.value)}
+          onChange={(e) => setPostalCode(e.target.value)} required 
         />
       </div>
       <div className="form-group">
@@ -164,7 +166,7 @@ const UserData = () => {
           type="text"
           name="city"
           defaultValue={addresses[editAddressIndex].city}
-          onChange={(e) => setCity(e.target.value)}
+          onChange={(e) => setCity(e.target.value)} required 
         />
       </div>
       {housingType === "mieszkanie" && (
@@ -187,7 +189,7 @@ const UserData = () => {
               name="floor"
               value={floor}
               id="floor"
-              onChange={(e) => setFloor(e.target.value)}
+              onChange={(e) => setFloor(e.target.value)} required 
             />
           </div>
         </>

@@ -61,26 +61,29 @@ export default function PanelModalAdd({ open, children, onClose }) {
         <form onSubmit={handleSubmitAdd} className="form1">
           <div className="form-group">
             <label>Mieszkam w:</label>
-            <select value={housingType} onChange={(e) => setHousingType(e.target.value)} name="housingType">
+            <select value={housingType} onChange={(e) => setHousingType(e.target.value)} name="housingType" >
               <option value="dom">Domu</option>
               <option value="mieszkanie">Mieszkaniu</option>
             </select>
           </div>
           <div className="form-group">
-            <label>Nazwa ulicy</label>
-            <input type="text" name="street" onChange={(e) => setStreet(e.target.value)} />
+            <label>Nazwa ulicy:</label>
+            <input type="text" name="street" onChange={(e) => setStreet(e.target.value)} required />
           </div>
           <div className="form-group">
-            <label>Numer:</label>
-            <input type="text" name="houseNumber" onChange={(e) => setHouseNumber(e.target.value)} />
+            <label>Numer ulicy/domu:</label>
+            <input type="text" name="houseNumber" onChange={(e) => setHouseNumber(e.target.value)} required />
           </div>
           <div className="form-group">
             <label>Kod pocztowy:</label>
-            <input type="text" name="postalCode" onChange={(e) => setPostalCode(e.target.value)} />
+            
+            <input type="text" name="postalCode" onChange={(e) => setPostalCode(e.target.value)} required 
+             pattern="\d{2}-\d{3}" maxLength="6" placeholder="00-000"
+            />
           </div>
           <div className="form-group">
             <label>Miasto:</label>
-            <input type="text" name="city" onChange={(e) => setCity(e.target.value)} />
+            <input type="text" name="city" onChange={(e) => setCity(e.target.value)} required />
           </div>
           {housingType === "mieszkanie" && (
             <>
@@ -90,7 +93,7 @@ export default function PanelModalAdd({ open, children, onClose }) {
               </div>
               <div className="form-group">
                 <label>Piętro:</label>
-                <input type="text" name="floor" onChange={(e) => setFloor(e.target.value)} />
+                <input type="text" name="floor" onChange={(e) => setFloor(e.target.value)} required />
               </div>
             </>
           )}
