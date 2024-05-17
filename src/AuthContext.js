@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   const [comments, setComments] = useState('');
   const [description, setDescription] = useState('');
   const [nip, setNip] = useState("");
-  
+
   const [isOpen, setIsOpen] = useState(false);
   const [modalMode, setModalMode] = useState(null);
   
@@ -201,6 +201,7 @@ export const AuthProvider = ({ children }) => {
         }
       );
       fetchUserData();
+      window.location.reload();
     } catch (error) {
       console.error("Błąd przy ustawianiu domyślnego adresu:", error);
     }

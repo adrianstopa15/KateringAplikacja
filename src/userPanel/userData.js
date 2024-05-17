@@ -109,7 +109,6 @@ const UserData = () => {
              onClick={() => handleDelete(address.addressId)}
             >Usuń adres
             </button>
-            {console.log(`Address ID: ${address.addressId}, Is Default: ${address.default}, Adres:${address.city}`)}
               {address.default === false && (
                 <button className="button-27-c" onClick={() => handleSetDefaultAddress(address.addressId)}>
                   Ustaw jako domyślny
