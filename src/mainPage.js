@@ -15,7 +15,9 @@ import Modal from "./modalbutton/Modal";
 import parowkizubr from "./photos/parowkizubr.png";
 import zdjpromki from "./photos/zdjpromki.png"
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from "./AuthContext";
+import axios from "axios";
+import CateringForm from "./cateringForm";
 export default function MainPage() {
   const navigate = useNavigate();
   const homeRef = useRef(null);
@@ -28,7 +30,19 @@ export default function MainPage() {
   const [popupType, setPopupType] = useState("none");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [modalData, setModalData] = useState({ isOpen: false, title: "", content: "", iframeSrc: "" });
- 
+  const { 
+    housingType, setHousingType,
+      firstName, setFirstName,
+      lastName, setLastName,
+      phone, setPhone,
+      street, setStreet,
+      apartmentNumber, setApartmentNumber,
+      floor, setFloor,
+      postalCode, setPostalCode,
+      city, setCity,
+    currentEdit, setCurrentEdit, handleEdit, onEdit,
+    editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber, email, setEmail,
+   dietType, setDietType,companyName, setCompanyName, description, setDescription, nip, setNip } = useAuth();
 
   useEffect(() => {
     const getCookieValue = (name) =>
@@ -214,7 +228,7 @@ export default function MainPage() {
         title,
         content: (
           <div>
-            <h3>Warunki Współpracy</h3>
+           
             <p>Jeśli jesteś firmą kateringową i chcesz dołączyć do naszej platformy, musisz spełnić następujące wymagania:</p>
             <ul>
               <li>Posiadać aktualne certyfikaty sanitarne.</li>
@@ -224,29 +238,10 @@ export default function MainPage() {
               <li>Ważne jest aby katering zapewnił dokładne podanie makrosładników i kaloryczności.</li>
             </ul>
             <h3>Formularz Zgłoszeniowy</h3>
-            <form onSubmit={handleFormSubmit} style={{ display: 'grid', gap: '10px' }}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <label style={{ width: '150px' }}>Nazwa Firmy:</label>
-                <input type="text" name="companyName" required />
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <label style={{ width: '150px' }}>Adres Email:</label>
-                <input type="email" name="email" required />
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <label style={{ width: '150px' }}>Numer Telefonu:</label>
-                <input type="tel" name="phone" required />
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <label style={{ width: '150px' }}>Rodzaj Oferowanych Diet:</label>
-                <textarea name="dietTypes" required style={{ flex: '1' }} />
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <label style={{ width: '150px' }}>Uwagi:</label>
-                <textarea name="comments" style={{ flex: '1' }} />
-              </div>
-              <button type="submit" className="modal-button">Wyślij</button>
-            </form>
+            {/* Tutaj zamiast wyświetlać ten formularz od razu, zrobic przycisk typu "wyslij podanie" i dopiero wtedy wyswietli sieb
+            formularz wraz z przyciskiem wyślij: */}
+           <CateringForm />
+
           </div>
         ),
         iframeSrc: "",
@@ -256,32 +251,43 @@ export default function MainPage() {
     }
   };
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const formData = new FormData(form);
-  
-    const data = {
-      companyName: formData.get('companyName'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-      dietTypes: formData.get('dietTypes'),
-      comments: formData.get('comments')
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const formData = {
+      street,
+      apartmentNumber,
+      floor,
+      postalCode,
+      city,
+      houseNumber,
+      companyName,
+      email,
+      dietType,
+      description,
+      phone,
+      
     };
+
+    try {
+      console.log(formData);
+      console.log("ee");
+      
+      const response = await axios.post(
+        `http://localhost:8080/addFirm`,
+        formData
+        
+      );
   
     
-    if (!data.companyName || !data.email || !data.phone || !data.dietTypes) {
-      alert("Proszę wypełnić wszystkie wymagane pola.");
-      return;
+      console.log('dodano pomyślnie:', response.data);
+    } catch (error) {
+  
+      console.error('Failed to add firm:', error.response?.data || error.message);
     }
-  
-    // dodac wysylanie danych
-    console.log("Dane formularza:", data);
-    alert("Formularz został wysłany!");
-  
-    
-    setModalData({ isOpen: false, title: "", content: "", iframeSrc: "" });
   };
+
+
+
 
   const handleCloseModal = () => {
     setModalData({ isOpen: false, title: "", content: "", iframeSrc: "" });
@@ -476,9 +482,9 @@ export default function MainPage() {
             ref={cooperationButtonRef}
             className="button-regular"
             style={{ marginTop: "4.5rem", opacity: "0" }}
-            onClick={() => handleOpenModal("Zasady Współpracy", "", "", false, false, true)}
+            onClick={() => handleOpenModal("Warunki Współpracy", "", "", false, false, true)}
             >
-            Zasady Współpracy
+            Warunki Współpracy
           </button>
         </div>
       </div>

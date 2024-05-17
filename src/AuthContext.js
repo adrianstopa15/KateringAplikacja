@@ -23,6 +23,13 @@ export const AuthProvider = ({ children }) => {
   const [currentEdit, setCurrentEdit] = useState();
   const [editAddressIndex, setEditAddressIndex] = useState(null);
   const [houseNumber, setHouseNumber] = useState();
+  const [companyName, setCompanyName] = useState("");
+  const [email, setEmail] = useState('');
+  const [dietType, setDietType] = useState('');
+  const [comments, setComments] = useState('');
+  const [description, setDescription] = useState('');
+  const [nip, setNip] = useState("");
+  
   const [newAddress, setNewAddress] = useState({
     street: '',
     apartmentNumber: '',
@@ -56,8 +63,8 @@ export const AuthProvider = ({ children }) => {
    };
 
 
-  const handleEdit = async () => {
-
+  const handleEdit = async (e) => {
+  
     const formData = {
       street,
       apartmentNumber,
@@ -65,8 +72,9 @@ export const AuthProvider = ({ children }) => {
       postalCode,
       city,
       housingType,
-      houseNumber
+      houseNumber,
     };
+
 
 
     const getCookieValue = (name) =>
@@ -145,6 +153,8 @@ export const AuthProvider = ({ children }) => {
       handleEdit, onEdit,
       editAddressIndex, setEditAddressIndex,
       handleDelete, houseNumber, setHouseNumber,
+      companyName, setCompanyName,email, setEmail,
+      dietType, setDietType, description, setDescription, nip, setNip
     }}
     >
       {children}

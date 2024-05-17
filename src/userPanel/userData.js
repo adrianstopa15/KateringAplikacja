@@ -21,7 +21,7 @@ const UserData = () => {
       postalCode, setPostalCode,
       city, setCity,
     currentEdit, setCurrentEdit, handleEdit, onEdit,
-    editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber} = useAuth();
+    editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber,} = useAuth();
     const [modalMode, setModalMode] = useState(null);
   // const [housingType, setHousingType] = useState("dom");
   // const [apartmentNumber, setApartmentNumber] = useState("");
@@ -43,7 +43,6 @@ const UserData = () => {
         const authToken = getCookieValue("authToken");
         const decodedToken = jwtDecode(authToken);
         console.log(authToken);
-
         const login = decodedToken.sub;
 
         const response = await axios.get(

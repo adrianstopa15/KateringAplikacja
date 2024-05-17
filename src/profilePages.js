@@ -34,7 +34,6 @@ export default function ProfilePage() {
   const handleStartClick = () => {
     setStep(2);
   };
-
   const handleSubmit = async (e) => {
 
     if(step<7){

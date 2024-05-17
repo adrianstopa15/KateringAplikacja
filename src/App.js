@@ -5,6 +5,7 @@ import "./mainPageStyle.css";
 import "./profilePages.css";
 import UserPanel from './userPanel/userPanel'; 
 import ProfilePage from "./profilePages";
+import CateringForm from "./cateringForm";
 
 
 function App() {
