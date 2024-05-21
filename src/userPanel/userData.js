@@ -50,7 +50,7 @@ const UserData = () => {
             },
           }
         );
- 
+        const sortedAddresses = response.data.sort((a,b) => b.default - a.default);
         setAddresses(response.data);
       } catch (error) {
         console.error("Error fetching addresses:", error);
@@ -98,7 +98,9 @@ const UserData = () => {
       <div className="user-da   ta-display ml-s mt-s">
         <h1 className="h1-regular mb-m">Adresy</h1>
         <div className="address-info">
-          {addresses.map((address, index) => (
+          {addresses.slice()
+          .sort((a,b) => b.default - a.default)
+          .map((address, index) => (
             <div key={index} className="address-display--element " style={{marginBottom:"1rem" ,  borderColor: address.default ? "green" : "#c7c7c7"}}>            
             <p className="ulica">{(address.street && address.houseNumber) ? `${address.street} ${address.houseNumber}` : "Ulica"}</p>
             <p className="k-pocztowy">{address.postalCode}</p>
