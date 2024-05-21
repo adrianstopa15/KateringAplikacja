@@ -21,7 +21,8 @@ export default function UserPanel() {
   const [activeComponent, setActiveComponent] = useState("UserData");
   const navigate = useNavigate();
 
-
+// Tutaj dodać pozniej jak beda role z backendu zaleznie od roli jakie komponenty maja sie wyswietlac dla usera albo admina albo kateringu
+// szkielety komponentow juz sa gotowe w folderach 
   const renderComponent = () => {
     switch (activeComponent) {
       case "UserData":

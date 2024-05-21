@@ -108,8 +108,9 @@ const UserData = () => {
             <button className="button-27-e " onClick={() => {setIsOpen(true); handleOpenModal('edit'); setEditAddressIndex(index); onEdit(address.addressId)}}>
               Zaktualizuj adres
             </button>
-            <button className="button-27-d ml-s"
+            <button className={`button-27-d ml-s ${address.default ? "button-disabled" : ""}`}
              onClick={() => handleDelete(address.addressId)}
+             disabled={address.default}
             >Usuń adres
             </button>
               {address.default === false && (

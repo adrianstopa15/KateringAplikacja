@@ -69,7 +69,7 @@ return(
   </div>
   <div style={{ display: 'flex', alignItems: 'center' }}>
     <label style={{ width: '150px' }}>Nip:</label>
-    <input type="text" name="nip" id="nip" value={nip} required onChange={(e) => setNip(e.target.value)} />
+    <input type="text" name="nip" id="nip"  value={nip} required pattern="\d{10}" onChange={(e) => setNip(e.target.value)} />
   </div>
   <div style={{ display: 'flex', alignItems: 'center' }}>
     <label style={{ width: '150px' }}>Adres Email:</label>

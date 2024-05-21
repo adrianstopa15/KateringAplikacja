@@ -89,3 +89,9 @@
   padding: 1rem 1rem;
  
 }
+.button-disabled{
+  background-color: #c7c7c7;
+  color: #666;
+  cursor: not-allowed;
+  /* pointer-events: none; */
+}
