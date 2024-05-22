@@ -17,6 +17,9 @@ import pl.katering.katering.classes.User;
 import pl.katering.katering.repositories.CustomerRepository;
 import pl.katering.katering.repositories.UserRepository;
 
+import java.security.SecureRandom;
+import java.util.Random;
+
 @Service
 public class AuthenticationService {
 
@@ -87,5 +90,42 @@ public class AuthenticationService {
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Logowanie nie powiodło się");
         }
+    }
+
+    private String generateRandomPassword(int length) {
+        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*()_-+=<>?";
+        Random random = new SecureRandom();
+        StringBuilder password = new StringBuilder();
+
+        for (int i = 0; i < length; i++) {
+            password.append(chars.charAt(random.nextInt(chars.length())));
+        }
+
+        return password.toString();
+    }
+
+    public ResponseEntity<?> registerWithRandomPassword(User request) {
+        boolean isLoginExists = userService.isLoginExists(request.getLogin());
+        boolean isEmailExists = userService.isEmailExists(request.getEmail());
+        if (isLoginExists && isEmailExists) {
+            return ResponseEntity.badRequest().body("Konto o podanym loginie i emailu już istnieje");
+        } else if (isLoginExists) {
+            return ResponseEntity.badRequest().body("Konto o podanym loginie już istnieje");
+        } else if (isEmailExists) {
+            return ResponseEntity.badRequest().body("Konto o podanym emailu już istnieje");
+        }
+
+        String randomPassword = generateRandomPassword(10);
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setLogin(request.getLogin());
+        user.setPassword(passwordEncoder.encode(randomPassword));
+        user.setRole(Role.valueOf("COMPANY"));
+
+        user = userRepository.save(user);
+
+        String token = jwtService.generateToken(user);
+
+        return ResponseEntity.ok("Losowe hasło: " + randomPassword);
     }
 }

@@ -17,7 +17,7 @@ public class MealTypeController {
         this.mealTypeService = mealTypeService;
     }
 
-    @GetMapping("/showMealType")
+    @GetMapping("/showMealTypes")
     public List<MealType> mealTypesList() {
         return mealTypeService.showMealTypes();
     }

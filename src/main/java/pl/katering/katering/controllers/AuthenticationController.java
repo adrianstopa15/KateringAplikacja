@@ -27,6 +27,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(authService.register(request));
     }
 
+    @PostMapping("/registerCompany")
+    public ResponseEntity<?> registerCompany(@RequestBody User request) {
+        return ResponseEntity.ok(authService.registerWithRandomPassword(request));
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User request, HttpServletResponse response) {
 //        AuthenticationResponse authResponse = authService.authenticate(request, response);

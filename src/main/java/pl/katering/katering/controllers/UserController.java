@@ -60,4 +60,9 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/getRole")
+    public ResponseEntity<?> getRole(@RequestParam String login) {
+        return userService.getRole(login);
+    }
 }

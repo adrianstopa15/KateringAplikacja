@@ -1,7 +1,9 @@
 package pl.katering.katering.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import pl.katering.katering.classes.Role;
 import pl.katering.katering.classes.User;
 import pl.katering.katering.repositories.UserRepository;
 
@@ -26,10 +28,6 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-//    public User addUser(User user) {
-//        return userRepository.save(user);
-//    }
-
     public List<User> showUsers() {
         return userRepository.findAll();
     }
@@ -53,6 +51,13 @@ public class UserService {
         } else {
             throw new IllegalStateException("Użytkownik nie znaleziony");
         }
+    }
+
+    public ResponseEntity<?> getRole(String login) {
+        Optional<User> user = userRepository.findByLogin(login);
+        Role role = user.get().getRole();
+
+        return ResponseEntity.ok(role);
     }
 }
 

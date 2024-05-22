@@ -4,56 +4,64 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.katering.katering.classes.Address;
-import pl.katering.katering.classes.Firm;
+import pl.katering.katering.classes.Company;
 import pl.katering.katering.classes.TemporaryAddress;
+import pl.katering.katering.classes.User;
 import pl.katering.katering.repositories.AddressRepository;
-import pl.katering.katering.repositories.FirmRepository;
+import pl.katering.katering.repositories.CompanyRepository;
 import pl.katering.katering.repositories.TemporaryAddressRepository;
 
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class FirmService {
-    private final FirmRepository firmRepository;
+public class CompanyService {
+    private final CompanyRepository companyRepository;
     private final AddressRepository addressRepository;
     private final TemporaryAddressRepository temporaryAddressRepository;
+    private final UserService userService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
-    public FirmService(FirmRepository firmRepository, AddressRepository addressRepository, TemporaryAddressRepository temporaryAddressRepository) {
-        this.firmRepository = firmRepository;
+    public CompanyService(CompanyRepository companyRepository, AddressRepository addressRepository, TemporaryAddressRepository temporaryAddressRepository, UserService userService, AuthenticationService authenticationService) {
+        this.companyRepository = companyRepository;
         this.addressRepository = addressRepository;
         this.temporaryAddressRepository = temporaryAddressRepository;
+        this.userService = userService;
+        this.authenticationService = authenticationService;
     }
 
-    public List<Firm> showFirms() {
-        return firmRepository.findAll();
+    public List<Company> showCompanies() {
+        return companyRepository.findAll();
     }
 
-    public ResponseEntity<?> addFirm(Map<String, Object> formData) {
-        Firm firm = parseFirm(formData);
+    public ResponseEntity<?> addCompany(Map<String, Object> formData) {
+        Company company = parseCompany(formData);
         TemporaryAddress temporaryAddress = parseAddress(formData);
 
-        Firm newFirm = new Firm();
+        Company newCompany = new Company();
         TemporaryAddress newAddress = new TemporaryAddress();
 
         if (formData.containsKey("companyName")) {
-            newFirm.setCompanyName(firm.getCompanyName());
+            newCompany.setCompanyName(company.getCompanyName());
+        }
+        if (formData.containsKey("login")) {
+            newCompany.setLogin(company.getLogin());
         }
         if (formData.containsKey("description")) {
-            newFirm.setDescription(firm.getDescription());
+            newCompany.setDescription(company.getDescription());
         }
         if (formData.containsKey("dietType")) {
-            newFirm.setDietType(firm.getDietType());
+            newCompany.setDietType(company.getDietType());
         }
         if (formData.containsKey("email")) {
-            newFirm.setEmail(firm.getEmail());
+            newCompany.setEmail(company.getEmail());
         }
         if (formData.containsKey("phone")) {
-            newFirm.setPhone(firm.getPhone());
+            newCompany.setPhone(company.getPhone());
         }
         if (formData.containsKey("nip")) {
-            newFirm.setNip(firm.getNip());
+            newCompany.setNip(company.getNip());
         }
 
         if (formData.containsKey("city")) {
@@ -78,20 +86,26 @@ public class FirmService {
             newAddress.setHousingType(temporaryAddress.getHousingType());
         }
 
-        newAddress.setFirm(newFirm);
-
-        firmRepository.save(newFirm);
+        newAddress.setCompany(newCompany);
+        if (userService.isLoginExists(company.getLogin()) && userService.isEmailExists(company.getEmail())) {
+            return ResponseEntity.ok("Konto o podanym loginie i emailu już istnieje");
+        } else if (userService.isEmailExists(company.getEmail())) {
+            return ResponseEntity.ok("Konto o podanym email już istnieje");
+        } else if (userService.isLoginExists(company.getLogin())) {
+            return ResponseEntity.ok("Konto o podanym loginie już istnieje");
+        }
+        companyRepository.save(newCompany);
         temporaryAddressRepository.save(newAddress);
 
         return ResponseEntity.ok("Wysłano prośbę o akceptację konta firmowego");
     }
 
-    public ResponseEntity<?> acceptFirm(Integer id) {
-        Firm firm = firmRepository.findByFirmId(id);
-        firm.setStatus("Zaakceptowane");
-        firmRepository.save(firm);
+    public ResponseEntity<?> acceptCompany(Integer id) {
+        Company company = companyRepository.findByCompanyId(id);
+        company.setStatus("Zaakceptowane");
+        companyRepository.save(company);
 
-        TemporaryAddress address = temporaryAddressRepository.findByFirmId(id);
+        TemporaryAddress address = temporaryAddressRepository.findByCompanyId(id);
         Address newAddress = new Address();
         newAddress.setCity(address.getCity());
         newAddress.setStreet(address.getStreet());
@@ -100,24 +114,32 @@ public class FirmService {
         newAddress.setApartmentNumber(address.getApartmentNumber());
         newAddress.setFloor(address.getFloor());
         newAddress.setHousingType(address.getHousingType());
-        newAddress.setFirm(firm);
+        newAddress.setCompany(company);
 
         temporaryAddressRepository.delete(address);
 
         addressRepository.save(newAddress);
 
-        return ResponseEntity.ok("Pomyślnie zaakceptowano firmę oraz dodano adres");
-    }
-    private Firm parseFirm(Map<String, Object> formData) {
-        Firm firm = new Firm();
-        firm.setCompanyName((String) formData.get("companyName"));
-        firm.setDescription((String) formData.get("description"));
-        firm.setDietType((String) formData.get("dietType"));
-        firm.setEmail((String) formData.get("email"));
-        firm.setPhone((String) formData.get("phone"));
-        firm.setNip((String) formData.get("nip"));
+        String login = company.getLogin();
+        String email = company.getEmail();
 
-        return firm;
+        User request = new User();
+        request.setLogin(login);
+        request.setEmail(email);
+
+        return ResponseEntity.ok(authenticationService.registerWithRandomPassword(request));
+    }
+    private Company parseCompany(Map<String, Object> formData) {
+        Company company = new Company();
+        company.setCompanyName((String) formData.get("companyName"));
+        company.setLogin((String) formData.get("login"));
+        company.setDescription((String) formData.get("description"));
+        company.setDietType((String) formData.get("dietType"));
+        company.setEmail((String) formData.get("email"));
+        company.setPhone((String) formData.get("phone"));
+        company.setNip((String) formData.get("nip"));
+
+        return company;
     }
     private TemporaryAddress parseAddress(Map<String, Object> formData) {
         TemporaryAddress temporaryAddress = new TemporaryAddress();

@@ -35,6 +35,6 @@ public class TemporaryAddress {
 
     @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "firmId")
-    private Firm firm;
+    @JoinColumn(name = "companyId")
+    private Company company;
 }

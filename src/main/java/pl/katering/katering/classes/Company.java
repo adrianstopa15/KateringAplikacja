@@ -12,14 +12,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "firm")
-public class Firm {
+@Table(name = "company")
+public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer firmId;
+    private Integer companyId;
 
     private String companyName;
+
+    private String login;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -36,6 +38,6 @@ public class Firm {
     private String status = "Oczekujące";
 
     @JsonIgnore
-    @OneToOne(mappedBy = "firm", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
     private Address address;
 }

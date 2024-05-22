@@ -31,7 +31,7 @@ public class Preference {
 
     private String selectedGoal;
 
-    private String activityLevel;
+    private Double activityLevel;
 
     @JsonIgnore
     @OneToOne
