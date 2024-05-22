@@ -15,7 +15,12 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import dietuzjemLogo from "../photos/logo.png";
-
+import AdminAdresses from "./Admin/adminAdresses";
+import AdminConfirmations from "./Admin/adminConfirmations";
+import AdminNotifications from "./Admin/adminNotifications";
+import AdminSettings from "./Admin/adminSettings";
+import CateringNotifications from './Catering/cateringNotifications'
+import CateringRequests from './Catering/cateringRequests'
 
 export default function UserPanel() {
   const [activeComponent, setActiveComponent] = useState("UserData");
@@ -39,6 +44,49 @@ export default function UserPanel() {
         return <UserData />;
     }
   };
+// to poprawic
+  // const renderComponent = () => {
+  //   const userRole = jwtDecode(localStorage.getItem('token')).role;
+  
+  //   if (userRole === 'admin') {
+  //     switch (activeComponent) {
+  //       case "AdminNotifications":
+  //         return <AdminNotifications />;
+  //       case "AdminAdresses":
+  //         return <AdminAdresses />;
+  //       case "AdminConfirmations":
+  //         return <AdminConfirmations />;
+  //       case "AdminSettings":
+  //         return <AdminSettings />;
+  //       default:
+  //         return <AdminNotifications />;
+  //     }
+  //   } else if (userRole === 'catering') {
+  //     switch (activeComponent) {
+  //       case "CateringNotifications":
+  //         return <CateringNotifications />;
+  //       case "CateringRequests":
+  //         return <CateringRequests />;
+  //       default:
+  //         return <CateringNotifications />;
+  //     }
+  //   } else {
+  //     switch (activeComponent) {
+  //       case "UserData":
+  //         return <UserData />;
+  //       case "UserPreferences":
+  //         return <UserPreferences />;
+  //       case "UserStats":
+  //         return <UserStats />;
+  //       case "UserOrders":
+  //         return <UserOrders />;
+  //       case "UserDiscounts":
+  //         return <UserDiscounts />;
+  //       default:
+  //         return <UserData />;
+  //     }
+  //   }
+  // };
 
   return (
     <div className="top-bar">
