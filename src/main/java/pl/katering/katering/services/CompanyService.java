@@ -87,13 +87,15 @@ public class CompanyService {
         }
 
         newAddress.setCompany(newCompany);
+
         if (userService.isLoginExists(company.getLogin()) && userService.isEmailExists(company.getEmail())) {
-            return ResponseEntity.ok("Konto o podanym loginie i emailu już istnieje");
+            return ResponseEntity.badRequest().body("Konto o podanym loginie i emailu już istnieje");
         } else if (userService.isEmailExists(company.getEmail())) {
-            return ResponseEntity.ok("Konto o podanym email już istnieje");
+            return ResponseEntity.badRequest().body("Konto o podanym email już istnieje");
         } else if (userService.isLoginExists(company.getLogin())) {
-            return ResponseEntity.ok("Konto o podanym loginie już istnieje");
+            return ResponseEntity.badRequest().body("Konto o podanym loginie już istnieje");
         }
+
         companyRepository.save(newCompany);
         temporaryAddressRepository.save(newAddress);
 

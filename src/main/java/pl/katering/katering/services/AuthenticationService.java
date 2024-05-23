@@ -29,15 +29,17 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+    private final EmailService emailService;
 
     @Autowired
-    public AuthenticationService(UserRepository userRepository, CustomerRepository customerRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, UserService userService) {
+    public AuthenticationService(UserRepository userRepository, CustomerRepository customerRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, UserService userService, EmailService emailService) {
         this.userRepository = userRepository;
         this.customerRepository = customerRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     public ResponseEntity<?> register(User request) {
@@ -126,6 +128,13 @@ public class AuthenticationService {
 
         String token = jwtService.generateToken(user);
 
-        return ResponseEntity.ok("Losowe hasło: " + randomPassword);
+        emailService.sendSimpleEmail(
+                user.getEmail(),
+                "Rejestracja konta firmowego w serwisie DieTuzjem - Hasło do konta",
+                "Witaj,\n\nTwoje konto zostało utworzone.\n\nTwoje dane logowania to:\n\nLogin: " + user.getLogin() + "\nJednorazowe hasło: " + randomPassword +
+                        "\n\nProsimy o zmianę hasła po zalogowaniu.\n\nPozdrawiamy,\nZespół DieTuzjem"
+        );
+
+        return ResponseEntity.ok(new AuthenticationResponse(token));
     }
 }
