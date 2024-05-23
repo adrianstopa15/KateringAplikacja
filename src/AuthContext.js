@@ -75,11 +75,16 @@ export const AuthProvider = ({ children }) => {
     setCurrentEdit(x);
    };
 
-   const handleCloseModal = () => {
+  //  const handleCloseModal = () => {
+  //   setIsOpen(false);
+  //   setModalMode(null);
+  //   setEditAddressIndex(null);
+  // }
+
+  const handleCloseModal = () => {
     setIsOpen(false);
     setModalMode(null);
-    setEditAddressIndex(null);
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

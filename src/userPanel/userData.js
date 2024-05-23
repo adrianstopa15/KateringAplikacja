@@ -96,7 +96,7 @@ const UserData = () => {
   return (
     <div>
       <div className="user-da   ta-display ml-s mt-s">
-        <h1 className="h1-regular mb-m">Adresy</h1>
+        <h1 className="h1-regular mb-m">Adresy:</h1>
         <div className="address-info">
           {addresses.slice()
           .sort((a,b) => b.default - a.default)
@@ -199,7 +199,7 @@ const UserData = () => {
       )}
     </form>
   )}
-</PanelModal>
+  </PanelModal>
       <button className="button-27-save ml-s" onClick={() => {setIsOpen(true); handleOpenModal('add')}}>Dodaj adres</button>
       <PanelModalAdd open={isOpen && modalMode === 'add'} onClose={handleCloseModal} />
       </div>
