@@ -1,4 +1,4 @@
-export default function cateringRequests() {
+export default function CateringRequests() {
     return (
       <div>
         <div className="ml-s mt-s">

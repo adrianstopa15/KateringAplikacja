@@ -1,4 +1,4 @@
-export default function cateringNotifications() {
+export default function CateringNotifications() {
     return (
       <div>
         <div className="ml-s mt-s">

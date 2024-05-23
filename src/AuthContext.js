@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalMode, setModalMode] = useState(null);
   const [login, setLogin] = useState("");
+  const [companyStatus, setCompanyStatus] = useState("");
   
   const [newAddress, setNewAddress] = useState({
     street: '',
@@ -250,7 +251,7 @@ export const AuthProvider = ({ children }) => {
       editAddressIndex, setEditAddressIndex,
       handleDelete, houseNumber, setHouseNumber,
       companyName, setCompanyName,email, setEmail,
-      dietType, setDietType, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType
+      dietType, setDietType, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType, companyStatus, setCompanyStatus
     }}
     >
       {children}

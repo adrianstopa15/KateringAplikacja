@@ -179,8 +179,32 @@ export default function UserPanel() {
             )}
             {userRole === 'COMPANY' && (
               <>
-                {/* Catering specific menu items */}
-              </>
+              <a
+          className={`left-bar--content mt-sm ${
+            activeComponent === "CateringNotifications"
+              ? "lb-active" && "lb-icons--active"
+              : ""
+          }`}
+          onClick={() => setActiveComponent("CateringNotifications")}
+        >
+          <img src={DaneUzytkownika} className="lb-icons" />
+          Pierwsza zakladka katering
+        </a>
+        <a
+          className={`left-bar--content ${
+            activeComponent === "CateringRequests"
+              ? "lb-active" && "lb-icons--active"
+              : ""
+          }`}
+          onClick={() => setActiveComponent("CateringRequests")}
+        >
+          <img src={DaneUzytkownika} className="lb-icons" />
+          Druga zakladka katering
+        </a>
+
+      
+      
+            </>
             )}
             {userRole === 'USER' && (
               <>
