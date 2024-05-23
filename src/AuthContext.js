@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { BorderAll, Style } from "@mui/icons-material";
+import UserStats from "./userPanel/userStats";
 
 
 const AuthContext = createContext();
@@ -25,6 +26,7 @@ export const AuthProvider = ({ children }) => {
   const [city, setCity] = useState("");
   const [currentEdit, setCurrentEdit] = useState();
   const [editAddressIndex, setEditAddressIndex] = useState(null);
+  const [editCustomerIndex, setCustomerIndex] = useState(null);
   const [addresses, setAddresses] = useState([]);
   const [houseNumber, setHouseNumber] = useState();
   const [companyName, setCompanyName] = useState("");
@@ -36,6 +38,7 @@ export const AuthProvider = ({ children }) => {
   const [popupType, setPopupType] = useState("none");
   const [isOpen, setIsOpen] = useState(false);
   const [modalMode, setModalMode] = useState(null);
+  const [login, setLogin] = useState("");
   
   const [newAddress, setNewAddress] = useState({
     street: '',
@@ -136,8 +139,6 @@ export const AuthProvider = ({ children }) => {
       houseNumber,
     };
 
-
-
     const getCookieValue = (name) =>
     document.cookie
       .split("; ")
@@ -157,8 +158,6 @@ export const AuthProvider = ({ children }) => {
     }
   );
   }
-
-
   const handleDelete = async (id) => {
 
     const confirmDelete = window.confirm("Czy na pewno chcesz usunąć adres?");
@@ -242,7 +241,7 @@ export const AuthProvider = ({ children }) => {
       currentEdit, setCurrentEdit,
       handleEdit, onEdit,
       handleSubmit, handleSetDefaultAddress,
-      modalMode, setModalMode,
+      modalMode, setModalMode, login, setLogin,
       editAddressIndex, setEditAddressIndex,
       handleDelete, houseNumber, setHouseNumber,
       companyName, setCompanyName,email, setEmail,

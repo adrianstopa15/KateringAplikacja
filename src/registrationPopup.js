@@ -158,7 +158,6 @@ const handleSubmit = async (event) => {
             <input type="password" placeholder='Powtórz hasło' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />          </div>
           <br></br>
           <ReCAPTCHA sitekey="6LeQeZopAAAAAAlHABkaNzSJXLcAq9x1DxdflXWJ" onChange={(val) => setCapVal(val)} />
-
           <button type="submit" style={{width:'98%'}} className="register-button">Zarejestruj</button>
         </form>
             <div className="signup-redirect">

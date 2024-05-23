@@ -75,12 +75,12 @@ const UserData = () => {
     e.preventDefault();
   };
  
-  const ulica =
-    addresses.map((address) => `${address.street}`).join(", ") || "Narutowicza 14";
-  const kodPocztowy =
-    addresses.map((address) => address.postalCode).join(", ") || "20-248";
-  const Miasto =
-    addresses.map((address) => address.city).join(", ") || "Lublin";
+  // const ulica =
+  //   addresses.map((address) => `${address.street}`).join(", ") || "Narutowicza 14";
+  // const kodPocztowy =
+  //   addresses.map((address) => address.postalCode).join(", ") || "20-248";
+  // const Miasto =
+  //   addresses.map((address) => address.city).join(", ") || "Lublin";
  
     useEffect(() => {
       if (addresses.length > 0 && editAddressIndex != null) {

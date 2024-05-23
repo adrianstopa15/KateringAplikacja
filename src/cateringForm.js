@@ -8,6 +8,7 @@ export default function CateringForm(){
           lastName, setLastName,
           phone, setPhone,
           street, setStreet,
+          login, setLogin,
           apartmentNumber, setApartmentNumber,
           floor, setFloor,
           postalCode, setPostalCode,
@@ -16,7 +17,7 @@ export default function CateringForm(){
         editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber, email, setEmail,
        dietType, setDietType,companyName, setCompanyName, description, setDescription, nip, setNip } = useAuth();
 
-        const handleFormSubmit = async (e) => {
+    const handleFormSubmit = async (e) => {
             e.preventDefault();
             const formData = {
               street,
@@ -31,8 +32,7 @@ export default function CateringForm(){
               description,
               phone,
               nip,
-
-              
+              login
             };
         
             try {
@@ -40,7 +40,7 @@ export default function CateringForm(){
               console.log("ee");
               
               const response = await axios.post(
-                `http://localhost:8080/addFirm`,
+                `http://localhost:8080/addCompany`,
                 formData
                 
               );
@@ -51,18 +51,18 @@ export default function CateringForm(){
               window.location.reload();
             } catch (error) {
           
-              console.error('Failed to add firm:', error.response?.data || error.message);
+              console.error('Failed to add company:', error.response?.data || error.message);
             }
           };
 
 return(
     <>
 
- 
-
-
-
 <form onSubmit={handleFormSubmit} style={{ display: 'grid', gap: '10px' }}>
+<div style={{ display: 'flex', alignItems: 'center' }}>
+    <label style={{ width: '150px' }}>Login:</label>
+    <input type="text" name="login" id="login" value={login} onChange={(e) => setLogin(e.target.value)} required/>
+  </div>
   <div style={{ display: 'flex', alignItems: 'center' }}>
     <label style={{ width: '150px' }}>Nazwa Firmy:</label>
     <input type="text" name="companyName" id="companyName" value={companyName} onChange={(e) => setCompanyName(e.target.value)} required/>
