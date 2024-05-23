@@ -23,6 +23,11 @@ public class CompanyController {
         return companyService.showCompanies();
     }
 
+    @GetMapping("/showCompaniesToAccept")
+    public List<Company> CompaniesToAcceptList() {
+        return companyService.showCompaniesToAccept();
+    }
+
     @PostMapping("/addCompany")
     public ResponseEntity<?> addCompany(@RequestBody Map<String, Object> formData) {
         return companyService.addCompany(formData);

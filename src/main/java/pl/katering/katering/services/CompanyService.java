@@ -35,6 +35,10 @@ public class CompanyService {
         return companyRepository.findAll();
     }
 
+    public List<Company> showCompaniesToAccept() {
+        return companyRepository.findAllCompaniesToAccept();
+    }
+
     public ResponseEntity<?> addCompany(Map<String, Object> formData) {
         Company company = parseCompany(formData);
         TemporaryAddress temporaryAddress = parseAddress(formData);
