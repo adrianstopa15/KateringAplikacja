@@ -96,15 +96,15 @@ const UserData = () => {
   return (
     <div>
       <div className="user-da   ta-display ml-s mt-s">
-        <h1 className="h1-regular mb-m">Adresy:</h1>
+        <h1 className="h1-regular mb-m">Moje Adresy:</h1>
         <div className="address-info">
           {addresses.slice()
           .sort((a,b) => b.default - a.default)
           .map((address, index) => (
             <div key={index} className="address-display--element " style={{marginBottom:"1rem" ,  borderColor: address.default ? "green" : "#c7c7c7"}}>            
-            <p className="ulica">{(address.street && address.houseNumber) ? `${address.street} ${address.houseNumber}` : "Ulica"}</p>
-            <p className="k-pocztowy">{address.postalCode}</p>
-            <p className="miasto">{address.city || "Lublin"}</p>
+            <p className="ulica">Ulica: {(address.street && address.houseNumber) ? `${address.street} ${address.houseNumber}` : "Ulica"}</p>
+            <p className="k-pocztowy">Kod pocztowy: {address.postalCode}</p>
+            <p className="miasto">Miasto: {address.city || "Lublin"}</p>
             <button className="button-27-e " onClick={() => {setIsOpen(true); handleOpenModal('edit'); setEditAddressIndex(index); onEdit(address.addressId)}}>
               Zaktualizuj adres
             </button>

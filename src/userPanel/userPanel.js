@@ -66,10 +66,10 @@ export default function UserPanel() {
   const renderComponent = () => {
     if (userRole === 'ADMIN') {
       switch (activeComponent) {
-        case "AdminNotifications":
-          return <AdminNotifications />;
         case "AdminAdresses":
           return <AdminAdresses />;
+        case "AdminNotifications":
+          return <AdminNotifications />;
         case "AdminConfirmations":
           return <AdminConfirmations />;
         case "AdminList":
@@ -77,7 +77,7 @@ export default function UserPanel() {
         case "AdminSettings":
           return <AdminSettings />;
         default:
-          return <AdminNotifications />;
+          return <AdminAdresses />;
       }
     } else if (userRole === 'COMPANY') {
       switch (activeComponent) {
@@ -201,9 +201,6 @@ export default function UserPanel() {
           <img src={DaneUzytkownika} className="lb-icons" />
           Druga zakladka katering
         </a>
-
-      
-      
             </>
             )}
             {userRole === 'USER' && (

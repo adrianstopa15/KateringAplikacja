@@ -40,6 +40,7 @@ export const AuthProvider = ({ children }) => {
   const [modalMode, setModalMode] = useState(null);
   const [login, setLogin] = useState("");
   const [companyStatus, setCompanyStatus] = useState("");
+
   
   const [newAddress, setNewAddress] = useState({
     street: '',
@@ -76,16 +77,16 @@ export const AuthProvider = ({ children }) => {
     setCurrentEdit(x);
    };
 
-  //  const handleCloseModal = () => {
-  //   setIsOpen(false);
-  //   setModalMode(null);
-  //   setEditAddressIndex(null);
-  // }
-
-  const handleCloseModal = () => {
+   const handleCloseModal = () => {
     setIsOpen(false);
     setModalMode(null);
-  };
+    setEditAddressIndex(null);
+  }
+
+  // const handleCloseModal = () => {
+  //   setIsOpen(false);
+  //   setModalMode(null);
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -245,7 +246,7 @@ export const AuthProvider = ({ children }) => {
       postalCode, setPostalCode,
       city, setCity,
       currentEdit, setCurrentEdit,
-      handleEdit, onEdit,
+      handleEdit, onEdit, isOpen, setIsOpen,
       handleSubmit, handleSetDefaultAddress,
       modalMode, setModalMode, login, setLogin,
       editAddressIndex, setEditAddressIndex,
