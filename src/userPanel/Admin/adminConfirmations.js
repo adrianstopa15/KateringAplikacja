@@ -95,7 +95,7 @@ const {
           <h1 className="h1-regular mb-m">Zatwierdzenia:</h1>
           <div className="address-info">
           {confirmations.map((confirmation, index) => (
-            <div key={index}  className="confirmation-display--element " style={{marginBottom:"1rem" ,  borderColor: "#c7c7c7"}}>            
+            <div key={index}  className="address-display--element " style={{marginBottom:"1rem" ,  borderColor: "#c7c7c7"}}>            
             <p className="ulica">Nazwa Firmy: {  confirmation.companyName}</p>
             <p className="k-pocztowy">Opis: {confirmation.description}</p>
             <p className="miasto">Login: {confirmation.login }</p>
@@ -103,7 +103,7 @@ const {
             <p className="miasto">Nip: {confirmation.nip }</p>
             <p className="miasto">Numer Telefonu: {confirmation.phone }</p>
             <p className="miasto"> Status: {confirmation.status }</p>
-            <button id={index}  onClick={() => {onEdit(confirmation.companyId); console.log(confirmation.companyId); handleEdit(confirmation.companyId)
+            <button id={index}  className="button-27-save" onClick={() => {onEdit(confirmation.companyId); console.log(confirmation.companyId); handleEdit(confirmation.companyId)
             }}>akceptuj</button>
             {/* <button className="button-27-e " onClick={() => {setIsOpen(true); handleOpenModal('edit'); setEditconfirmationIndex(index); onEdit(confirmation.confirmationId)}}>
               Zaktualizuj adres
