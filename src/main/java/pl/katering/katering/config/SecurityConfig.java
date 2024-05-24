@@ -32,34 +32,16 @@ public class SecurityConfig {
         this.customAccessDeniedHandler = customAccessDeniedHandler;
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(
-//                        req->req.requestMatchers("/login/**", "/register/**", "/checkUsername/**", "/checkEmail/**")
-//                                .permitAll()
-//                                .requestMatchers("/showCustomers", "/showAddresses").hasAuthority("ADMIN")
-//                                .anyRequest()
-//                                .authenticated()
-//                ).userDetailsService(userDetailsServiceImp)
-//                .exceptionHandling(e->e.accessDeniedHandler(customAccessDeniedHandler)
-//                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-//                .sessionManagement(session->session
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-//                .build();
-//    }
-
-    // NIE USUWAC TEGO NA GORZE!!!
-    // ten filter jest do testowania endpointow bez potrzeby uzywania tokenu
-    // dzieki temu mozna uruchomic endpoint w postmanie bez autoryzacji
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req->req
-                        .anyRequest().permitAll()
+                .authorizeHttpRequests(
+                        req->req.requestMatchers("/addCompany","/login/**", "/register/**", "/checkUsername/**", "/checkEmail/**","/addAddress**")
+                                .permitAll()
+                                .requestMatchers("/deleteCustomer","/showCustomers", "/showAddresses").hasAuthority("ADMIN")
+                                .anyRequest()
+                                .authenticated()
                 ).userDetailsService(userDetailsServiceImp)
                 .exceptionHandling(e->e.accessDeniedHandler(customAccessDeniedHandler)
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
@@ -68,6 +50,24 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
+    // NIE USUWAC TEGO NA GORZE!!!
+    // ten filter jest do testowania endpointow bez potrzeby uzywania tokenu
+    // dzieki temu mozna uruchomic endpoint w postmanie bez autoryzacji
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        return http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(req->req
+//                        .anyRequest().permitAll()
+//                ).userDetailsService(userDetailsServiceImp)
+//                .exceptionHandling(e->e.accessDeniedHandler(customAccessDeniedHandler)
+//                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+//                .sessionManagement(session->session
+//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .build();
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
