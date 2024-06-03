@@ -128,7 +128,7 @@ export default function UserPanel() {
             onClick={() => setActiveComponent("AdminAdresses")}
           >
             <img src={DaneUzytkownika} className="lb-icons" />
-            Adresy Użytkownikow
+            Adresy Użytkowników
           </a>
           <a
             className={`left-bar--content ${
@@ -139,7 +139,7 @@ export default function UserPanel() {
             onClick={() => setActiveComponent("AdminList")}
           >
             <img src={DaneUzytkownika} className="lb-icons" />
-            Lista użytkownikow
+            Lista użytkowników
           </a>
 
           <a

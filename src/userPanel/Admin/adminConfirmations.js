@@ -29,9 +29,6 @@ const {
         };
         const authToken = getCookieValue("authToken");
     
- 
-       
- 
         const response = await axios.get(
           `http://localhost:8080/showCompaniesToAccept`,
           {
@@ -65,29 +62,27 @@ const {
   }, [confirmations, editAddressIndex]);
 
   const handleEdit = async (x) => {
+    const getCookieValue = (name) => document.cookie.split("; ").find((row) => row.startsWith(name + "="))?.split("=")[1];
+    const authToken = getCookieValue("authToken");
+    console.log(x);
   
-   
-    const getCookieValue = (name) =>
-    document.cookie
-      .split("; ")
-      .find((row) => row.startsWith(name + "="))
-      ?.split("=")[1];
-  const authToken = getCookieValue("authToken");
-  console.log(x); 
-
-
-  const response = await axios.post(
-    `http://localhost:8080/acceptCompany?id=${x}`,
-    {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/acceptCompany?id=${x}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      alert("Company accepted");
+      console.log("Company accepted:", response.data);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error accepting company:", error);
     }
-  );
-  }
-
-
-
+  };
 
     return (
       <div>

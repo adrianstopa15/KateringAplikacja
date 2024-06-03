@@ -46,7 +46,7 @@ export default function AdminAdresses() {
             );
             setCustomers(response.data);
             
-            const addressesResponse = await axios.get('http://localhost:8080/showAddresses', {
+            const addressesResponse = await axios.get('http://localhost:8080/showCustomAddresses', {
               headers: { Authorization: `Bearer ${authToken}` },
             });
             setAddresses(addressesResponse.data); 
@@ -77,7 +77,7 @@ export default function AdminAdresses() {
   return (
     <div>
       <div className="user-data-display ml-s mt-s">
-        <h1 className="h1-regular mb-m">Adresy Użytkownikow:</h1>
+        <h1 className="h1-regular mb-m">Adresy użytkowników:</h1>
         <div className="address-info">
         {addresses.map((address, index) => {
             const customer = customers.find(c => c.id === address.customerId) || {};
