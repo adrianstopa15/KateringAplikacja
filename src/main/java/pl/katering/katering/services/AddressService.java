@@ -38,6 +38,14 @@ public class AddressService {
         return ResponseEntity.ok(list);
     }
 
+    public List<Address> showCompanyAddresses() {
+        return addressRepository.findCompanyAddresses();
+    }
+
+    public List<Address> showCustomAddresses() {
+        return addressRepository.findCustomerAddresses();
+    }
+
     public ResponseEntity<?> addAddress(Address address, String login) {
         Optional<User> user = userRepository.findByLogin(login);
         Customer customer = customerRepository.findByUserId(user.get().getUserId());

@@ -32,8 +32,8 @@ public class CustomerController {
     }
 
     @PostMapping("/editCustomer")
-    public ResponseEntity<?> editCustomer(@RequestBody Customer customer, @RequestParam String login) {
-        return ResponseEntity.ok(customerService.editCustomer(customer, login));
+    public ResponseEntity<?> editCustomer(@RequestBody Customer customer, @RequestParam Integer id) {
+        return ResponseEntity.ok(customerService.editCustomer(customer, id));
     }
 
     @PostMapping("/deleteCustomer")

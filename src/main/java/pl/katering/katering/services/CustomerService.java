@@ -95,9 +95,10 @@ public class CustomerService {
         return ResponseEntity.ok(customerRepository.save(existingCustomer));
     }
 
-    public ResponseEntity<?> editCustomer(Customer customer, String login) {
-        Optional<User> user = userRepository.findByLogin(login);
-        Customer existingCustomer = customerRepository.findByUserId(user.get().getUserId());
+    public ResponseEntity<?> editCustomer(Customer customer, Integer id) {
+//        Optional<User> user = userRepository.findByLogin(login);
+//        Customer existingCustomer = customerRepository.findByUserId(user.get().getUserId());
+        Customer existingCustomer = customerRepository.findByCustomerId(id);
 
         if (customer.getFirstName() != null) {
             existingCustomer.setFirstName(customer.getFirstName());

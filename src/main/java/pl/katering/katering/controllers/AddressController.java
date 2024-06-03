@@ -2,8 +2,6 @@ package pl.katering.katering.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.katering.katering.classes.Address;
 import pl.katering.katering.services.AddressService;
@@ -27,6 +25,16 @@ public class AddressController {
     @GetMapping("/showCustomerAddresses")
     public ResponseEntity<?> customerAddressesList(@RequestParam String login) {
         return addressService.showCustomerAddresses(login);
+    }
+
+    @GetMapping("/showCustomAddresses")
+    public List<Address> customerAddressList() {
+        return addressService.showCustomAddresses();
+    }
+
+    @GetMapping("/showCompanyAddresses")
+    public List<Address> companyAddressList() {
+        return addressService.showCompanyAddresses();
     }
 
     @PostMapping("/addAddress")
