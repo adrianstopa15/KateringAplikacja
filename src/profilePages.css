@@ -149,6 +149,23 @@ h1 {
   cursor: pointer;
   font-size: 14px;
 }
+.button-27-x {
+  text-decoration: none;
+  border-radius: 100px;
+  padding: 0.4rem 0.6rem;
+  color: #ffff;
+  background-color: rgba(231, 19, 4, 0.055);
+  border: none;
+  letter-spacing: 0.8px;
+  filter: drop-shadow(6px 4px 5px #c7c7c7);
+  transition: all 0.2s;
+  cursor: pointer;
+  font-size: 14px;
+}
+.button-27-x:hover{
+  background-color: rgba(231, 19, 4, 0.13);
+}
+
 .button-27-save {
   text-decoration: none;
   border-radius: 100px;
@@ -362,4 +379,54 @@ h1 {
   margin-bottom: 0;
 }
 .miasto {
+}
+
+
+.address-display--element{
+  border: #c7c7c7 solid;
+  border-radius:10px;
+  width: 60%;
+  padding: 1rem 1rem;
+ 
+}
+.button-disabled{
+  background-color: #c7c7c7;
+  color: #666;
+  cursor: not-allowed;
+  /* pointer-events: none; */
+}
+.catering-display--element{
+  border: #c7c7c7 solid;
+  border-radius:10px;
+  width: 60%;
+  padding: 1rem 1rem;
+  width:10rem;
+}
+.catering-display--element:hover{
+  background-color: rgba(94, 224, 94, 0.192);
+  cursor: pointer;
+}
+
+
+
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.add-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  background-color: green;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
 }

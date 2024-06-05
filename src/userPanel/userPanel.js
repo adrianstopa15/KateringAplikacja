@@ -22,7 +22,8 @@ import AdminNotifications from "./Admin/adminNotifications";
 import AdminSettings from "./Admin/adminSettings";
 import CateringNotifications from './Catering/cateringNotifications'
 import CateringRequests from './Catering/cateringRequests'
-
+import CateringAdd from "./Catering/cateringAdd";
+import CateringPresets from "./Catering/cateringPresets";
 export default function UserPanel() {
   const [activeComponent, setActiveComponent] = useState("UserData");
   const [userRole, setUserRole] = useState(null);
@@ -85,6 +86,10 @@ export default function UserPanel() {
           return <CateringNotifications />;
         case "CateringRequests":
           return <CateringRequests />;
+        case "CateringAdd":
+          return <CateringAdd />
+        case "CateringPresets":
+          return <CateringPresets />
         default:
           return <CateringNotifications />;
       }
@@ -201,6 +206,29 @@ export default function UserPanel() {
           <img src={DaneUzytkownika} className="lb-icons" />
           Druga zakladka katering
         </a>
+        <a
+          className={`left-bar--content ${
+            activeComponent === "CateringAdd"
+              ? "lb-active" && "lb-icons--active"
+              : ""
+          }`}
+          onClick={() => setActiveComponent("CateringAdd")}
+        >
+          <img src={DaneUzytkownika} className="lb-icons" />
+          Dodaj jedzenie
+        </a>
+        <a
+          className={`left-bar--content ${
+            activeComponent === "CateringPresets"
+              ? "lb-active" && "lb-icons--active"
+              : ""
+          }`}
+          onClick={() => setActiveComponent("CateringPresets")}
+        >
+          <img src={DaneUzytkownika} className="lb-icons" />
+          Presets
+        </a>
+       
             </>
             )}
             {userRole === 'USER' && (
