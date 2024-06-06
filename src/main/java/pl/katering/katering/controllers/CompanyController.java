@@ -33,6 +33,16 @@ public class CompanyController {
         return companyService.addCompany(formData);
     }
 
+    @PostMapping("/editCompany")
+    public ResponseEntity<?> editCompany(@RequestBody Company company, @RequestParam Integer id) {
+        return companyService.editCompany(company, id);
+    }
+
+    @PostMapping("/deleteCompany")
+    public ResponseEntity<?> deleteCompany(@RequestParam Integer id) {
+        return companyService.deleteCompany(id);
+    }
+
     @PostMapping("/acceptCompany")
     public ResponseEntity<?> acceptCompany(@RequestParam Integer id) {
         return companyService.acceptCompany(id);

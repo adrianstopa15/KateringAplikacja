@@ -106,6 +106,51 @@ public class CompanyService {
         return ResponseEntity.ok("Wysłano prośbę o akceptację konta firmowego");
     }
 
+    public ResponseEntity<?> editCompany(Company company, Integer id) {
+        Company existCompany = companyRepository.findByCompanyId(id);
+
+        if (company.getCompanyName() != null) {
+            existCompany.setCompanyName(company.getCompanyName());
+        }
+        if (company.getLogin() != null) {
+            existCompany.setLogin(company.getLogin());
+        }
+        if (company.getDescription() != null) {
+            existCompany.setDescription(company.getDescription());
+        }
+        if (company.getDietType() != null) {
+            existCompany.setDietType(company.getDietType());
+        }
+        if (company.getEmail() != null) {
+            existCompany.setEmail(company.getEmail());
+        }
+        if (company.getPhone() != null) {
+            existCompany.setPhone(company.getPhone());
+        }
+        if (company.getNip() != null) {
+            existCompany.setNip(company.getNip());
+        }
+
+        if (userService.isLoginExists(company.getLogin()) && userService.isEmailExists(company.getEmail())) {
+            return ResponseEntity.badRequest().body("Konto o podanym loginie i emailu już istnieje");
+        } else if (userService.isEmailExists(company.getEmail())) {
+            return ResponseEntity.badRequest().body("Konto o podanym email już istnieje");
+        } else if (userService.isLoginExists(company.getLogin())) {
+            return ResponseEntity.badRequest().body("Konto o podanym loginie już istnieje");
+        }
+
+        companyRepository.save(existCompany);
+
+        return ResponseEntity.ok("Pomyślnie edytowano informacje o firmie");
+    }
+
+    public ResponseEntity<?> deleteCompany(Integer id) {
+        Company company = companyRepository.findByCompanyId(id);
+        companyRepository.delete(company);
+
+        return ResponseEntity.ok("Pomyślnie usunięto firmę");
+    }
+
     public ResponseEntity<?> acceptCompany(Integer id) {
         Company company = companyRepository.findByCompanyId(id);
         company.setStatus("Zaakceptowane");
