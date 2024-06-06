@@ -40,7 +40,9 @@ export const AuthProvider = ({ children }) => {
   const [modalMode, setModalMode] = useState(null);
   const [login, setLogin] = useState("");
   const [companyStatus, setCompanyStatus] = useState("");
-
+  const [dietName, setDietName] = useState("");
+  const [dietDescription, setDietDescription] = useState("");
+  const [dietTypeReq, setDietTypeReq] = useState("");
   
   const [newAddress, setNewAddress] = useState({
     street: '',
@@ -133,7 +135,13 @@ export const AuthProvider = ({ children }) => {
       console.error('Error adding address:', error.response?.data || error.message);
     }
   };
+
+
   
+  
+
+
+
   const handleEdit = async (e) => {
   
     const formData = {
@@ -252,7 +260,8 @@ export const AuthProvider = ({ children }) => {
       editAddressIndex, setEditAddressIndex,
       handleDelete, houseNumber, setHouseNumber,
       companyName, setCompanyName,email, setEmail,
-      dietType, setDietType, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType, companyStatus, setCompanyStatus
+      dietType, setDietType, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType, companyStatus, setCompanyStatus,
+      dietName, setDietName, dietDescription, setDietDescription, dietTypeReq, setDietTypeReq
     }}
     >
       {children}
