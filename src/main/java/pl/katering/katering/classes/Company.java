@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -40,4 +42,8 @@ public class Company {
     @JsonIgnore
     @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
     private Address address;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "company")
+    private List<Diet> diets;
 }

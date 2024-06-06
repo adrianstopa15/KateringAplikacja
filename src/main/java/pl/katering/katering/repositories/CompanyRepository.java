@@ -12,4 +12,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
     @Query("SELECT c FROM Company c WHERE c.status = 'Oczekujące'")
     List<Company> findAllCompaniesToAccept();
+
+    @Query("SELECT c FROM Company c WHERE c.login = :login")
+    Company findByLogin(String login);
 }

@@ -27,6 +27,23 @@ public class MealTypeService {
 
         mealTypeRepository.save(newMealType);
 
-        return ResponseEntity.ok("Pomyślnie dodano rodzaj posiłku");
+        return ResponseEntity.ok("Pomyślnie dodano typ posiłku");
+    }
+
+    public ResponseEntity<?> editMealType(MealType mealType, Integer id) {
+        MealType existMealType = mealTypeRepository.findByMealTypeId(id);
+        existMealType.setName(mealType.getName());
+
+        mealTypeRepository.save(existMealType);
+
+        return ResponseEntity.ok("Pomyślnie edytowano typ posiłku");
+    }
+
+    public ResponseEntity<?> deleteMealType(Integer id) {
+        MealType existMealType = mealTypeRepository.findByMealTypeId(id);
+
+        mealTypeRepository.delete(existMealType);
+
+        return ResponseEntity.ok("Pomyślnie usunięto typ posiłku");
     }
 }

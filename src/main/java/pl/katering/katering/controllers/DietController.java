@@ -22,9 +22,24 @@ public class DietController {
         return dietService.showDiets();
     }
 
+    @GetMapping("/showDietsToAccept")
+    public List<Diet> dietsToAcceptList() {
+        return dietService.showDietsToAccept();
+    }
+
+    @GetMapping("/showCompanyDiets")
+    public List<Diet> companyDietsList(@RequestParam String login) {
+        return dietService.showCompanyDiets(login);
+    }
+
     @PostMapping("/addDiet")
-    public ResponseEntity<?> addDiet(@RequestBody Diet diet) {
-        return dietService.addDiet(diet);
+    public ResponseEntity<?> addDiet(@RequestBody Diet diet, @RequestParam String dietTypeName, @RequestParam String login) {
+        return dietService.addDiet(diet, dietTypeName, login);
+    }
+
+    @PostMapping("/acceptDiet")
+    public ResponseEntity<?> acceptDiet(@RequestParam Integer id) {
+        return dietService.acceptDiet(id);
     }
 
 }

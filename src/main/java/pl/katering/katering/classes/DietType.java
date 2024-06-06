@@ -14,30 +14,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "diet")
-public class Diet {
+@Table(name = "diet_type")
+public class DietType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer dietId;
+    private Integer dietTypeId;
 
     private String name;
 
-    private String description;
-
-    private String status = "Oczekujące";
-
     @JsonIgnore
-    @OneToMany(mappedBy = "diet")
-    private List<Meal> meals;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "dietTypeId")
-    private DietType dietType;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "companyId")
-    private Company company;
+    @OneToMany(mappedBy = "dietType")
+    private List<Diet> diets;
 }

@@ -26,4 +26,14 @@ public class MealTypeController {
     public ResponseEntity<?> addMealType(@RequestBody MealType mealType) {
         return mealTypeService.addMealType(mealType);
     }
+
+    @PostMapping("/editMealType")
+    public ResponseEntity<?> editMealType(@RequestBody MealType mealType, @RequestParam Integer id) {
+        return mealTypeService.editMealType(mealType, id);
+    }
+
+    @PostMapping("/deleteMealType")
+    public ResponseEntity<?> deleteMealType(@RequestParam Integer id) {
+        return mealTypeService.deleteMealType(id);
+    }
 }
