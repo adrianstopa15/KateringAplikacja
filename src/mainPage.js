@@ -111,7 +111,7 @@ export default function MainPage() {
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(() => {
-      showAlertModal("Skopiowano kod do schowka");
+      showAlertModal("Skopiowano kod do schowka", "info");
     }).catch(err => {
       console.log('Coś poszło nie tak', err);
     });
