@@ -44,6 +44,8 @@ export const AuthProvider = ({ children }) => {
   const [dietName, setDietName] = useState("");
   const [dietDescription, setDietDescription] = useState("");
   const [dietTypeReq, setDietTypeReq] = useState("");
+  const [editCompanyIndex, setEditCompanyIndex] = useState("");
+
   
   const [newAddress, setNewAddress] = useState({
     street: '',
@@ -260,7 +262,7 @@ export const AuthProvider = ({ children }) => {
       login, setLogin,
       editAddressIndex, setEditAddressIndex,
       handleDelete, houseNumber, setHouseNumber,
-      companyName, setCompanyName,email, setEmail,
+      companyName, setCompanyName,email, setEmail,setEditCompanyIndex,
       dietType, setDietType, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType, companyStatus, setCompanyStatus,
       dietName, setDietName, dietDescription, setDietDescription, dietTypeReq, setDietTypeReq
     }}
