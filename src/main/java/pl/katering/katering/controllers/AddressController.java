@@ -41,6 +41,10 @@ public class AddressController {
     public ResponseEntity<?> addAddress(@RequestBody Address address, @RequestParam String login) {
         return addressService.addAddress(address, login);
     }
+    @PostMapping("/addAddressCompany")
+    public ResponseEntity<?> addAddressCompany(@RequestBody Address address, @RequestParam String login) {
+        return addressService.addAddress(address, login);
+    }
 
     @PostMapping("/editAddress")
     public ResponseEntity<?> editAddress(@RequestBody Address address, @RequestParam Integer id) {

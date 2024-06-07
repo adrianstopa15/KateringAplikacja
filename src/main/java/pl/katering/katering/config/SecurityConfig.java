@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         req->req.requestMatchers("/login/**", "/register/**", "/checkUsername/**", "/checkEmail/**", "/addAddress", "/addCompany")
                                 .permitAll()
-                                .requestMatchers("/deleteCustomer", "/editCustomer", "/showCustomers", "/showCompanies", "/showAddresses", "/showCustomAddresses", "/showCompanyAddresses", "/acceptCompany").hasAuthority("ADMIN")
+                                .requestMatchers("/deleteCustomer", "/editCustomer", "/showCustomers", "/addAddressCompany","/showCompanies","/editCompany","/addCompany","/deleteCompany", "/showAddresses", "/showCustomAddresses", "/showCompanyAddresses", "/acceptCompany").hasAuthority("ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 ).userDetailsService(userDetailsServiceImp)
