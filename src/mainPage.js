@@ -18,8 +18,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from "./AuthContext";
 import axios from "axios";
 import CateringForm from "./cateringForm";
-
+import { useAlertModal } from "./modalbutton/AlertModalContext";
 export default function MainPage() {
+  const { showAlertModal } = useAlertModal();
   const navigate = useNavigate();
   const homeRef = useRef(null);
   const aboutRef = useRef(null);
@@ -28,6 +29,7 @@ export default function MainPage() {
   const contactRef = useRef(null);
   const cooperationButtonRef = useRef(null);
   const callToActionRef = useRef(null);
+  
   // const [popupType, setPopupType] = useState("none");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [modalData, setModalData] = useState({ isOpen: false, title: "", content: "", iframeSrc: "" });
@@ -109,7 +111,7 @@ export default function MainPage() {
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(() => {
-      alert("Kod został skopiowany do schowka");
+      showAlertModal("Skopiowano kod do schowka", "info");
     }).catch(err => {
       console.log('Coś poszło nie tak', err);
     });

@@ -1,7 +1,9 @@
 import { useAuth } from "./AuthContext"
 import axios from "axios";
+import { useAlertModal } from "./modalbutton/AlertModalContext";
 
 export default function CateringForm(){
+  const { showAlertModal } = useAlertModal();
     const { 
         housingType, setHousingType,
           firstName, setFirstName,
@@ -17,44 +19,39 @@ export default function CateringForm(){
         editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber, email, setEmail,
        dietType, setDietType,companyName, setCompanyName, description, setDescription, nip, setNip } = useAuth();
 
-    const handleFormSubmit = async (e) => {
-            e.preventDefault();
-            const formData = {
-              street,
-              apartmentNumber,
-              floor,
-              postalCode,
-              city,
-              houseNumber,
-              companyName,
-              email,
-              dietType,
-              description,
-              phone,
-              nip,
-              login
-            };
+       const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        const formData = {
+          street,
+          apartmentNumber,
+          floor,
+          postalCode,
+          city,
+          houseNumber,
+          companyName,
+          email,
+          dietType,
+          description,
+          phone,
+          nip,
+          login
+        };
+      
+        try {
+          const response = await axios.post(`http://localhost:8080/addCompany`, formData);
+          console.log('dodano pomyślnie:', response.data);
+          showAlertModal("Dane zostały pomyślnie wysłane! Odpowiedź zostanie wysłana na wiadomość email w ciągu 124 dni roboczych.", "correct");
+          
         
-            try {
-              console.log(formData);
-              console.log("ee");
-              
-              const response = await axios.post(
-                `http://localhost:8080/addCompany`,
-                formData
-                
-              );
-          
-            
-              console.log('dodano pomyślnie:', response.data);
-              alert("Dane zostały pomyślnie wysłane! Odpowiedż zostanie wysłana na wiadomość email w ciągu 124 dni roboczych.")
-              window.location.reload();
-            } catch (error) {
-          
-              console.error('Failed to add company:', error.response?.data || error.message);
-            }
-          };
-
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000); 
+        } catch (error) {
+          console.error('Failed to add company:', error.response?.data || error.message);
+          showAlertModal("Nie udało się wysłać danych. Proszę spróbować ponownie.", "alert");
+        }
+      };
+      
 return(
     <>
 
