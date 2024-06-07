@@ -9,6 +9,10 @@ import Preferencje from "../photos/Preferencje.png";
 import Promocje from "../photos/Promocje.png";
 import Statystyki from "../photos/Statystyki.png";
 import Zamowienia from "../photos/Zamowienia.png";
+import Powiadomienia from "../photos/Powiadomienia.png"
+import Company from "../photos/Company.png"
+import Adress from "../photos/Adress.png"
+import Zatwierdzenia from "../photos/Zatwierdzenia.png"
 import "../userPanelStyle.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -24,13 +28,15 @@ import CateringNotifications from './Catering/cateringNotifications'
 import CateringRequests from './Catering/cateringRequests'
 import CateringAdd from "./Catering/cateringAdd";
 import CateringPresets from "./Catering/cateringPresets";
+import AdminAdressesCompany from "./Admin/adminAdressesCompany";
+import AdminListCompany from "./Admin/adminListCompany";
+
+
 export default function UserPanel() {
+
   const [activeComponent, setActiveComponent] = useState("UserData");
   const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
-
-// Tutaj dodać pozniej jak beda role z backendu zaleznie od roli jakie komponenty maja sie wyswietlac dla usera albo admina albo kateringu
-// szkielety komponentow juz sa gotowe w folderach 
 
   useEffect(() => {
     const getCookieValue = (name) =>
@@ -69,12 +75,16 @@ export default function UserPanel() {
       switch (activeComponent) {
         case "AdminAdresses":
           return <AdminAdresses />;
+        case "AdminAdressesCompany":
+          return <AdminAdressesCompany />;
         case "AdminNotifications":
           return <AdminNotifications />;
         case "AdminConfirmations":
           return <AdminConfirmations />;
         case "AdminList":
           return <AdminList />;
+        case "AdminListCompany":
+          return <AdminListCompany />;
         case "AdminSettings":
           return <AdminSettings />;
         default:
@@ -132,8 +142,19 @@ export default function UserPanel() {
             }`}
             onClick={() => setActiveComponent("AdminAdresses")}
           >
-            <img src={DaneUzytkownika} className="lb-icons" />
+            <img src={Adress} className="lb-icons" />
             Adresy Użytkowników
+          </a>
+          <a
+            className={`left-bar--content ${
+              activeComponent === "AdminAdressesCompany"
+                ? "lb-active" && "lb-icons--active"
+                : ""
+            }`}
+            onClick={() => setActiveComponent("AdminAdressesCompany")}
+          >
+            <img src={Company} className="lb-icons" />
+            Adresy Firm
           </a>
           <a
             className={`left-bar--content ${
@@ -144,9 +165,19 @@ export default function UserPanel() {
             onClick={() => setActiveComponent("AdminList")}
           >
             <img src={DaneUzytkownika} className="lb-icons" />
-            Lista użytkowników
+            Lista Użytkowników
           </a>
-
+          <a
+            className={`left-bar--content ${
+              activeComponent === "AdminListCompany"
+                ? "lb-active" && "lb-icons--active"
+                : ""
+            }`}
+            onClick={() => setActiveComponent("AdminListCompany")}
+          >
+            <img src={DaneUzytkownika} className="lb-icons" />
+            Lista Firm
+          </a>
           <a
             className={`left-bar--content ${
               activeComponent === "AdminConfirmations"
@@ -155,7 +186,7 @@ export default function UserPanel() {
             }`}
             onClick={() => setActiveComponent("AdminConfirmations")}
           >
-            <img src={Preferencje} className="lb-icons" />
+            <img src={Zatwierdzenia} className="lb-icons" />
             Zatwierdzenia
           </a>
           <a
@@ -166,7 +197,7 @@ export default function UserPanel() {
             }`}
             onClick={() => setActiveComponent("AdminNotifications")}
           >
-            <img src={Statystyki} className="lb-icons" />
+            <img src={Powiadomienia} className="lb-icons" />
             Powiadomienia
           </a>
           <a

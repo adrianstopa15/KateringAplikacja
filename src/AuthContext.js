@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }) => {
   const [addresses, setAddresses] = useState([]);
   const [houseNumber, setHouseNumber] = useState();
   const [companyName, setCompanyName] = useState("");
+  const [company_id] = useState("");
   const [email, setEmail] = useState('');
   const [dietType, setDietType] = useState('');
   const [comments, setComments] = useState('');
@@ -40,8 +41,9 @@ export const AuthProvider = ({ children }) => {
   const [modalMode, setModalMode] = useState(null);
   const [login, setLogin] = useState("");
   const [companyStatus, setCompanyStatus] = useState("");
+  const [editCompanyIndex, setEditCompanyIndex] = useState("");
+  const [companies, setCompanies] = useState([]);
 
-  
   const [newAddress, setNewAddress] = useState({
     street: '',
     apartmentNumber: '',
@@ -55,6 +57,10 @@ export const AuthProvider = ({ children }) => {
   const handleLogin = (success) => {
     setIsLoggedIn(true);
     fetchUserData();
+  };
+
+  const handleEditCompany = (index) => {
+    setEditCompanyIndex(index);
   };
 
   const togglePopup = (type) => setPopupType(type === popupType ? "none" : type);
@@ -82,12 +88,6 @@ export const AuthProvider = ({ children }) => {
     setModalMode(null);
     setEditAddressIndex(null);
   }
-
-  // const handleCloseModal = () => {
-  //   setIsOpen(false);
-  //   setModalMode(null);
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -246,13 +246,22 @@ export const AuthProvider = ({ children }) => {
       postalCode, setPostalCode,
       city, setCity,
       currentEdit, setCurrentEdit,
-      handleEdit, onEdit, isOpen, setIsOpen,
+      handleEdit, onEdit, 
+      isOpen, setIsOpen,
       handleSubmit, handleSetDefaultAddress,
-      modalMode, setModalMode, login, setLogin,
+      modalMode, setModalMode, 
+      login, setLogin,
       editAddressIndex, setEditAddressIndex,
-      handleDelete, houseNumber, setHouseNumber,
-      companyName, setCompanyName,email, setEmail,
-      dietType, setDietType, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType, companyStatus, setCompanyStatus
+      handleDelete, handleEditCompany,
+      houseNumber, setHouseNumber,
+      companyName, setCompanyName, 
+      email, setEmail,
+      dietType, setDietType, 
+      description, setDescription, editCompanyIndex, setEditCompanyIndex,
+      nip, setNip, company_id,
+      togglePopup, popupType, setPopupType, 
+      companyStatus, setCompanyStatus
+
     }}
     >
       {children}
