@@ -80,10 +80,10 @@ export default function AdminAdresses() {
         <h1 className="h1-regular mb-m">Adresy użytkowników:</h1>
         <div className="address-info">
         {addresses.map((address, index) => {
-            const customer = customers.find(c => c.id === address.customerId) || {};
+            // const customer = customers.find(c => c.id === address.customerId) || {};
             return (
           <div key={index} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
-            <p>Imię i Nazwisko: {customer.firstName} {customer.lastName}</p>
+            <p>Imię i Nazwisko: {address.customer.firstName} {address.customer.lastName}</p>
             <p className="ulica">Ulica: {(address.street && address.houseNumber) ? `${address.street} ${address.houseNumber}` : "Ulica"}</p>
             <p className="k-pocztowy">Kod pocztowy: {address.postalCode}</p>
             <p className="miasto">Miasto: {address.city}</p>
