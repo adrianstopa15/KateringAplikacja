@@ -1,5 +1,6 @@
 package pl.katering.katering.classes;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,7 +40,8 @@ public class Company {
 
     private String status = "Oczekujące";
 
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference(value = "address-company")
     @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
     private Address address;
 

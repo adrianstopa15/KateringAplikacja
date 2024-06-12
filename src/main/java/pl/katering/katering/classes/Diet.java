@@ -21,9 +21,11 @@ public class Diet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer dietId;
 
-    private String name;
+    private String dietName;
 
-    private String description;
+    private String dietDescription;
+
+    //cena dodanie
 
     private String status = "Oczekujące";
 

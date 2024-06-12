@@ -1,6 +1,8 @@
 package pl.katering.katering.classes;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,12 +37,14 @@ public class Address {
 
     private boolean isDefault;
 
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonManagedReference(value = "address-customer")
     @ManyToOne
     @JoinColumn(name = "customerId")
     private Customer customer;
 
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonManagedReference(value = "address-company")
     @OneToOne
     @JoinColumn(name = "companyId")
     private Company company;

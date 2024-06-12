@@ -42,8 +42,8 @@ public class DietService {
         DietType dietType = dietTypeRepository.findByName(dietTypeName);
         Company company = companyRepository.findByLogin(login);
         Diet newDiet = new Diet();
-        newDiet.setName(diet.getName());
-        newDiet.setDescription(diet.getDescription());
+        newDiet.setDietName(diet.getDietName());
+        newDiet.setDietDescription(diet.getDietDescription());
         newDiet.setDietType(dietType);
         newDiet.setCompany(company);
 
