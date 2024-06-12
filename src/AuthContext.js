@@ -28,9 +28,9 @@ export const AuthProvider = ({ children }) => {
   const [editAddressIndex, setEditAddressIndex] = useState(null);
   const [editCustomerIndex, setCustomerIndex] = useState(null);
   const [addresses, setAddresses] = useState([]);
-  const [houseNumber, setHouseNumber] = useState();
+  const [houseNumber, setHouseNumber] = useState("");
   const [companyName, setCompanyName] = useState("");
-  const [company_id] = useState("");
+  const [companyId, setCompanyId] = useState("");
   const [email, setEmail] = useState('');
   const [dietType, setDietType] = useState('');
   const [comments, setComments] = useState('');
@@ -62,10 +62,6 @@ export const AuthProvider = ({ children }) => {
     fetchUserData();
   };
 
-  const handleEditCompany = (index) => {
-    setEditCompanyIndex(index);
-  };
-
   const togglePopup = (type) => setPopupType(type === popupType ? "none" : type);
 
   const fetchUserData = async () => {
@@ -91,6 +87,7 @@ export const AuthProvider = ({ children }) => {
     setModalMode(null);
     setEditAddressIndex(null);
   }
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -108,8 +105,7 @@ export const AuthProvider = ({ children }) => {
       const getCookieValue = (name) => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-        return null; 
+        return parts.length === 2 ? parts.pop().split(';').shift() : null;
       };
       const authToken = getCookieValue("authToken");
       const decodedToken = jwtDecode(authToken);
@@ -123,12 +119,9 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.post(
         `http://localhost:8080/addAddress?login=${login}`,
         addressData,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`
-          },
-        }
+        { headers: { Authorization: `Bearer ${authToken}` } }
       );
+
       setAddresses(prevAddresses => [...prevAddresses, response.data]);
       handleCloseModal();
       window.location.reload();
@@ -136,12 +129,6 @@ export const AuthProvider = ({ children }) => {
       console.error('Error adding address:', error.response?.data || error.message);
     }
   };
-
-
-  
-  
-
-
 
   const handleEdit = async (e) => {
   
@@ -161,19 +148,24 @@ export const AuthProvider = ({ children }) => {
       .find((row) => row.startsWith(name + "="))
       ?.split("=")[1];
   const authToken = getCookieValue("authToken");
+  
   console.log(currentEdit); 
+  console.log(authToken);
 
-
-  const response = await axios.post(
-    `http://localhost:8080/editAddress?id=${currentEdit}`,
-    formData,
-    {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    }
-  );
+  try {
+    const response = await axios.post(
+      `http://localhost:8080/editAddress?id=${currentEdit}`,
+      formData,
+      { headers: {Authorization: `Bearer ${authToken}` } }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error editing address:', error);
+    throw error; 
   }
+  
+}
+
   const handleDelete = async (id) => {
 
     const confirmDelete = window.confirm("Czy na pewno chcesz usunąć adres?");
@@ -241,10 +233,13 @@ export const AuthProvider = ({ children }) => {
     }
   }, [isLoggedIn]);
 
+
+
   return (
     <AuthContext.Provider
     value={{
-      isLoggedIn, userData, handleLogin, handleLogout,
+      isLoggedIn, userData, 
+      handleLogin, handleLogout,
       housingType, setHousingType,
       firstName, setFirstName,
       lastName, setLastName,
@@ -256,13 +251,19 @@ export const AuthProvider = ({ children }) => {
       city, setCity,
       currentEdit, setCurrentEdit,
       handleEdit, onEdit, 
-      isOpen, setIsOpen,
+      isOpen, setIsOpen, 
       handleSubmit, handleSetDefaultAddress,
       modalMode, setModalMode, 
       login, setLogin,
       editAddressIndex, setEditAddressIndex,
-      handleDelete, houseNumber, setHouseNumber,
-      companyName, setCompanyName,email, setEmail,setEditCompanyIndex,
+      handleDelete, 
+      houseNumber, setHouseNumber, 
+      companyId, setCompanyId, 
+      companyName, setCompanyName, 
+      newAddress, setNewAddress,
+      email, setEmail, 
+      addresses, comments, setComments,
+      setEditCompanyIndex, editCompanyIndex,
       dietType, setDietType, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType, companyStatus, setCompanyStatus,
       dietName, setDietName, dietDescription, setDietDescription, dietTypeReq, setDietTypeReq
     }}

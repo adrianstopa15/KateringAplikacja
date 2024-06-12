@@ -47,7 +47,7 @@ export default function AdminAdressesCompany() {
             );
             setCompanies(response.data);
             
-            const addressesResponse = await axios.get('http://localhost:8080/showCompanyAddresses', {
+            const addressesResponse = await axios.get('http://localhost:8080/showCompanyAddresses',  {
               headers: { Authorization: `Bearer ${authToken}` },
             });
             setAddresses(addressesResponse.data); 

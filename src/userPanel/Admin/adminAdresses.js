@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from '../../AuthContext';
 import axios from "axios";
 import PanelModal from "../panelModal";
+import AdminAdressesEdit from "./adminAdressesEdit";
 
 
 export default function AdminAdresses() {
@@ -80,10 +81,9 @@ export default function AdminAdresses() {
         <h1 className="h1-regular mb-m">Adresy użytkowników:</h1>
         <div className="address-info">
         {addresses.map((address, index) => {
-            const customer = customers.find(c => c.id === address.customerId) || {};
             return (
           <div key={index} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
-            <p>Imię i Nazwisko: {customer.firstName} {customer.lastName}</p>
+            {/* <p>Imię i Nazwisko: {address.customer.firstName} {address.customer.lastName}</p> */}
             <p className="ulica">Ulica: {(address.street && address.houseNumber) ? `${address.street} ${address.houseNumber}` : "Ulica"}</p>
             <p className="k-pocztowy">Kod pocztowy: {address.postalCode}</p>
             <p className="miasto">Miasto: {address.city}</p>
@@ -97,7 +97,7 @@ export default function AdminAdresses() {
           </div>
         );
       })}
-  <PanelModal open={isOpen && modalMode === 'edit'} onClose={() => {handleCloseModal(); setEditAddressIndex(null); }}>
+  <AdminAdressesEdit open={isOpen && modalMode === 'edit'} onClose={() => {handleCloseModal(); setEditAddressIndex(null); }}>
       {editAddressIndex !== null && (
         <form onSubmit={handleSubmit} className="form1">
           <div className="form-group">
@@ -176,7 +176,7 @@ export default function AdminAdresses() {
       )}
               </form>
             )}
-          </PanelModal>
+          </AdminAdressesEdit>
         </div>
       </div>
     </div>

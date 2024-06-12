@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactDom from "react-dom";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../../AuthContext";
 
 
 const MODAL_STYLES = {
@@ -27,7 +27,7 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function PanelModal({ open, children, onClose }) {
+export default function AdminAdressesEdit({ open, children, onClose }) {
 
   const { 
     housingType, setHousingType,
@@ -44,14 +44,10 @@ export default function PanelModal({ open, children, onClose }) {
     const [formMode, setFormMode] = useState(null);
    
 
-    const handleSave = async () => {
-      try {
-        await handleEdit();
+    const handleSave = async (e) => {
+        await handleEdit(e);
         onClose();
         window.location.reload();
-      } catch (error) {
-        console.error('Failed to edit:', error);
-      }
     }
   if (!open) return null;
   return ReactDom.createPortal(

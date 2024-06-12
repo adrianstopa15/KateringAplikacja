@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from '../../AuthContext';
 import axios from "axios";
 import PanelModal from "../panelModal";
-import { jwtDecode } from "jwt-decode";
 
 export default function AdminList() {
   const [customers, setCustomers] = useState([]);
@@ -58,7 +57,58 @@ export default function AdminList() {
     };
 
     const handleSubmit = async (e) => {
+      await handleCustomerEdit(e);
+      e.preventDefault();  
+    };
+
+    const handleCustomerEdit = async (e) => {
       e.preventDefault();
+    
+      if (currentCustomer === null) {
+        alert('Nie wybrano klienta do edycji!');
+        return;
+      }
+    
+      const getCookieValue = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+      };
+      const authToken = getCookieValue("authToken");
+    
+      const data = {
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone,
+      };
+    
+      try {
+        const response = await axios.post(`http://localhost:8080/editCustomer/${currentCustomer.customerId}`, data, {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+    
+        if (response.status === 200) {
+          console.log('Edycja zakończona sukcesem', response.data);
+          alert("Dane użytkownika zostały zaktualizowane.");
+          
+          const updatedCustomers = [...customers];
+          updatedCustomers[editCustomerIndex] = response.data;
+          setCustomers(updatedCustomers);
+    
+          setIsOpen(false);
+          setCurrentCustomer(null);
+          setModalMode(null);
+        } else {
+          console.error('Nieoczekiwana odpowiedź serwera przy edycji klienta:', response);
+          alert("Nie udało się zaktualizować danych użytkownika. Status: " + response.status);
+        }
+      } catch (error) {
+        console.error("Error updating customer:", error);
+        alert("Nie udało się zaktualizować danych użytkownika: " + error.message);
+      }
     };
   
     const handleDeleteCustomer = async (customerId) => {
@@ -99,11 +149,11 @@ export default function AdminList() {
         <div className="user-da   ta-display ml-s mt-s">
         <h1 className="h1-regular mb-m">Lista użytkowników:</h1>
         {customers.map((customer, index) => (
-        <div key={customer.id} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
+        <div key={index} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
             <p>Imię: {customer.firstName}</p>
             <p>Nazwisko: {customer.lastName}</p>
             <p>Telefon: {customer.phone}</p>
-            <button className="button-27-e" onClick={() => { setIsOpen(true); handleOpenModal('edit'); handleEditCustomer(index); }}>Edytuj</button>
+            <button className="button-27-e" onClick={() => { setIsOpen(true); handleOpenModal('edit'); handleEditCustomer(currentCustomer.customerId); }}>Edytuj</button>
             <button className="button-27-d ml-s" onClick={() => handleDeleteCustomer(customer.id)}>Usuń</button>
         </div>
         ))}

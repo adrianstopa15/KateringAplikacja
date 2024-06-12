@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ReactDom from "react-dom";
 import { useAuth } from "../AuthContext";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 
 const MODAL_STYLES = {
@@ -28,21 +30,23 @@ const OVERLAY_STYLES = {
 };
 
 export default function PanelModalAdd({ open, children, onClose }) {
-  const { modalMode, handleSubmit, handleEdit } = useAuth();
+  const {modalMode, handleSubmit, handleEdit } = useAuth();
   const [formMode, setFormMode] = useState(null);
-  
-  
+  const [isOpen, setIsOpen] = useState(false);
+  const [addresses, setAddresses] = useState([]);
+
   const { 
     housingType, setHousingType,
       firstName, setFirstName,
       lastName, setLastName,
       phone, setPhone,
+      houseNumber, setHouseNumber,
       street, setStreet,
       apartmentNumber, setApartmentNumber,
       floor, setFloor,
       postalCode, setPostalCode,
       city, setCity,
-      setModalMode, setHouseNumber,
+      setModalMode, 
     currentEdit, setCurrentEdit, onEdit,
     editAddressIndex, setEditAddressIndex} = useAuth();
     
@@ -51,7 +55,8 @@ export default function PanelModalAdd({ open, children, onClose }) {
         await handleSubmit(e);
         onClose();
       };
-      
+
+
   if (!open) return null;
 
   return ReactDom.createPortal(

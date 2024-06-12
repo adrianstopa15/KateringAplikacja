@@ -103,7 +103,7 @@ export default function AdminListCompany() {
     <div className="user-da   ta-display ml-s mt-s">
       <h1 className="h1-regular mb-m">Lista firm:</h1>
       {companies.map((company, index) => (
-        <div key={company.id} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
+        <div key={`${company.id}-${index}`} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
           <p>Nazwa firmy: {company.companyName}</p>
           <p>NIP: {company.nip}</p>
           <p>Typ diety: {company.dietType}</p>

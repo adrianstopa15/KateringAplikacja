@@ -28,24 +28,9 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function AdminModalCompany({ open, currentCompany, children, onSave, onClose }) {
-    const [editedCompany, setEditedCompany] = useState(currentCompany || {});
-    const [companies, setCompanies] = useState([]);
-    const [setCurrentCompany] = useState({});
-    const [editCompanyIndex, setEditCompanyIndex] = useState(null);
+export default function AdminModalCompany({ open, children, onClose }) {
+  const { companyId, setCompanyId } = useAuth();
 
-    useEffect(() => {
-        if (currentCompany) {
-          console.log("Modal initialized with company:", currentCompany);
-          setEditedCompany(currentCompany);
-        }
-      }, [currentCompany]);
-
-      const handleEditCompany = (index) => {
-        setCurrentCompany(companies[index]);
-        setEditCompanyIndex(index);
-        console.log("Selected company for editing:", companies[index]);  
-      }
 
     const handleSave = async (e) => {
         e.preventDefault();
@@ -58,15 +43,19 @@ export default function AdminModalCompany({ open, currentCompany, children, onSa
         const authToken = getCookieValue("authToken");
     
         try {
-            const response = await axios.post(`http://localhost:8080/editCompany?id=${editCompanyIndex}`, editedCompany, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                },
-            });
+          const response = await axios.post(`http://localhost:8080/editCompany`, {
+              companyId: companyId,
+          }, {
+              headers: {
+                  Authorization: `Bearer ${authToken}`,
+              },
+          });
+
     
           if (response.status === 200) {
             console.log('Company update successful', response.data);
             alert("Firma została zaktualizowana.");
+            
             window.location.reload();
           } else {
             console.error('Unexpected server response when updating company:', response);
