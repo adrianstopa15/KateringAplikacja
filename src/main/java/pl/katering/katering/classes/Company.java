@@ -1,7 +1,9 @@
 package pl.katering.katering.classes;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "company")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "companyId")
+
 public class Company {
 
     @Id
@@ -41,7 +45,7 @@ public class Company {
     private String status = "Oczekujące";
 
 //    @JsonIgnore
-    @JsonBackReference(value = "address-company")
+//    @JsonBackReference(value = "address-company")
     @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
     private Address address;
 

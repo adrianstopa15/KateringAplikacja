@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.katering.katering.classes.Address;
+import pl.katering.katering.classes.Company;
 import pl.katering.katering.classes.Customer;
 import pl.katering.katering.classes.User;
 import pl.katering.katering.repositories.AddressRepository;
@@ -73,6 +74,8 @@ public class AddressService {
 
     public ResponseEntity<?> editAddress(Address address, Integer id) {
         Address customerAddress = addressRepository.findByAddressId(id);
+//        Company customerAddressCompany = customerAddress.getCompany();
+//        Customer customer = customerAddress.getCustomer();
         if (address.getCity() != null) {
             customerAddress.setCity(address.getCity());
         }
@@ -94,6 +97,8 @@ public class AddressService {
         if (address.getHousingType() != null) {
             customerAddress.setHousingType(address.getHousingType());
         }
+        customerAddress.setCompany(customerAddress.getCompany());
+        customerAddress.setCustomer(customerAddress.getCustomer());
 
         return ResponseEntity.ok(addressRepository.save(customerAddress));
     }

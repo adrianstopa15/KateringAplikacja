@@ -29,7 +29,7 @@ public class CustomerService {
     }
 
     public List<Customer> showCustomers() {
-        return customerRepository.findAll();
+        return customerRepository.findCustomersOnly();
     }
 
     public ResponseEntity<?> showCustomer(String login) {

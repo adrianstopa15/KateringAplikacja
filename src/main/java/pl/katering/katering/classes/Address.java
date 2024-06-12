@@ -1,8 +1,6 @@
 package pl.katering.katering.classes;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "address")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "addressId")
+
 public class Address {
 
     @Id
@@ -38,13 +38,13 @@ public class Address {
     private boolean isDefault;
 
 //    @JsonIgnore
-    @JsonManagedReference(value = "address-customer")
+//    @JsonManagedReference(value = "address-customer")
     @ManyToOne
     @JoinColumn(name = "customerId")
     private Customer customer;
 
 //    @JsonIgnore
-    @JsonManagedReference(value = "address-company")
+//    @JsonManagedReference(value = "address-company")
     @OneToOne
     @JoinColumn(name = "companyId")
     private Company company;

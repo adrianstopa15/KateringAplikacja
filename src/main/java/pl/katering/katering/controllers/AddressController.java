@@ -1,5 +1,6 @@
 package pl.katering.katering.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +48,7 @@ public class AddressController {
     }
 
     @PostMapping("/editAddress")
+//    @JsonIgnoreProperties({"customer", "company"})
     public ResponseEntity<?> editAddress(@RequestBody Address address, @RequestParam Integer id) {
         return addressService.editAddress(address, id);
     }
