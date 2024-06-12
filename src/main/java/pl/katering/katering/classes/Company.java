@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "company")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "companyId")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "companyId")
 
 public class Company {
 
@@ -44,8 +44,8 @@ public class Company {
 
     private String status = "Oczekujące";
 
-//    @JsonIgnore
-//    @JsonBackReference(value = "address-company")
+    //    @JsonIgnore
+    @JsonBackReference(value = "address-company")
     @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
     private Address address;
 

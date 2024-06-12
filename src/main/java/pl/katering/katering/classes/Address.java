@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "address")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "addressId")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "addressId")
 
 public class Address {
 
@@ -37,14 +37,15 @@ public class Address {
 
     private boolean isDefault;
 
-//    @JsonIgnore
+    //    @JsonIgnore
 //    @JsonManagedReference(value = "address-customer")
     @ManyToOne
+    @JsonBackReference(value = "customer-address")
     @JoinColumn(name = "customerId")
     private Customer customer;
 
-//    @JsonIgnore
-//    @JsonManagedReference(value = "address-company")
+    //    @JsonIgnore
+    @JsonManagedReference(value = "address-company")
     @OneToOne
     @JoinColumn(name = "companyId")
     private Company company;

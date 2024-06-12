@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "customer")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "customerId")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "customerId")
 public class Customer {
 
     @Id
@@ -37,8 +37,9 @@ public class Customer {
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Preference preference;
 
-//    @JsonIgnore
+    //    @JsonIgnore
 //    @JsonBackReference(value = "address-customer")
+    @JsonManagedReference(value = "customer-address")
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Address> addresses;
 }
