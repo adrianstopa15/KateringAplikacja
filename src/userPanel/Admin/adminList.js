@@ -6,7 +6,7 @@ import PanelModal from "../panelModal";
 export default function AdminList() {
   const [customers, setCustomers] = useState([]);
   const [editCustomerIndex, setEditCustomerIndex] = useState(null);
-  const [currentCustomer, setCurrentCustomer] = useState(null);
+  const [currentCustomer, setCurrentCustomer] = useState();
   const { isOpen, setIsOpen, modalMode, setModalMode } = useAuth();
   
   const {
@@ -56,7 +56,7 @@ export default function AdminList() {
       setModalMode(null);
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit1 = async (e) => {
       await handleCustomerEdit(e);
       e.preventDefault();  
     };
@@ -76,6 +76,8 @@ export default function AdminList() {
         return null;
       };
       const authToken = getCookieValue("authToken");
+      console.log(currentCustomer); 
+
     
       const data = {
         firstName: firstName,
@@ -84,7 +86,7 @@ export default function AdminList() {
       };
     
       try {
-        const response = await axios.post(`http://localhost:8080/editCustomer/${currentCustomer.customerId}`, data, {
+        const response = await axios.post(`http://localhost:8080/editCustomer?id=${currentCustomer}`, data, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -123,7 +125,7 @@ export default function AdminList() {
       if (window.confirm("Czy na pewno chcesz usunąć tego użytkownika i wszystkie jego dane?")) {
         try {
           const authToken = document.cookie.split('; ').find(row => row.startsWith('authToken=')).split('=')[1];
-          const response = await axios.delete(`http://localhost:8080/deleteCustomer/${customerId}`, {
+          const response = await axios.delete(`http://localhost:8080/deleteCustomer?id=${currentCustomer}`, {
             headers: {
               Authorization: `Bearer ${authToken}`,
             },
@@ -153,14 +155,14 @@ export default function AdminList() {
             <p>Imię: {customer.firstName}</p>
             <p>Nazwisko: {customer.lastName}</p>
             <p>Telefon: {customer.phone}</p>
-            <button className="button-27-e" onClick={() => { setIsOpen(true); handleOpenModal('edit'); handleEditCustomer(currentCustomer.customerId); }}>Edytuj</button>
-            <button className="button-27-d ml-s" onClick={() => handleDeleteCustomer(customer.id)}>Usuń</button>
+            <button className="button-27-e" onClick={() => { setIsOpen(true); handleOpenModal('edit'); handleEditCustomer(customer.customerId); }}>Edytuj</button>
+            <button className="button-27-d ml-s" onClick={() => handleDeleteCustomer(customer.customerId)}>Usuń</button>
         </div>
         ))}
       
         <PanelModal open={isOpen && modalMode === 'edit'} onClose={() => handleCloseModal()}>
       {editCustomerIndex !== null && (
-        <form onSubmit={handleSubmit} className="form1">
+        <form onSubmit={handleSubmit1} className="form1">
         <div className="form-group">
           <label>Podaj Imię:</label>
           <input type="text" value={firstName} name="firstName" id="firstName" onChange={(e) => setFirstName(e.target.value)} required />

@@ -59,6 +59,18 @@ export default function AdminAdresses() {
         fetchAddresses();
       }, []);
 
+    useEffect(() => {
+      if (addresses.length > 0 && editAddressIndex != null) {
+        const address = addresses[editAddressIndex];
+        setStreet(address.street);
+        setApartmentNumber(address.apartmentNumber);
+        setPostalCode(address.postalCode);
+        setCity(address.city);
+        setHouseNumber(address.houseNumber);
+      }
+    }, [addresses, editAddressIndex]);
+   
+
   const handleOpenModal = (mode) => {
     setModalMode(mode);
     setIsOpen(true);
@@ -74,29 +86,30 @@ export default function AdminAdresses() {
     e.preventDefault();
   };
   
-
   return (
     <div>
       <div className="user-data-display ml-s mt-s">
         <h1 className="h1-regular mb-m">Adresy użytkowników:</h1>
         <div className="address-info">
-        {addresses.map((address, index) => {
-            return (
-          <div key={index} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
-            {/* <p>Imię i Nazwisko: {address.customer.firstName} {address.customer.lastName}</p> */}
-            <p className="ulica">Ulica: {(address.street && address.houseNumber) ? `${address.street} ${address.houseNumber}` : "Ulica"}</p>
-            <p className="k-pocztowy">Kod pocztowy: {address.postalCode}</p>
-            <p className="miasto">Miasto: {address.city}</p>
-            <button className="button-27-e " onClick={() => {setIsOpen(true); handleOpenModal('edit'); setEditAddressIndex(index); onEdit(address.addressId)}}>
-            Zaktualizuj adres
-            </button>
-            <button className={`button-27-d ml-s`}
-             onClick={() => handleDelete(address.addressId)}
-            >Usuń adres
-            </button>
-          </div>
-        );
-      })}
+          {customers.map((customer, index) => (
+            <div key={customer.customerId}>
+              <h3>{customer.firstName} {customer.lastName}</h3>
+              {customer.addresses.map((address) => (
+                <div key={index} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
+                  <p>Ulica: {address.street} {address.houseNumber}</p>
+                  <p>Kod pocztowy: {address.postalCode}</p>
+                  <p>Miasto: {address.city}</p>
+                  <button className="button-27-e " onClick={() => {setIsOpen(true); handleOpenModal('edit'); setEditAddressIndex(index); onEdit(address.addressId)}}>
+                  Zaktualizuj adres
+                  </button>
+                  <button className={`button-27-d ml-s`}
+                  onClick={() => handleDelete(address.addressId)}
+                  >Usuń adres
+                  </button>
+                </div>
+              ))}
+            </div>
+        ))}
   <AdminAdressesEdit open={isOpen && modalMode === 'edit'} onClose={() => {handleCloseModal(); setEditAddressIndex(null); }}>
       {editAddressIndex !== null && (
         <form onSubmit={handleSubmit} className="form1">
