@@ -29,6 +29,6 @@ public class DietType {
 //    @JsonIgnore
 //    @JsonBackReference(value = "diet-dietType")
     @JsonIgnoreProperties("dietType")
-    @OneToMany(mappedBy = "dietType")
+    @OneToMany(mappedBy = "dietType", cascade = CascadeType.ALL)
     private List<Diet> diets;
 }

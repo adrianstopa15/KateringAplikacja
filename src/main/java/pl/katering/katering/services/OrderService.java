@@ -15,7 +15,6 @@ import pl.katering.katering.repositories.UserRepository;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class OrderService {
@@ -47,10 +46,9 @@ public class OrderService {
         Customer customer = customerRepository.findByUserId(user.get().getUserId());
         Diet diet = dietRepository.findByDietId(id);
         Order newOrder = new Order();
-        newOrder.setOrderName(order.getOrderName());
         newOrder.setStartDate(order.getStartDate());
         newOrder.setEndDate(order.getEndDate());
-        long daysBetween = ChronoUnit.DAYS.between(order.getStartDate().toInstant(), order.getEndDate().toInstant());
+        long daysBetween = ChronoUnit.DAYS.between(order.getStartDate(), order.getEndDate());
         Double finalPrice = daysBetween * diet.getPriceForDay();
         newOrder.setPrice(finalPrice);
 

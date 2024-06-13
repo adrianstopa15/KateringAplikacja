@@ -43,12 +43,12 @@ public class Diet {
     @JoinColumn(name = "dietTypeId")
     private DietType dietType;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "companyId")
     private Company company;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "diet")
+    @OneToMany(mappedBy = "diet", cascade = CascadeType.ALL)
     private List<Order> orders;
 }
