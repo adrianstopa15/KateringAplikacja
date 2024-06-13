@@ -123,6 +123,7 @@ public class AuthenticationService {
         user.setLogin(request.getLogin());
         user.setPassword(passwordEncoder.encode(randomPassword));
         user.setRole(Role.valueOf("COMPANY"));
+        user.setFirstLogin(false);
 
         user = userRepository.save(user);
 
