@@ -92,23 +92,25 @@ export default function AdminDietType() {
       <div>
         <div className="ml-s mt-s">
           <h1 className="h1-regular mb-m">Dodaj diete</h1>
-            <form onSubmit={handledietType} className='form-modal'>
-            <label>Typ diety: <input type="text"
-                    value={name}
-                    name="name"
-                    id="name"
-                    onChange={(e) => setDietName(e.target.value)}
-            /></label>
-            <div className="flex-c mt-sm">
+          <form className="form-container" onSubmit={handledietType}>
+          <label>
+              Typ diety: 
+              <input type="text"
+                  value={name}
+                  name="name"
+                  id="name"
+                  onChange={(e) => setDietName(e.target.value)}
+                  required
+              />
+          </label>
           <button className="button-27-save" type="submit">
-            Zapisz
+              Zapisz
           </button>
-          </div>
-        </form>  
+         </form> 
         {dietTypes.map((dietType, index) => (
         <div key={`${dietType.dietTypeId} ${index}`} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
           <p>Typ diety: {dietType.name}</p>
-          <button className="button-27-d ml-s" onClick={() => handleDelete (dietType.dietTypeId)}>Usuń</button>
+          <button className="button-27-d" onClick={() => handleDelete (dietType.dietTypeId)}>Usuń</button>
         </div>
       ))}
         </div>
