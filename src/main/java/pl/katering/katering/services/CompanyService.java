@@ -10,6 +10,7 @@ import pl.katering.katering.classes.User;
 import pl.katering.katering.repositories.AddressRepository;
 import pl.katering.katering.repositories.CompanyRepository;
 import pl.katering.katering.repositories.TemporaryAddressRepository;
+import pl.katering.katering.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -21,14 +22,16 @@ public class CompanyService {
     private final TemporaryAddressRepository temporaryAddressRepository;
     private final UserService userService;
     private final AuthenticationService authenticationService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CompanyService(CompanyRepository companyRepository, AddressRepository addressRepository, TemporaryAddressRepository temporaryAddressRepository, UserService userService, AuthenticationService authenticationService) {
+    public CompanyService(CompanyRepository companyRepository, AddressRepository addressRepository, TemporaryAddressRepository temporaryAddressRepository, UserService userService, AuthenticationService authenticationService, UserRepository userRepository) {
         this.companyRepository = companyRepository;
         this.addressRepository = addressRepository;
         this.temporaryAddressRepository = temporaryAddressRepository;
         this.userService = userService;
         this.authenticationService = authenticationService;
+        this.userRepository = userRepository;
     }
 
     public List<Company> showCompanies() {
@@ -146,7 +149,9 @@ public class CompanyService {
 
     public ResponseEntity<?> deleteCompany(Integer id) {
         Company company = companyRepository.findByCompanyId(id);
+        User user = userRepository.findUsingLogin(company.getLogin());
         companyRepository.delete(company);
+        userRepository.delete(user);
 
         return ResponseEntity.ok("Pomyślnie usunięto firmę");
     }

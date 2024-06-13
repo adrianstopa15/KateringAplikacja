@@ -115,8 +115,8 @@ public class CustomerService {
 
     public ResponseEntity<?> deleteCustomer(Integer id) {
         Customer customer = customerRepository.findByCustomerId(id);
-
-        customerRepository.delete(customer);
+        User user = userRepository.findByUserId(customer.getUser().getUserId());
+        userRepository.delete(user);
 
         return ResponseEntity.ok("Pomyślnie usunięto customera");
     }
