@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
   const [dietType, setDietType] = useState('');
   const [dietName, setDietName] = useState("");
   const [dietDescription, setDietDescription] = useState("");
-  const [dietTypeReq, setDietTypeReq] = useState("");
+
   const [comments, setComments] = useState('');
   const [description, setDescription] = useState('');
   const [popupType, setPopupType] = useState("none");
@@ -458,7 +458,7 @@ const handleCustomerEdit = async (e) => {
     
      
       dietType, setDietType, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType, companyStatus, setCompanyStatus,
-      dietName, setDietName, dietDescription, setDietDescription, dietTypeReq, setDietTypeReq
+      dietName, setDietName, dietDescription, setDietDescription, 
     }}
     >
       {children}

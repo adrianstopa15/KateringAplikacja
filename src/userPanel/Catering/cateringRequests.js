@@ -22,37 +22,73 @@ export default function CateringRequests() {
       city, setCity,
       setModalMode, setHouseNumber,
     currentEdit, setCurrentEdit, onEdit,
-    editAddressIndex, setEditAddressIndex, dietName, setDietName, dietDescription, setDietDescription, dietTypeReq, setDietTypeReq} = useAuth();
-
-
-
-      const applyDiet = async (x) => {
-        x.preventDefault(); 
-
-        const getCookieValue = (name) => {
-          const value = `; ${document.cookie}`;
-          const parts = value.split(`; ${name}=`);
-          if (parts.length === 2) return parts.pop().split(';').shift();
-          return null;
-        };
-        const authToken = getCookieValue("authToken");
-        const decodedToken = jwtDecode(authToken);
-        const login = decodedToken.sub;
-
-        const formData = {
+    editAddressIndex, setEditAddressIndex, dietName, setDietName, dietDescription, setDietDescription} = useAuth();
+    const [dietTypeReq, setDietTypeReq] = useState("");
+    const [dietTypes, setDietTypes] = useState([]);
+    const [diets, setDiets] = useState([]);
+    const [priceForDay, setPriceForDay] = useState(50);
+    const applyDiet = async (x) => {
+      x.preventDefault(); 
+  
+      const getCookieValue = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+      };
+      const authToken = getCookieValue("authToken");
+      const decodedToken = jwtDecode(authToken);
+      const login = decodedToken.sub;
+  
+      const formData = {
         dietName,
         dietDescription,
-        };
-  
-        try {
-          const apply = await axios.post(`http://localhost:8080/addDiet?login=${login}&dietTypeName=${dietTypeReq}`
-          ,formData,{
-            headers: { Authorization: `Bearer ${authToken}` },
-          });
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
+        priceForDay,
       };
+  
+      console.log("FormData:", formData); // Logowanie danych
+  
+      try {
+        const apply = await axios.post(`http://localhost:8080/addDiet?login=${login}&dietTypeName=${dietTypeReq}`, formData, {
+          headers: { Authorization: `Bearer ${authToken}` },
+        });
+        console.log("Response:", apply); // Logowanie odpowiedzi
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        console.log("Error response data:", error.response?.data); // Logowanie odpowiedzi błędu
+      }
+  };
+  
+      useEffect(() => {
+        const fetchDietTypes = async () => {
+          try {
+            const getCookieValue = (name) => {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+                return null;
+              };
+              const authToken = getCookieValue("authToken");
+            
+     
+              const response = await axios.get(
+              `http://localhost:8080/showDietTypes`,
+              {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+              }
+            );
+            setDietTypes(response.data);
+          } catch (error) {
+            console.error("Error fetching DietTypes:", error);
+          }
+        };
+     
+        fetchDietTypes();
+      }, []);
+    {console.log(dietTypeReq);
+    }
       
     return (
     <div>
@@ -86,11 +122,13 @@ export default function CateringRequests() {
                id="dietTypeReq"
                onChange={(e) => setDietTypeReq(e.target.value)}
             >
-              <option>studencka</option>
-              <option>ketogeniczna</option>
-              {/* <option>typ diety 3</option>
-              <option>typ diety 4</option>
-              <option>typ diety 5</option> */}
+              {dietTypes.map((type) => (
+                    <option key={type.dietTypeId} value={type.name}>
+                        {type.name}
+                    </option>
+                ))}
+             
+           
             </select>
             <div className='buttons-container' style={{marginTop:"10px"}}>
               <button type="submit" className="button-27-save" style={{marginRight:"15px"}}>Wyślij</button>
