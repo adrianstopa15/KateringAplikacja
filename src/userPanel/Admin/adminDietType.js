@@ -80,7 +80,7 @@ export default function AdminDietType() {
       const authToken = getCookieValue("authToken");
 
       try {
-        await axios.post(`http://localhost:8080/deleteDietType?id=${id}`, {},   {
+        await axios.post(`http://localhost:8080/deleteDietType?id=${id}`,   {
           headers: { Authorization: `Bearer ${authToken}` },
         });
         console.log("Dieta została usunieta.");
@@ -91,7 +91,7 @@ export default function AdminDietType() {
     return (
       <div>
         <div className="ml-s mt-s">
-          <h1 className="h1-regular mb-m">Typy diet </h1>
+          <h1 className="h1-regular mb-m">Dodaj diete</h1>
             <form onSubmit={handledietType} className='form-modal'>
             <label>Typ diety: <input type="text"
                     value={name}
