@@ -653,3 +653,27 @@ footer {
     opacity: 1;
   }
 }
+
+.form-container {
+  margin-bottom: 20px; 
+  display: flex; 
+  align-items: center; 
+}
+
+.form-container label {
+  display: flex; 
+  align-items: center; 
+  margin-right: 10px; 
+  color: #333; 
+  font-size: 16px; 
+}
+
+.form-container input[type="text"] {
+  width: 250px; 
+  padding: 8px; 
+  margin-top: 4px; 
+  margin-right: 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  box-sizing: border-box; 
+}

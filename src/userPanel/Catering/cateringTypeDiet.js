@@ -3,9 +3,8 @@ import { useAuth } from '../../AuthContext';
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-
-
 export default function CateringTypeDiet() {
+
     const [dietTypes, setDietTypes] = useState([]);
 
     useEffect(() => {
@@ -65,7 +64,7 @@ export default function CateringTypeDiet() {
     return (
       <div>
         <div className="ml-s mt-s">
-          <h1 className="h1-regular mb-m">Typy diet:</h1>
+          <h1 className="h1-regular mb-m">Typy naszych diet: </h1>
           <div className="address-info">
           {dietTypes.map((dietType, index) => (
         <div key={`${dietType.dietTypeId} ${index}`} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
