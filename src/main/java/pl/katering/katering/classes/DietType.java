@@ -1,6 +1,8 @@
 package pl.katering.katering.classes;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +25,8 @@ public class DietType {
 
     private String name;
 
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference(value = "diet-dietType")
     @OneToMany(mappedBy = "dietType")
     private List<Diet> diets;
 }
