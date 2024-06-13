@@ -44,6 +44,7 @@ public class DietService {
         Diet newDiet = new Diet();
         newDiet.setDietName(diet.getDietName());
         newDiet.setDietDescription(diet.getDietDescription());
+        newDiet.setPriceForDay(diet.getPriceForDay());
         newDiet.setDietType(dietType);
         newDiet.setCompany(company);
 

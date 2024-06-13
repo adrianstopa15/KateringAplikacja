@@ -7,37 +7,37 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "meal")
-public class Meal {
+@Table(name = "orders")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer mealId;
+    private Integer orderId;
 
-    private String name;
+    private String orderName;
 
-    private String description;
+    @Column(columnDefinition = "DATE")
+    private Date startDate;
 
-//    private Double price;
+    @Column(columnDefinition = "DATE")
+    private Date endDate;
 
-    private String status = "Oczekujące";
+    private Double price;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "typeId")
-    private MealType mealType;
+    @JoinColumn(name = "customerId")
+    private Customer customer;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "dietId")
     private Diet diet;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "meal")
-    private Macro macro;
 }

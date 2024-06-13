@@ -25,7 +25,7 @@ public class Diet {
 
     private String dietDescription;
 
-    //cena dodanie
+    private Double priceForDay;
 
     private String status = "Oczekujące";
 
@@ -42,4 +42,8 @@ public class Diet {
     @ManyToOne
     @JoinColumn(name = "companyId")
     private Company company;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "diet")
+    private List<Order> orders;
 }
