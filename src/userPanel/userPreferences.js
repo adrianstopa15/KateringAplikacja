@@ -2,49 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../AuthContext"; 
 import axios from "axios";
 import "../profilePages.css";
-import Modal from "react-modal";
-import PanelModal from "./panelModal";
 import { jwtDecode } from "jwt-decode";
+import UserPreferencesModal from "./userPreferencesModal";
+
 const UserPreferences = () => {
-  const { userData, fetchUserData } = useAuth();
+  const { userDataCurrent, fetchUserData } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [modalMode, setModalMode] = useState(null);
   const [preferences, setPreferences] = useState([]);
 
   
-
-  //przerobic na endpoint z preferencjami
-  // useEffect(() => {
-  //   const fetchAddresses = async () => {
-  //     try {
-  //       const getCookieValue = (name) =>
-  //         document.cookie
-  //           .split("; ")
-  //           .find((row) => row.startsWith(name + "="))
-  //           ?.split("=")[1];
-  //       const authToken = getCookieValue("authToken");
-  //       console.log(authToken);
-
-  //       // const login = decodedToken.sub;
-
-  //       const response = await axios.get(
-  //         `http://localhost:8080/showCustomerAddresses?login=${}`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${authToken}`,
-  //           },
-  //         }
-  //       );
-
-  //       setPreferences(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching addresses:", error);
-  //     }
-  //   };
-
-  
-
-  //   fetchAddresses();
-  // }, []);
   useEffect(() => {
     const fetchPreferences = async () => {
       try {
@@ -73,43 +40,12 @@ const UserPreferences = () => {
         console.error("Error fetching addresses:", error);
       }
     };
-
-  
-
     fetchPreferences();
   }, []);
 
-
-
-
-
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const getCookieValue = (name) =>
-  //       document.cookie
-  //         .split("; ")
-  //         .find((row) => row.startsWith(name + "="))
-  //         ?.split("=")[1];
-  //     const authToken = getCookieValue("authToken");
-
-  //     await axios.post("http://localhost:8080/updateUserPreferences", preferences, {
-  //       headers: {
-  //         Authorization: `Bearer ${authToken}`,
-  //       },
-  //     });
-
-  //     setIsOpen(false);
-  //     fetchUserData(); 
-  //   } catch (error) {
-  //     console.error("Error updating preferences:", error);
-  //   }
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -119,15 +55,6 @@ const UserPreferences = () => {
     }));
   };
 
-  // useEffect(() => {
-   
-  //     const preferences = preferences[editPre];
-  //     setStreet(address.street);
-  //     setApartmentNumber(address.apartmentNumber);
-  //     setPostalCode(address.postalCode);
-  //     setCity(address.city);
-  //     setHouseNumber(address.HouseNumber); // ? 
-  // }, [addresses, editAddressIndex]);
 
   return (
     <div>
@@ -142,7 +69,7 @@ const UserPreferences = () => {
           <p className="preference-item">Wybrany cel: {preferences.selectedGoal || "Brak danych"}</p>
           <button className="button-27-e" onClick={() => setIsOpen(true)}>Edytuj preferencje</button>
         </div>
-        <PanelModal open={isOpen} onClose={() => setIsOpen(false)}>
+        <UserPreferencesModal open={isOpen} onClose={() => setIsOpen(false)}>
   <form onSubmit={handleSubmit} className="form1">
     <div className="form-group">
       <label>Waga:</label>
@@ -206,7 +133,7 @@ const UserPreferences = () => {
       </select>
     </div>
   </form>
-</PanelModal>
+</UserPreferencesModal>
       </div>
     </div>
   );

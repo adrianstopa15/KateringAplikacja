@@ -27,26 +27,21 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function PanelModal({ open, children, onClose }) {
-
-  const { 
-    housingType, setHousingType,
-      firstName, setFirstName,
-      lastName, setLastName,
-      phone, setPhone,
-      street, setStreet,
-      apartmentNumber, setApartmentNumber,
-      floor, setFloor,
-      postalCode, setPostalCode,
-      city, setCity,
-    currentEdit, setCurrentEdit, handleEdit, onEdit,
-    editAddressIndex, setEditAddressIndex} = useAuth();
+export default function UserPreferencesModal({ open, children, onClose }) {
     const [formMode, setFormMode] = useState(null);
+
+  const { weight, setWeight,
+        height, setHeight,
+        age, setAge,
+        gender, setGender,
+        bmi, 
+        selectedGoal, setSelectedGoal,
+        handleEditPreferences} = useAuth();
    
 
     const handleSave = async () => {
       
-        await handleEdit();
+        await handleEditPreferences();
         onClose();
         window.location.reload();
     }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactDom from "react-dom";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../../AuthContext";
 
 
 const MODAL_STYLES = {
@@ -27,26 +27,20 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function PanelModal({ open, children, onClose }) {
+export default function AdminListCompanyModal({ open, children, onClose }) {
+    const [formMode, setFormMode] = useState(null);
+
 
   const { 
-    housingType, setHousingType,
-      firstName, setFirstName,
-      lastName, setLastName,
-      phone, setPhone,
-      street, setStreet,
-      apartmentNumber, setApartmentNumber,
-      floor, setFloor,
-      postalCode, setPostalCode,
-      city, setCity,
-    currentEdit, setCurrentEdit, handleEdit, onEdit,
-    editAddressIndex, setEditAddressIndex} = useAuth();
-    const [formMode, setFormMode] = useState(null);
+    companyName, setCompanyName,
+    phone, setPhone,
+    nip, setNip,
+    dietType, setdietType,
+    handleEditCompany} = useAuth();
    
 
     const handleSave = async () => {
-      
-        await handleEdit();
+        await handleEditCompany();
         onClose();
         window.location.reload();
     }

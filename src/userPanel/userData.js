@@ -15,7 +15,7 @@ const UserData = () => {
   const [modalMode, setModalMode] = useState(null);
   const [addresses, setAddresses] = useState([]);
  
-  const {
+ const {
     housingType, setHousingType,
       firstName, setFirstName,
       lastName, setLastName,
@@ -26,7 +26,7 @@ const UserData = () => {
       postalCode, setPostalCode,
       city, setCity, addressId,
       currentEdit, setCurrentEdit, handleEdit, onEdit,
-      editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber} = useAuth();
+      editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber} = useAuth(); 
  
   useEffect(() => {
     const fetchAddresses = async () => {

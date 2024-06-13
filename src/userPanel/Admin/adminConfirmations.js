@@ -18,6 +18,7 @@ const {
     editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber, companyName, setCompanyName, login, setLogin
     , description, setDescription, dietType, setDietType,email, setEmail, nip, setNip, companyStatus, setCompanyStatus} = useAuth();
     const [confirmations, setConfirmations] = useState([]);
+    
   useEffect(() => {
     const fetchConfirmations = async () => {
       try {
