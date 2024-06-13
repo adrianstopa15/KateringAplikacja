@@ -19,6 +19,7 @@ import { useAuth } from "./AuthContext";
 import axios from "axios";
 import CateringForm from "./cateringForm";
 import { useAlertModal } from "./modalbutton/AlertModalContext";
+import OrderPlace from "./orderPlace";
 export default function MainPage() {
   const { showAlertModal } = useAlertModal();
   const navigate = useNavigate();
@@ -117,7 +118,7 @@ export default function MainPage() {
     });
   };
 
-  const handleOpenModal = (title, content = "", iframeSrc = "", isCatering = false, isPromotions = false, isCooperation = false) => {
+  const handleOpenModal = (title, content = "", iframeSrc = "", isCatering = false, isPromotions = false, isCooperation = false, isOrderPlace = false) => {
     if (isCatering) {
       setModalData({
         isOpen: true,
@@ -249,7 +250,18 @@ export default function MainPage() {
         ),
         iframeSrc: "",
       });
-    } else {
+    } 
+    else if (isOrderPlace){
+      setModalData({
+        isOpen: true,
+        title,
+        content: <OrderPlace/>,
+        isframeSrc: "",
+      })
+    }
+    
+    
+    else {
       setModalData({ isOpen: true, title, content, iframeSrc });
     }
   };
@@ -356,7 +368,7 @@ export default function MainPage() {
             sylwetkę!
           </h2>
 
-          <button id="button-check" className="button-regular-l" onClick={() => handleOpenModal("Spersonalizowane posiłki", "Jedz pyszne spersonalizowane posiłki oraz zbuduj zdrową sylwetkę!")}>
+          <button id="button-check" className="button-regular-l" onClick={() => handleOpenModal("Zamów posiłek", "", "", false, false, false, true)}>
             Sprawdź <span className="arrow">&#x2192;</span>
           </button>
         </div>

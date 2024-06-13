@@ -6,6 +6,8 @@ const Modal = ({ show, onClose, title, children, iframeSrc }) => {
     return null;
   }
 
+  
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
