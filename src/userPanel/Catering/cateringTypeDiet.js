@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 
 export default function CateringTypeDiet() {
 
-    const [dietTypes, setDietTypes] = useState([]);
+    const [diets, setDiets] = useState([]);
 
     useEffect(() => {
         const handleShowDietCompany = async () => {
@@ -30,7 +30,7 @@ export default function CateringTypeDiet() {
                 },
               }
             );
-            setDietTypes(response.data);
+            setDiets(response.data);
           } catch (error) {
             console.error("Error fetching company:", error);
           }
@@ -64,12 +64,15 @@ export default function CateringTypeDiet() {
     return (
       <div>
         <div className="ml-s mt-s">
-          <h1 className="h1-regular mb-m">Typy naszych diet: </h1>
+          <h1 className="h1-regular mb-m">Diety: </h1>
           <div className="address-info">
-          {dietTypes.map((dietType, index) => (
-        <div key={`${dietType.dietTypeId} ${index}`} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
-          <p>Typ diety: {dietType.name}</p>
-          <button className="button-27-d ml-s" onClick={() => handleDelete (dietType.dietTypeId)}>Usuń</button>
+          {diets.map((diet, index) => (
+        <div key={`${diet.dietId} ${index}`} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
+          <p>Nazwa: {diet.dietName}</p>
+          <p>Opis: {diet.dietDescription}</p>
+          <p>Cena za dzień: {diet.priceForDay}</p>
+          <p>Status: {diet.status}</p>
+          <button className="button-27-d ml-s" onClick={() => handleDelete (diet.dietId)}>Usuń</button>
         </div>
       ))}
         </div>
