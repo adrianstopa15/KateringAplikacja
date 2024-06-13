@@ -14,6 +14,9 @@ import Company from "../photos/Company.png"
 import Adress from "../photos/Adress.png"
 import Zatwierdzenia from "../photos/Zatwierdzenia.png"
 import Dieta from "../photos/Dieta.png"
+import TypeDiet from "../photos/TypeDiet.png"
+import Meals from "../photos/Meals.png"
+import DietMenu from "../photos/DietMenu.png"
 import "../userPanelStyle.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -252,8 +255,8 @@ export default function UserPanel() {
           }`}
           onClick={() => setActiveComponent("CateringRequests")}
         >
-          <img src={DaneUzytkownika} className="lb-icons" />
-          Druga zakladka katering
+          <img src={TypeDiet} className="lb-icons" />
+          Wnioski
         </a>
         <a
           className={`left-bar--content ${
@@ -263,7 +266,7 @@ export default function UserPanel() {
           }`}
           onClick={() => setActiveComponent("CateringAdd")}
         >
-          <img src={DaneUzytkownika} className="lb-icons" />
+          <img src={Meals} className="lb-icons" />
           Dodaj jedzenie
         </a>
         <a
@@ -274,8 +277,8 @@ export default function UserPanel() {
           }`}
           onClick={() => setActiveComponent("CateringPresets")}
         >
-          <img src={DaneUzytkownika} className="lb-icons" />
-          Presets
+          <img src={DietMenu} className="lb-icons" />
+          Posiłki
         </a>
         <a
             className={`left-bar--content ${
