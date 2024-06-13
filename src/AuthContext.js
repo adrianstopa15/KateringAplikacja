@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
   const [height, setHeight] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
-  const [bmi] = useState("");
+  const [bmi,setBmi] = useState("");
   const [selectedGoal, setSelectedGoal] = useState("");
 
   //dane do pobierania id itp
@@ -67,9 +67,7 @@ export const AuthProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalMode, setModalMode] = useState(null);
   const [companyStatus, setCompanyStatus] = useState("");
- 
 
-  
   const [newAddress, setNewAddress] = useState({
     street: '',
     apartmentNumber: '',
@@ -103,7 +101,7 @@ export const AuthProvider = ({ children }) => {
 
   const onEdit = (x) => {
     setCurrentEdit(x);
-   };
+  };
 
   const onEditCustomer = (x) => {
     setCustomersEdit(x);
@@ -111,16 +109,17 @@ export const AuthProvider = ({ children }) => {
 
   const onEditCompany = (x) => {
     setCompanyEdit(x);
-  }
+  };
+
   const onEditPreferences = (x) => {
     setPreferencesEdit(x);
-  }
+  };
 
    const handleCloseModal = () => {
     setIsOpen(false);
     setModalMode(null);
     setEditAddressIndex(null);
-  }
+  };
 
   const handleEditPreferences = async (e) => {
 
@@ -128,8 +127,6 @@ export const AuthProvider = ({ children }) => {
       weight, 
       height, 
       age, 
-      gender, 
-      bmi, 
       selectedGoal,
     };
 
@@ -144,20 +141,24 @@ export const AuthProvider = ({ children }) => {
 
       const login = decodedToken.sub;
 
-
-      const response = await axios.post(`http://localhost:8080/editPreference?login=${login}`, preferences, {
+      const response = await axios.post(`http://localhost:8080/editPreference?login=${login}&id=${currentPreference}`, preferences, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
       });
-      setPreferences(prevPreferences => [...prevPreferences, response.data]);
-      handleCloseModal();
-      window.location.reload();
-    } catch (error) {
-      console.error("Error updating preferences:", error);
+      if (response.status === 200) {
+        console.log("Preferences updated successfully:", response.data);
+
+        
+        setPreferences(prevPreferences => [...prevPreferences, response.data]);
+        window.location.reload();
+    } else {
+        console.error("Failed to update preferences:", response.status);
     }
-  };
-  
+} catch (error) {
+    console.error("Error updating preferences:", error);
+}
+};
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -410,13 +411,24 @@ const handleCustomerEdit = async (e) => {
       floor, setFloor,
       postalCode, setPostalCode,
       city, setCity,
+      weight, setWeight,
+      height, setHeight,
+      age, setAge,
+      gender, setGender,
+      bmi, setBmi,
+      selectedGoal, setSelectedGoal,
+
+      
+      onEdit, 
+      onEditCustomer,
+      onEditCompany,
+      onEditPreferences, 
 
       handleEdit, 
-      onEdit, onEditCustomer,
-      onEditCompany,
       handleCustomerEdit, 
       handleEditCompany,
       handleEditPreferences,
+      
     
       isOpen, setIsOpen, 
       handleSubmit, handleSetDefaultAddress,
@@ -432,16 +444,18 @@ const handleCustomerEdit = async (e) => {
       addresses, setAddresses,
       customers, setCustomers,
       companies, setCompanies,
+      preferences, setPreferences,
 
       editAddressIndex, setEditAddressIndex,
       editCustomerIndex, setEditCustomerIndex,
       editCompanyIndex, setEditCompanyIndex,
+      editPreferenceIndex, setPreferenceIndex,
 
       currentEdit, setCurrentEdit,
       currentCustomer, setCustomersEdit,
       currentCompany, setCompanyEdit,
-      
-
+      currentPreference, setPreferencesEdit,
+    
      
       dietType, setDietType, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType, companyStatus, setCompanyStatus,
       dietName, setDietName, dietDescription, setDietDescription, dietTypeReq, setDietTypeReq

@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import ReactDom from "react-dom";
 import { useAuth } from "../AuthContext";
 
@@ -28,22 +27,14 @@ const OVERLAY_STYLES = {
 };
 
 export default function UserPreferencesModal({ open, children, onClose }) {
-    const [formMode, setFormMode] = useState(null);
 
-  const { weight, setWeight,
-        height, setHeight,
-        age, setAge,
-        gender, setGender,
-        bmi, 
-        selectedGoal, setSelectedGoal,
+  const { 
         handleEditPreferences} = useAuth();
    
 
     const handleSave = async () => {
-      
         await handleEditPreferences();
         onClose();
-        window.location.reload();
     }
 
   if (!open) return null;

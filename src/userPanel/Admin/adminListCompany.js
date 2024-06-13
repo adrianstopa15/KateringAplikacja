@@ -75,7 +75,6 @@ export default function AdminListCompany() {
   
 
   const handleDeleteCompany = async (companyId) => {
-    if (!window.confirm("Czy na pewno chcesz usunąć firmę i wszystkie ich dane?")) return;
 
     const getCookieValue = (name) => {
       const value = `; ${document.cookie}`;
@@ -87,7 +86,7 @@ export default function AdminListCompany() {
     
     if (window.confirm("Czy na pewno chcesz usunąć tą firmę oraz wszystkie ich dane?")) {
       try {
-        const response = await axios.delete(`http://localhost:8080/deleteCompany?id=${companyId}`, {
+        const response = await axios.post(`http://localhost:8080/deleteCompany?id=${companyId}`, {} ,{
           headers: {
             Authorization: `Bearer ${authToken}`,
           },

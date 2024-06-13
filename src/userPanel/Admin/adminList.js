@@ -70,7 +70,6 @@ export default function AdminList() {
 
 
     const handleDeleteCustomer = async (customerId) => {
-    if (!window.confirm("Czy na pewno chcesz usunąć tego użytkownika i wszystkie jego dane?")) return;
 
       const getCookieValue = (name) => {
         const value = `; ${document.cookie}`;
@@ -82,8 +81,7 @@ export default function AdminList() {
       
       if (window.confirm("Czy na pewno chcesz usunąć tego użytkownika i wszystkie jego dane?")) {
         try {
-          const authToken = document.cookie.split('; ').find(row => row.startsWith('authToken=')).split('=')[1];
-          const response = await axios.delete(`http://localhost:8080/deleteCustomer?id=${customerId}`, {
+          const response = await axios.post(`http://localhost:8080/deleteCustomer?id=${customerId}`, {} , {
             headers: {
               Authorization: `Bearer ${authToken}`,
             },

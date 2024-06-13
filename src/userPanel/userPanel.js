@@ -13,6 +13,7 @@ import Powiadomienia from "../photos/Powiadomienia.png"
 import Company from "../photos/Company.png"
 import Adress from "../photos/Adress.png"
 import Zatwierdzenia from "../photos/Zatwierdzenia.png"
+import Dieta from "../photos/Dieta.png"
 import "../userPanelStyle.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -30,6 +31,8 @@ import CateringAdd from "./Catering/cateringAdd";
 import CateringPresets from "./Catering/cateringPresets";
 import AdminAdressesCompany from "./Admin/adminAdressesCompany";
 import AdminListCompany from "./Admin/adminListCompany";
+import AdminDietType from "./Admin/adminDietType";
+import CateringTypeDiet from "./Catering/cateringTypeDiet";
 
 
 export default function UserPanel() {
@@ -87,6 +90,8 @@ export default function UserPanel() {
           return <AdminListCompany />;
         case "AdminSettings":
           return <AdminSettings />;
+        case "AdminDietType":
+          return <AdminDietType />;
         default:
           return <AdminAdresses />;
       }
@@ -100,6 +105,8 @@ export default function UserPanel() {
           return <CateringAdd />
         case "CateringPresets":
           return <CateringPresets />
+        case "CateringTypeDiet":
+          return <CateringTypeDiet />
         default:
           return <CateringNotifications />;
       }
@@ -211,9 +218,20 @@ export default function UserPanel() {
             <img src={Zamowienia} className="lb-icons" />
             Ustawienia
           </a>
+          <a
+            className={`left-bar--content ${
+              activeComponent === "AdminDietType"
+                ? "lb-active" && "lb-icons--active"
+                : ""
+            }`}
+            onClick={() => setActiveComponent("AdminDietType")}
+          >
+            <img src={Dieta} className="lb-icons" />
+            Typy diet
+          </a>
               </>
             )}
-            {userRole === 'COMPANY' && (
+        {userRole === 'COMPANY' && (
               <>
               <a
           className={`left-bar--content mt-sm ${
@@ -259,6 +277,17 @@ export default function UserPanel() {
           <img src={DaneUzytkownika} className="lb-icons" />
           Presets
         </a>
+        <a
+            className={`left-bar--content ${
+              activeComponent === "CateringTypeDiet"
+                ? "lb-active" && "lb-icons--active"
+                : ""
+            }`}
+            onClick={() => setActiveComponent("CateringTypeDiet")}
+          >
+            <img src={Dieta} className="lb-icons" />
+            Nasze diety
+          </a>
        
             </>
             )}

@@ -6,12 +6,16 @@ import { jwtDecode } from "jwt-decode";
 import UserPreferencesModal from "./userPreferencesModal";
 
 const UserPreferences = () => {
-  const { userDataCurrent, fetchUserData } = useAuth();
+  const [preferences, setPreferences] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [modalMode, setModalMode] = useState(null);
-  const [preferences, setPreferences] = useState([]);
+  const {editPreferenceIndex, setPreferenceIndex, onEditPreferences, currentPreference } = useAuth();
 
-  
+  const { weight, setWeight,
+    height, setHeight,
+    age, setAge,
+    selectedGoal, setSelectedGoal } = useAuth();
+    
   useEffect(() => {
     const fetchPreferences = async () => {
       try {
@@ -22,8 +26,8 @@ const UserPreferences = () => {
             ?.split("=")[1];
         const authToken = getCookieValue("authToken");
         const decodedToken = jwtDecode(authToken);
-        console.log(authToken);
 
+        console.log(authToken);
         const login = decodedToken.sub;
 
         const response = await axios.get(
@@ -43,41 +47,59 @@ const UserPreferences = () => {
     fetchPreferences();
   }, []);
 
+  useEffect(() => {
+    if (currentPreference !== null) {
+      const preference = preferences.find(c => c.preferenceId === currentPreference );
+      if (preference ) {
+        setWeight(preference.weight);
+        setHeight(preference.height);
+        setAge(preference.age);
+        setSelectedGoal(preference.selectedGoal);
+      }
+    }
+  }, [currentPreference , preferences , setWeight, setHeight, setAge, setSelectedGoal]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setPreferences((prevPreferences) => ({
-      ...prevPreferences,
-      [name]: value,
-    }));
+  const handleOpenModal = (mode) => {
+    setModalMode(mode);
+    setIsOpen(true);
   };
 
+  const handleCloseModal = () => {
+    setIsOpen(false);
+    setModalMode(null);
+    setPreferenceIndex(null);
+
+  };
 
   return (
     <div>
       <div className="user-data-display ml-s mt-s">
         <h1 className="h1-regular mb-m">Preferencje</h1>
-        <div className="preferences-info">
-          <p className="preference-item">Waga: {preferences.weight || "Brak danych"}</p>
-          <p className="preference-item">Wzrost: {preferences.height || "Brak danych"}</p>
-          <p className="preference-item">Wiek: {preferences.age || "Brak danych"}</p>
-          <p className="preference-item">Płeć: {preferences.gender || "Brak danych"}</p>
-          <p className="preference-item">BMI: {preferences.bmi || "Brak danych"}</p>
-          <p className="preference-item">Wybrany cel: {preferences.selectedGoal || "Brak danych"}</p>
-          <button className="button-27-e" onClick={() => setIsOpen(true)}>Edytuj preferencje</button>
+        {preferences.map((preference, index) => (
+          <div key={index} className="preferences-info" >
+          <p className="preference-item">Waga: {preference.weight || "Brak danych"}</p>
+          <p className="preference-item">Wzrost: {preference.height || "Brak danych"}</p>
+          <p className="preference-item">Wiek: {preference.age || "Brak danych"}</p>
+          <p className="preference-item">Płeć: {preference.gender || "Brak danych"}</p>
+          <p className="preference-item">BMI: {preference.bmi || "Brak danych"}</p>
+          <p className="preference-item">Wybrany cel: {preference.selectedGoal || "Brak danych"}</p>
+          <button className="button-27-e" onClick={() => { setIsOpen(true); handleOpenModal('edit'); setPreferenceIndex(index); onEditPreferences(preference.preferenceId)}}>Edytuj preferencje</button>
         </div>
-        <UserPreferencesModal open={isOpen} onClose={() => setIsOpen(false)}>
-  <form onSubmit={handleSubmit} className="form1">
+        ))}
+  <UserPreferencesModal open={isOpen && modalMode === 'edit'} onClose={() => handleCloseModal()}>
+  {editPreferenceIndex !== null && (
+    <form onSubmit={handleSubmit} className="form1">
     <div className="form-group">
       <label>Waga:</label>
       <input
         type="text"
         name="weight"
-        value={preferences.weight}
-        onChange={handleChange}
+        id="weight"
+        value={weight} onChange={(e) => setWeight(e.target.value)} required
       />
     </div>
     <div className="form-group">
@@ -85,8 +107,8 @@ const UserPreferences = () => {
       <input
         type="text"
         name="height"
-        value={preferences.height}
-        onChange={handleChange}
+        id="height"
+        value={height} onChange={(e) => setHeight(e.target.value)} required
       />
     </div>
     <div className="form-group">
@@ -94,16 +116,14 @@ const UserPreferences = () => {
       <input
         type="text"
         name="age"
-        value={preferences.age}
-        onChange={handleChange}
+        id="age"
+        value={age} onChange={(e) => setAge(e.target.value)} required
       />
     </div>
-    <div className="form-group">
+    {/* <div className="form-group">
       <label>Płeć:</label>
       <select
-        name="gender"
-        value={preferences.gender}
-        onChange={handleChange}
+        name="gender" id="gender" value={gender}
       >
         <option value="">Wybierz</option>
         <option value="male">Mężczyzna</option>
@@ -115,16 +135,16 @@ const UserPreferences = () => {
       <input
         type="text"
         name="bmi"
-        value={preferences.bmi}
-        onChange={handleChange}
+        id="bmi"
+        value={bmi}
       />
-    </div>
+    </div> */}
     <div className="form-group">
-      <label>Wybrany cel:</label>
+      <label>Wybierz nowy cel:</label>
       <select
         name="selectedGoal"
-        value={preferences.selectedGoal}
-        onChange={handleChange}
+        id="selectedGoal"
+        value={selectedGoal} onChange={(e) => setSelectedGoal(e.target.value)} required
       >
         <option value="">Wybierz</option>
         <option value="lose">Lose</option>
@@ -133,6 +153,7 @@ const UserPreferences = () => {
       </select>
     </div>
   </form>
+  )}
 </UserPreferencesModal>
       </div>
     </div>

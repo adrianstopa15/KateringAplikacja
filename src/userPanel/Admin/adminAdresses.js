@@ -91,25 +91,30 @@ export default function AdminAdresses() {
       <div className="user-data-display ml-s mt-s">
         <h1 className="h1-regular mb-m">Adresy użytkowników:</h1>
         <div className="address-info">
-          {customers.map((customer, index) => (
+        {customers.map((customer, index) => {
+        if (customer.addresses && customer.addresses.length > 0) {
+          return (
             <div key={customer.customerId}>
               <h3>{customer.firstName} {customer.lastName}</h3>
-              {customer.addresses.map((address) => (
-                <div key={index} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
+              {customer.addresses.map((address, addressIndex) => (
+                <div key={addressIndex} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
                   <p>Ulica: {address.street} {address.houseNumber}</p>
                   <p>Kod pocztowy: {address.postalCode}</p>
                   <p>Miasto: {address.city}</p>
-                  <button className="button-27-e " onClick={() => {setIsOpen(true); handleOpenModal('edit'); setEditAddressIndex(index); onEdit(address.addressId)}}>
-                  Zaktualizuj adres
+                  <button className="button-27-e" onClick={() => {setIsOpen(true); handleOpenModal('edit'); setEditAddressIndex(addressIndex); onEdit(address.addressId)}}>
+                    Zaktualizuj adres
                   </button>
-                  <button className={`button-27-d ml-s`}
-                  onClick={() => handleDelete(address.addressId)}
+                  <button className="button-27-d ml-s"
+                          onClick={() => handleDelete(address.addressId)}
                   >Usuń adres
                   </button>
                 </div>
               ))}
             </div>
-        ))}
+          );
+        }
+        return null; 
+      })}
   <AdminAdressesEdit open={isOpen && modalMode === 'edit'} onClose={() => {handleCloseModal(); setEditAddressIndex(null); }}>
       {editAddressIndex !== null && (
         <form onSubmit={handleSubmit} className="form1">
