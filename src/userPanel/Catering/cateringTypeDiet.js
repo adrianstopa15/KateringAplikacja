@@ -70,7 +70,7 @@ export default function CateringTypeDiet() {
         <div key={`${diet.dietId} ${index}`} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
           <p>Nazwa: {diet.dietName}</p>
           <p>Opis: {diet.dietDescription}</p>
-          <p>Cena za dzień: {diet.priceForDay}</p>
+          <p>Cena za dzień: {diet.priceForDay} zł</p>
           <p>Status: {diet.status}</p>
           <button className="button-27-d ml-s" onClick={() => handleDelete (diet.dietId)}>Usuń</button>
         </div>

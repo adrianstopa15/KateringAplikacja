@@ -37,6 +37,7 @@ import AdminListCompany from "./Admin/adminListCompany";
 import AdminDietType from "./Admin/adminDietType";
 import CateringTypeDiet from "./Catering/cateringTypeDiet";
 import AdminDiets from "./Admin/adminDiets";
+import AdminOrders from "./Admin/adminOrders";
 
 export default function UserPanel() {
 
@@ -95,8 +96,10 @@ export default function UserPanel() {
           return <AdminSettings />;
         case "AdminDietType":
           return <AdminDietType />;
-          case "AdminDiets":
-            return <AdminDiets />;
+        case "AdminDiets":
+          return <AdminDiets />;
+        case "AdminOrders":
+          return <AdminOrders />
         default:
           return <AdminAdresses />;
       }
@@ -244,6 +247,17 @@ export default function UserPanel() {
           >
             <img src={Dieta} className="lb-icons" />
             Diety
+          </a>
+          <a
+            className={`left-bar--content ${
+              activeComponent === "AdminOrders"
+                ? "lb-active" && "lb-icons--active"
+                : ""
+            }`}
+            onClick={() => setActiveComponent("AdminOrders")}
+          >
+            <img src={Dieta} className="lb-icons" />
+            Zamówienia klientów
           </a>
               </>
             )}

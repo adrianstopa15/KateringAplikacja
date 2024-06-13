@@ -17,7 +17,6 @@ const [endDate, setEndDate] = useState("");
 const [dietTypes, setDietTypes] = useState([]);
 const [selectedDietTypeId, setSelectedDietTypeId] = useState(1);
 const [selectDietId, setSelectedDietId] = useState();
-const [orderName, setOrderName] = useState("Siema");
 const [userRole, setUserRole] = useState(null);
 
 const navigate = useNavigate();
@@ -82,7 +81,6 @@ const handleDateSubmitForm = async (e) => {
     }
 
     const formData = {
-        orderName,
         startDate,
         endDate
     };
@@ -227,12 +225,12 @@ return (
                 {    console.log(diets)  }
                 {    console.log(selectedDietTypeId)  }
                 
-                    <h1>Lista posiłków według preferencji:</h1>
+                    <h1>Lista diet według preferencji:</h1>
                   {diets
                   .filter(diet => diet.dietType.dietTypeId === selectedDietTypeId)
                   .map(diet => (
                   
-                    <li key={diet.dietId}>{diet.dietName} <button onClick={() => handleSelectDiet(diet.dietId)}>wybierz dietę</button></li>
+                    <li key={diet.dietId}>{diet.dietName} <button onClick={() => handleSelectDiet(diet.dietId)}>Wybierz dietę</button></li>
                   ))}
                     <button className="button-27-s" onClick={goToPrevStep}> Powrót</button>
                 </div>

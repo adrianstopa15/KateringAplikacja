@@ -44,9 +44,10 @@ export default function AdminDiets() {
           <h1 className="h1-regular mb-m">Diety: </h1>
           {diets.map((diet, index) => (
         <div key={`${diet.dietId} ${index}`} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
-          <p>Nazwa: {diet.dietName}</p>
+          <p>Nazwa firmy: {diet.company.companyName}</p>
+          <p>Nazwa diety: {diet.dietName}</p>
           <p>Opis: {diet.dietDescription}</p>
-          <p>Cena za dzień: {diet.priceForDay}</p>
+          <p>Cena za dzień: {diet.priceForDay} zł</p>
           <p>Status: {diet.status}</p>
           {/* <button className="button-27-d" onClick={() => handleDelete (dietType.dietTypeId)}>Usuń</button> */}
         </div>
