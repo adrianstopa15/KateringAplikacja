@@ -22,7 +22,7 @@ import { useAlertModal } from "./modalbutton/AlertModalContext";
 import OrderPlace from "./orderPlace";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-
+import { jwtDecode } from "jwt-decode";
 export default function MainPage() {
   const MySwal = withReactContent(Swal);
   const { showAlertModal } = useAlertModal();
@@ -34,7 +34,7 @@ export default function MainPage() {
   const contactRef = useRef(null);
   const cooperationButtonRef = useRef(null);
   const callToActionRef = useRef(null);
-  
+  const [userRole, setUserRole] = useState(null);
   // const [popupType, setPopupType] = useState("none");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [modalData, setModalData] = useState({ isOpen: false, title: "", content: "", iframeSrc: "" });
@@ -51,6 +51,49 @@ export default function MainPage() {
     currentEdit, setCurrentEdit, handleEdit, onEdit,
     editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber, email, setEmail,
    dietType, setDietType,companyName, setCompanyName, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType } = useAuth();
+
+   useEffect(() => {
+    const getCookieValue = (name) =>
+      document.cookie
+        .split("; ")
+        .find((row) => row.startsWith(name + "="))
+        ?.split("=")[1];
+    const authToken = getCookieValue("authToken");
+
+    if (authToken) {
+      try {
+        const decodedToken = jwtDecode(authToken);
+        const login = decodedToken.sub;
+
+        axios.get(`http://localhost:8080/getRole?login=${login}`, {
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          }
+        })
+        .then(response => {
+          if (response.data) {
+            console.log(response.data);
+            setUserRole(response.data);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching user role:', error);
+        });
+      } catch (error) {
+        console.error('Invalid token:', error);
+      }
+    } else {
+      console.error('No auth token found');
+    }
+  }, []);
+
+
+
+
+  
+
+
+
 
   useEffect(() => {
     const getCookieValue = (name) =>
@@ -264,12 +307,21 @@ export default function MainPage() {
       });
     } 
     else if (isOrderPlace){
+      if(userRole === 'USER')
       setModalData({
         isOpen: true,
         title,
         content: <OrderPlace/>,
         isframeSrc: "",
       })
+      else{
+        setModalData({
+          isOpen: true,
+          title,
+          content: "zaloguj się aby zamówić posiłek",
+          isframeSrc: "",
+        })
+      }
     }
     
     

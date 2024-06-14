@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from '../../AuthContext';
 import axios from "axios";
-
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export default function AdminDietType() {
+  const MySwal = withReactContent(Swal);
     const [dietTypes, setDietTypes] = useState([]);
     const [name, setDietName] = useState("")
 
@@ -66,27 +68,45 @@ export default function AdminDietType() {
     }, []);
 
     const handleDelete = async (id) => {
-
-        const confirmDelete = window.confirm("Czy na pewno chcesz usunąć dietę?");
-        if(!confirmDelete){
-          return;
-        }
-
-        const getCookieValue = (name) =>
+      const getCookieValue = (name) =>
         document.cookie
           .split("; ")
           .find((row) => row.startsWith(name + "="))
           ?.split("=")[1];
       const authToken = getCookieValue("authToken");
-
-      try {
-        await axios.post(`http://localhost:8080/deleteDietType?id=${id}`, {}, {
-          headers: { Authorization: `Bearer ${authToken}` },
-        });
-        console.log("Dieta została usunieta.");
-      } catch (error) {
-        console.error("Błąd przy usuwaniu diety", error);
-      }}
+    
+      MySwal.fire({
+        title: 'Usuwanie diety',
+        text: "Czy na pewno chcesz usunąć typ diety?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Usuń',
+        cancelButtonText: "Anuluj"
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await axios.post(`http://localhost:8080/deleteDietType?id=${id}`, {}, {
+              headers: { Authorization: `Bearer ${authToken}` },
+            });
+            console.log("Typ diety został usunięta.");
+            MySwal.fire(
+              'Usunięto!',
+              'Dieta została usunięta.',
+              'success'
+            );
+          } catch (error) {
+            console.error("Błąd przy usuwaniu diety", error);
+            MySwal.fire(
+              'Error!',
+              'Błąd przy usuwaniu diety.',
+              'error'
+            );
+          }
+        }
+      });
+    };
 
     return (
       <div>
