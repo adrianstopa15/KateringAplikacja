@@ -20,7 +20,11 @@ import axios from "axios";
 import CateringForm from "./cateringForm";
 import { useAlertModal } from "./modalbutton/AlertModalContext";
 import OrderPlace from "./orderPlace";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 export default function MainPage() {
+  const MySwal = withReactContent(Swal);
   const { showAlertModal } = useAlertModal();
   const navigate = useNavigate();
   const homeRef = useRef(null);
@@ -112,7 +116,15 @@ export default function MainPage() {
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(() => {
-      showAlertModal("Skopiowano kod do schowka", "info");
+      MySwal.fire({
+        position: "top",
+        title: 'Sukces!',
+        text: 'Skopiowano kod do schowka.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        showConfirmButton: false,
+        timer: 1500
+      });
     }).catch(err => {
       console.log('Coś poszło nie tak', err);
     });

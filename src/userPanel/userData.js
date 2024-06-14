@@ -7,14 +7,14 @@ import { jwtDecode } from "jwt-decode";
 import PanelModal from "./panelModal";
 import PanelModalAdd from "./panelModalAdd";
 import dietuzjemLogo from "../photos/logo.png"
-
+import { useAlertModal } from "../modalbutton/AlertModalContext";
 const UserData = () => {
   const { userData, fetchUserData, handleSetDefaultAddress } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [activeComponent, setActiveComponent] = useState("UserData");
   const [modalMode, setModalMode] = useState(null);
   const [addresses, setAddresses] = useState([]);
- 
+  const { showAlertModal } = useAlertModal();
  const {
     housingType, setHousingType,
       firstName, setFirstName,

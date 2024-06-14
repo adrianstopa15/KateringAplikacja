@@ -2,6 +2,8 @@ import { useAuth } from "../../AuthContext";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export default function AdminConfirmations() {
 const {
@@ -18,7 +20,7 @@ const {
     editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber, companyName, setCompanyName, login, setLogin
     , description, setDescription, dietType, setDietType,email, setEmail, nip, setNip, companyStatus, setCompanyStatus} = useAuth();
     const [confirmations, setConfirmations] = useState([]);
-    
+    const MySwal = withReactContent(Swal);
   useEffect(() => {
     const fetchConfirmations = async () => {
       try {
@@ -77,11 +79,22 @@ const {
           },
         }
       );
-      alert("Company accepted");
-      console.log("Company accepted:", response.data);
-      window.location.reload();
+      MySwal.fire({
+        title: "Zaakceptowano!",
+        text: "Prośba firmy została zaakceptowana",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        window.location.reload();
+      });
+      console.log("firma zaakceptowana:", response.data);
     } catch (error) {
-      console.error("Error accepting company:", error);
+      console.error("Error:", error);
+      MySwal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Problem przy akceptowaniu firmy. Spróbuj ponownie później",
+      });
     }
   };
 

@@ -1,7 +1,8 @@
 import { useAuth } from "./AuthContext"
 import axios from "axios";
 import { useAlertModal } from "./modalbutton/AlertModalContext";
-
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 export default function CateringForm(){
   const { showAlertModal } = useAlertModal();
     const { 
@@ -18,7 +19,7 @@ export default function CateringForm(){
         currentEdit, setCurrentEdit, handleEdit, onEdit,
         editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber, email, setEmail,
        dietType, setDietType,companyName, setCompanyName, description, setDescription, nip, setNip } = useAuth();
-
+       const MySwal = withReactContent(Swal);
        const handleFormSubmit = async (e) => {
         e.preventDefault();
         const formData = {
@@ -40,15 +41,31 @@ export default function CateringForm(){
         try {
           const response = await axios.post(`http://localhost:8080/addCompany`, formData);
           console.log('dodano pomyślnie:', response.data);
-          showAlertModal("Dane zostały pomyślnie wysłane! Odpowiedź zostanie wysłana na wiadomość email w ciągu 124 dni roboczych.", "correct");
+          MySwal.fire({
+            position: "top",
+            title: 'Sukces!',
+            text: 'Dziękujemy za zgłoszenie. Wkrótce je rozpatrzymy! :tf: .',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            showConfirmButton: false,
+            timer: 3000
+          });
           
         
           setTimeout(() => {
             window.location.reload();
-          }, 3000); 
+          }, 5000); 
         } catch (error) {
           console.error('Failed to add company:', error.response?.data || error.message);
-          showAlertModal("Nie udało się wysłać danych. Proszę spróbować ponownie.", "alert");
+          MySwal.fire({
+            position: "top",
+            title: 'Coś poszło nie tak!',
+            text: 'Przepraszamy! Twoje zgłoszenie nie zostało wysłane. Spróbuj ponownie później.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            showConfirmButton: false,
+            timer: 5000
+          });
         }
       };
       

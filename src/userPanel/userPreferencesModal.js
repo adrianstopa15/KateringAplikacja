@@ -1,7 +1,8 @@
 import ReactDom from "react-dom";
 import { useAuth } from "../AuthContext";
-
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 const MODAL_STYLES = {
   position: "fixed",
   top: "50%",
@@ -32,10 +33,27 @@ export default function UserPreferencesModal({ open, children, onClose }) {
         handleEditPreferences} = useAuth();
    
 
-    const handleSave = async () => {
-        await handleEditPreferences();
-        onClose();
-    }
+        const handleSave = async () => {
+          try {
+            await handleEditPreferences();
+            MySwal.fire({
+              title: "Success!",
+              text: "Your preferences have been saved.",
+              icon: "success",
+              confirmButtonText: "OK",
+            }).then(() => {
+              onClose(); 
+              window.location.reload(); 
+            });
+          } catch (error) {
+            console.error("Error saving preferences:", error);
+            MySwal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong while saving your preferences.",
+            });
+          }
+        };
 
   if (!open) return null;
   return ReactDom.createPortal(

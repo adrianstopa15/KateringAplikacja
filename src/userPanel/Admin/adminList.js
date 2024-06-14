@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from '../../AuthContext';
 import axios from "axios";
 import AdminListCustomer from "./adminListModal";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 export default function AdminList() {
   const [customers, setCustomers] = useState([]);
   const [modalMode, setModalMode] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const {setEditCustomerIndex, editCustomerIndex, onEditCustomer, currentCustomer } = useAuth();
-
+  const MySwal = withReactContent(Swal);
   const {
       firstName, setFirstName,
       lastName, setLastName,
@@ -70,7 +71,6 @@ export default function AdminList() {
 
 
     const handleDeleteCustomer = async (customerId) => {
-
       const getCookieValue = (name) => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -78,25 +78,52 @@ export default function AdminList() {
         return null;
       };
       const authToken = getCookieValue("authToken");
-      
-      if (window.confirm("Czy na pewno chcesz usunąć tego użytkownika i wszystkie jego dane?")) {
-        try {
-          const response = await axios.post(`http://localhost:8080/deleteCustomer?id=${customerId}`, {} , {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          });
     
-          if (response.status === 200) {
-            setCustomers(prev => prev.filter(customer => customer.customerId !== customerId)); 
-            alert("Użytkownik został usunięty.");
-          } else {
-            alert("Nie udało się usunąć użytkownika. Status: " + response.status);
+      MySwal.fire({
+        title: 'Usuwanie Użytkownika',
+        text: "Czy na pewno chcesz usunąć tego użytkownika i wszystkie jego dane?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Usuń',
+        cancelButtonText: 'Anuluj'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = await axios.post(
+              `http://localhost:8080/deleteCustomer?id=${customerId}`, 
+              {}, 
+              {
+                headers: {
+                  Authorization: `Bearer ${authToken}`,
+                },
+              }
+            );
+    
+            if (response.status === 200) {
+              setCustomers(prev => prev.filter(customer => customer.customerId !== customerId));
+              MySwal.fire(
+                'Usunięty',
+                'Użytkownik został usunięty.',
+                'success'
+              );
+            } else {
+              MySwal.fire(
+                'Error!',
+                'Nie udało się usunąć użytkownika. Status: ' + response.status,
+                'error'
+              );
+            }
+          } catch (error) {
+            MySwal.fire(
+              'Error!',
+              'Nie udało się usunąć użytkownika: ' + error.message,
+              'error'
+            );
           }
-        } catch (error) {
-          alert("Nie udało się usunąć użytkownika: " + error.message);
         }
-      }
+      });
     };
 
     return (

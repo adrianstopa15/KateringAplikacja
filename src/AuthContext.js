@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { BorderAll, Style } from "@mui/icons-material";
 import UserStats from "./userPanel/userStats";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 
 const AuthContext = createContext();
@@ -13,6 +15,8 @@ export function useAuth() {
 }
 
 export const AuthProvider = ({ children }) => {
+  const MySwal = withReactContent(Swal);
+
   const [login, setLogin] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
@@ -266,8 +270,12 @@ const handleEditCompany = async (e) => {
 
     if (response.status === 200) {
       console.log('Company update successful', response.data);
-      alert("Firma została zaktualizowana.");
-      
+      MySwal.fire({
+        title: 'Success!',
+        text: 'Firma została zaktualizowana',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
       window.location.reload();
     } else {
       console.error('Unexpected server response when updating company:', response);
@@ -328,58 +336,90 @@ const handleCustomerEdit = async (e) => {
   }
 };
 
-  const handleDelete = async (id) => {
+const handleDelete = async (id) => {
+  const result = await MySwal.fire({
+    title: 'Czy na pewno chcesz usunąć adres?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Tak',
+    cancelButtonText: "Anuluj"
+  });
 
-    const confirmDelete = window.confirm("Czy na pewno chcesz usunąć adres?");
-    if(!confirmDelete){
-      return;
-    }
+  if (!result.isConfirmed) {
+    return;
+  }
 
-    const getCookieValue = (name) =>
+  const getCookieValue = (name) =>
+    document.cookie
+      .split('; ')
+      .find((row) => row.startsWith(name + '='))
+      ?.split('=')[1];
+
+  const authToken = getCookieValue('authToken');
+
+  try {
+    await axios.post(`http://localhost:8080/deleteAddress?id=${id}`, {}, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+    console.log('Adres został usunięty.');
+    MySwal.fire({
+      title: 'Usunięto!',
+      text: 'Adres został usunięty',
+      icon: 'success',
+    }).then(() => {
+      window.location.reload();
+    });
+  } catch (error) {
+    console.error('Błąd przy usuwaniu adresu:', error);
+    MySwal.fire({
+      title: 'Error!',
+      text: 'Nie udało się usunąć adresu. Spróbuj ponownie później.',
+      icon: 'error',
+    });
+  }
+};
+
+
+const handleSetDefaultAddress = async (addressId) => {
+  const getCookieValue = (name) =>
     document.cookie
       .split("; ")
       .find((row) => row.startsWith(name + "="))
       ?.split("=")[1];
   const authToken = getCookieValue("authToken");
+  const decodedToken = jwtDecode(authToken);
+  const login = decodedToken.sub;
+
   try {
-    await axios.post(`http://localhost:8080/deleteAddress?id=${id}`, {}, {
-      headers: { Authorization: `Bearer ${authToken}` },
-    });
-    console.log("Adres został usunięty.");
-    window.location.reload();
-  } catch (error) {
-    console.error("Błąd przy usuwaniu adresu:", error);
-  }}
+    await axios.post(
+      `http://localhost:8080/setDefaultAddress?id=${addressId}&login=${login}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
 
-
-  const handleSetDefaultAddress = async (addressId) => {
-    const getCookieValue = (name) =>
-      document.cookie
-        .split("; ")
-        .find((row) => row.startsWith(name + "="))
-        ?.split("=")[1];
-    const authToken = getCookieValue("authToken");
-    const decodedToken = jwtDecode(authToken);
-    const login = decodedToken.sub;
-
-    try {
-      await axios.post(
-        `http://localhost:8080/setDefaultAddress?id=${addressId}&login=${login}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      );
-      fetchUserData();
+    MySwal.fire({
+      title: "Sukces!",
+      text: "Twój domyślny adres został zmieniony.",
+      icon: "success",
+      confirmButtonText: "OK",
+    }).then(() => {
       window.location.reload();
-      const addressElements = document.querySelectorAll('.address-display--element');
-      addressElements.style.borderColor = 'green';
-    } catch (error) {
-      console.error("Błąd przy ustawianiu domyślnego adresu:", error);
-    }
-  };
+    });
+  } catch (error) {
+    console.error("Błąd przy ustawianiu domyślnego adresu:", error);
+    MySwal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Spróbuj ponownie później!",
+    });
+  }
+};
 
   const handleLogout = () => {
     setIsLoggedIn(false);

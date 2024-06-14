@@ -6,6 +6,8 @@ import MultiRangeSlider from 'multi-range-slider-react';
 import { Step } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 export default function OrderPlace(){
 const [step, setStep] = useState(1);
 const [prices, setPrices] = useState([10, 150]);
@@ -18,9 +20,8 @@ const [dietTypes, setDietTypes] = useState([]);
 const [selectedDietTypeId, setSelectedDietTypeId] = useState(1);
 const [selectDietId, setSelectedDietId] = useState();
 const [userRole, setUserRole] = useState(null);
-
 const navigate = useNavigate();
-
+const MySwal = withReactContent(Swal);
 const goToNextStep = () => {
     setStep(step + 1);
 };
@@ -107,15 +108,28 @@ const handleDateSubmitForm = async (e) => {
             }
         );
 
+     
         if (response.status === 200) {
-            setStep(step + 1);
-        } else {
+            MySwal.fire({
+              title: "Dieta została zamówiona!",
+              text: "Przejdź do panelu użytkownika aby zobaczyć szczegóły zamówienia.",
+              icon: "success",
+              confirmButtonText: "OK",
+            }).then(() => {
+              window.location.reload();
+            });
+          } else {
             console.error("Error submitting order:", response.status);
+          }
+        } catch (error) {
+          console.error("Error submitting order:", error);
+          MySwal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Coś poszło nie tak. Spróbuj ponownie później.",
+          });
         }
-    } catch (error) {
-        console.error("Error submitting order:", error);
-    }
-};
+      };
 
 useEffect(() => {
     const fetchDiets = async () => {
@@ -230,7 +244,7 @@ return (
                   .filter(diet => diet.dietType.dietTypeId === selectedDietTypeId)
                   .map(diet => (
                   
-                    <li key={diet.dietId}>{diet.dietName} <button onClick={() => handleSelectDiet(diet.dietId)}>Wybierz dietę</button></li>
+                    <li key={diet.dietId}>{diet.dietName} <button className="button-27-save" onClick={() => handleSelectDiet(diet.dietId)}>Wybierz dietę</button></li>
                   ))}
                     <button className="button-27-s" onClick={goToPrevStep}> Powrót</button>
                 </div>

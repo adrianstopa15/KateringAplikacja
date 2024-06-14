@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from '../../AuthContext';
 import axios from "axios";
 import AdminListCompanyModal from "./adminListCompanyModal";
-
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export default function AdminListCompany() {
+  
   const [companies, setCompanies] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [modalMode, setModalMode] = useState(null);
   const {editCompanyIndex, setEditCompanyIndex, onEditCompany, currentCompany} = useAuth();
+  const MySwal = withReactContent(Swal);
 
   const {
     companyName, setCompanyName,
@@ -75,7 +78,6 @@ export default function AdminListCompany() {
   
 
   const handleDeleteCompany = async (companyId) => {
-
     const getCookieValue = (name) => {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
@@ -83,25 +85,52 @@ export default function AdminListCompany() {
       return null;
     };
     const authToken = getCookieValue("authToken");
-    
-    if (window.confirm("Czy na pewno chcesz usunąć tą firmę oraz wszystkie ich dane?")) {
-      try {
-        const response = await axios.post(`http://localhost:8080/deleteCompany?id=${companyId}`, {} ,{
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
   
-        if (response.status === 200) {
-          setCompanies(prev => prev.filter(company => company.companyId !== companyId)); 
-          alert("Firma została usunięta.");
-        } else {
-          alert("Nie udało się usunąć firmy. Status: " + response.status);
+    MySwal.fire({
+      title: 'Czy jesteś pewny?',
+      text: "Czy na pewno chcesz usunąć tą firmę oraz wszystkie ich dane?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Usuń!',
+      cancelButtonText: 'Anuluj'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.post(
+            `http://localhost:8080/deleteCompany?id=${companyId}`, 
+            {}, 
+            {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+              },
+            }
+          );
+  
+          if (response.status === 200) {
+            setCompanies(prev => prev.filter(company => company.companyId !== companyId));
+            MySwal.fire(
+              'Deleted!',
+              'Firma została usunięta.',
+              'success'
+            );
+          } else {
+            MySwal.fire(
+              'Error!',
+              'Nie udało się usunąć firmy. Status: ' + response.status,
+              'error'
+            );
+          }
+        } catch (error) {
+          MySwal.fire(
+            'Error!',
+            'Nie udało się usunąć firmy: ' + error.message,
+            'error'
+          );
         }
-      } catch (error) {
-        alert("Nie udało się usunąć firmy: " + error.message);
       }
-    }
+    });
   };
 
   return (
