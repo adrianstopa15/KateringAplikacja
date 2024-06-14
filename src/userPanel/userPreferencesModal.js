@@ -37,8 +37,8 @@ export default function UserPreferencesModal({ open, children, onClose }) {
           try {
             await handleEditPreferences();
             MySwal.fire({
-              title: "Success!",
-              text: "Your preferences have been saved.",
+              title: "Sukces!",
+              text: "Preferencje zostały zapisane.",
               icon: "success",
               confirmButtonText: "OK",
             }).then(() => {
@@ -50,7 +50,7 @@ export default function UserPreferencesModal({ open, children, onClose }) {
             MySwal.fire({
               icon: "error",
               title: "Oops...",
-              text: "Something went wrong while saving your preferences.",
+              text: "Nie udało sie zapisać preferencji, spróbuj ponownie później.",
             });
           }
         };
