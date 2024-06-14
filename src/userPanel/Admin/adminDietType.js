@@ -76,26 +76,27 @@ export default function AdminDietType() {
       const authToken = getCookieValue("authToken");
     
       MySwal.fire({
-        title: 'Usuwanie diety',
-        text: "Czy na pewno chcesz usunąć typ diety?",
+        title: 'Usuwanie typu diety',
+        text: "Czy na pewno chcesz usunąc typ diety?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Usuń',
-        cancelButtonText: "Anuluj"
+        confirmButtonText: 'Usuń  '
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
             await axios.post(`http://localhost:8080/deleteDietType?id=${id}`, {}, {
               headers: { Authorization: `Bearer ${authToken}` },
             });
-            console.log("Typ diety został usunięta.");
+            console.log("Typ diety został usunięty.");
             MySwal.fire(
               'Usunięto!',
-              'Dieta została usunięta.',
+              'Typ diety został usunięty.',
               'success'
-            );
+            ).then(() => {
+              window.location.reload();
+            });
           } catch (error) {
             console.error("Błąd przy usuwaniu diety", error);
             MySwal.fire(
