@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../AuthContext";
 import axios from "axios";
 import "../profilePages.css";
-import Modal from "react-modal";
 import { jwtDecode } from "jwt-decode";
 import PanelModal from "./panelModal";
 import PanelModalAdd from "./panelModalAdd";
-import dietuzjemLogo from "../photos/logo.png"
 import { useAlertModal } from "../modalbutton/AlertModalContext";
+
 const UserData = () => {
   const { userData, fetchUserData, handleSetDefaultAddress } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -39,9 +38,15 @@ const UserData = () => {
         };
         const authToken = getCookieValue("authToken");
         const decodedToken = jwtDecode(authToken);
+        const userRole = decodedToken.role;
+
+        // if (userRole !== 'ADMIN') {
+        //   console.log("Access denied: insufficient permissions");
+        //   return;
+        // }
  
         const login = decodedToken.sub;
- 
+
         const response = await axios.get(
           `http://localhost:8080/showCustomerAddresses?login=${login}`,
           {

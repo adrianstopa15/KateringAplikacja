@@ -99,8 +99,7 @@ export default function AdminListCompany() {
       if (result.isConfirmed) {
         try {
           const response = await axios.post(
-            `http://localhost:8080/deleteCompany?id=${companyId}`, 
-            {}, 
+            `http://localhost:8080/deleteCompany?id=${companyId}`, {}, 
             {
               headers: {
                 Authorization: `Bearer ${authToken}`,

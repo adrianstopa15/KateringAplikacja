@@ -10,6 +10,8 @@ import { jwtDecode } from "jwt-decode";
 
 export default function CateringRequests() {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
   const { 
     housingType, setHousingType,
       firstName, setFirstName,
@@ -53,6 +55,8 @@ export default function CateringRequests() {
           headers: { Authorization: `Bearer ${authToken}` },
         });
         console.log("Response:", apply); // Logowanie odpowiedzi
+        handleCloseModal();
+        window.location.reload();
       } catch (error) {
         console.error("Error fetching data:", error);
         console.log("Error response data:", error.response?.data); // Logowanie odpowiedzi błędu
@@ -89,6 +93,12 @@ export default function CateringRequests() {
       }, []);
     {console.log(dietTypeReq);
     }
+
+    const handleCloseModal = () => {
+      setIsOpen(false);
+      setModalMode(null);
+      setEditAddressIndex(null);
+    };
       
     return (
     <div>

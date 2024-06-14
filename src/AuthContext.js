@@ -152,8 +152,6 @@ export const AuthProvider = ({ children }) => {
       });
       if (response.status === 200) {
         console.log("Preferences updated successfully:", response.data);
-
-        
         setPreferences(prevPreferences => [...prevPreferences, response.data]);
         window.location.reload();
     } else {
