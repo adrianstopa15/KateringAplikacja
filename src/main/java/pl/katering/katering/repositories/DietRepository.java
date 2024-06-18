@@ -15,4 +15,7 @@ public interface DietRepository extends JpaRepository<Diet, Integer> {
 
     @Query("SELECT d FROM Diet d WHERE d.status = 'Oczekujące'")
     List<Diet> findDietsToAccept();
+
+    @Query("SELECT d FROM Diet d WHERE d.status = 'Zaakceptowane'")
+    List<Diet> findAcceptedDiets();
 }

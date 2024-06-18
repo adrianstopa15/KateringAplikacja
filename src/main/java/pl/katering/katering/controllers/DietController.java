@@ -27,6 +27,11 @@ public class DietController {
         return dietService.showDietsToAccept();
     }
 
+    @GetMapping("/showAcceptedDiets")
+    public List<Diet> acceptedDietsList() {
+        return dietService.showAcceptedDiets();
+    }
+
     @GetMapping("/showCompanyDiets")
     public List<Diet> companyDietsList(@RequestParam String login) {
         return dietService.showCompanyDiets(login);

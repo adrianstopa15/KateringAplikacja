@@ -33,6 +33,10 @@ public class DietService {
         return dietRepository.findDietsToAccept();
     }
 
+    public List<Diet> showAcceptedDiets() {
+        return dietRepository.findAcceptedDiets();
+    }
+
     public List<Diet> showCompanyDiets(String login) {
         Company company = companyRepository.findByLogin(login);
         return dietRepository.findByCompanyId(company.getCompanyId());
