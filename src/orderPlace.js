@@ -26,6 +26,13 @@ export default function OrderPlace(){
   const goToNextStep = () => {
       setStep(step + 1);
   };
+  const getTomorrowDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split('T')[0];
+};
+
+const tomorrow = getTomorrowDate();
   
   const goToPrevStep = () => {
       setStep(step - 1);
@@ -242,32 +249,32 @@ export default function OrderPlace(){
                   <button className="button-27-s" onClick={goToPrevStep}> Powrót</button>
               </div>
           )}
-          {step === 3 && (
-              <div>
-                  Wybierz dni, w których chcesz zamówić dietę:
-                  <form style={{ display: 'grid', gap: '10px' }} onSubmit={handleDateSubmitForm}>
-                      <label>
-                          Data rozpoczęcia diety:
-                          <input
-                              type="date"
-                              value={startDate}
-                              min={today}
-                              onChange={e => setStartDate(e.target.value)}
-                          />
-                      </label>
-                      <label>
-                          Data zakończenia diety:
-                          <input
-                              type="date"
-                              value={endDate}
-                              min={startDate || today}
-                              onChange={e => setEndDate(e.target.value)}
-                          />
-                      </label>
-                      <button type="submit" className="button-27-save">Zatwierdź i przejdz do podsumowania</button>
-                  </form>
-              </div>
-          )}
+         {step === 3 && (
+            <div>
+                Wybierz dni, w których chcesz zamówić dietę:
+                <form style={{ display: 'grid', gap: '10px' }} onSubmit={handleDateSubmitForm}>
+                    <label>
+                        Data rozpoczęcia diety:
+                        <input
+                            type="date"
+                            value={startDate}
+                            min={tomorrow}
+                            onChange={e => setStartDate(e.target.value)}
+                        />
+                    </label>
+                    <label>
+                        Data zakończenia diety:
+                        <input
+                            type="date"
+                            value={endDate}
+                            min={startDate || tomorrow}
+                            onChange={e => setEndDate(e.target.value)}
+                        />
+                    </label>
+                    <button type="submit" className="button-27-save">Zatwierdź i przejdz do podsumowania</button>
+                </form>
+            </div>
+        )}
           {step === 4 && (
               <div>
                   Podsumowanie:
