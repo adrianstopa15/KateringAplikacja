@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+
+
 export default function OrderPlace(){
 const [step, setStep] = useState(1);
 const [prices, setPrices] = useState([10, 150]);
@@ -17,7 +19,7 @@ const [diets, setDiets] = useState([]);
 const [startDate, setStartDate] = useState("");
 const [endDate, setEndDate] = useState("");
 const [dietTypes, setDietTypes] = useState([]);
-const [selectedDietTypeId, setSelectedDietTypeId] = useState(1);
+const [selectedDietTypeId, setSelectedDietTypeId] = useState("");
 const [selectDietId, setSelectedDietId] = useState();
 const [userRole, setUserRole] = useState(null);
 const navigate = useNavigate();
@@ -144,7 +146,7 @@ useEffect(() => {
         
  
           const response = await axios.get(
-          `http://localhost:8080/showDiets`,
+          `http://localhost:8080/showAcceptedDiets`,
           {
             headers: {
                 Authorization: `Bearer ${authToken}`,
@@ -198,12 +200,13 @@ return (
         <form style={{ display: 'grid', gap: '10px' }}>
                     <div>Wybierz rodzaj diety</div>
                     <select onChange={e => setSelectedDietTypeId(Number(e.target.value))} value={selectedDietTypeId}>
-                {dietTypes.map((type) => (
-                    <option key={type.dietTypeId} value={type.dietTypeId}>
-                        {type.name}
-                    </option>
-                ))}
-            </select>
+                    <option value="">Wybierz...</option> 
+                    {dietTypes.map((type) => (
+                        <option key={type.dietTypeId} value={type.dietTypeId}>
+                            {type.name}
+                        </option>
+                    ))}
+                </select>
                     <div>Bazowa cena kateringu (za dzień):</div>
                     <div>
                         <MultiRangeSlider
@@ -227,7 +230,7 @@ return (
                             Wyświetlaj kateringi w cenie od {minValue} zł do {maxValue} zł
                         </div>
                     </div>
-                    <button className="button-27-s" onClick={() => setStep(2)}> Wyświetl Diety</button>
+                    <button className="button-27-s" onClick={() => setStep(2)} disabled={selectedDietTypeId == ""} > Wyświetl Diety</button>
                    
                     </form>
            
@@ -235,18 +238,19 @@ return (
     </div>
                 )}
                  {step === 2 && (
-                <div>
-                {    console.log(diets)  }
-                {    console.log(selectedDietTypeId)  }
-                
+                    <div>
                     <h1>Lista diet według preferencji:</h1>
-                  {diets
-                  .filter(diet => diet.dietType.dietTypeId === selectedDietTypeId)
-                  .map(diet => (
-                  
-                    <li key={diet.dietId}>{diet.dietName} <button className="button-27-save" onClick={() => handleSelectDiet(diet.dietId)}>Wybierz dietę</button></li>
-                  ))}
-                    <button className="button-27-s" onClick={goToPrevStep}> Powrót</button>
+                    {diets
+                    .filter(diet => diet.dietType.dietTypeId === selectedDietTypeId)
+                    .map(diet => (
+                        <ol key={diet.dietId} className="diet-container">
+                            Nazwa: {diet.dietName}
+                            <p>Opis: {diet.dietDescription}</p>
+                            <p>Cena za dzień: {diet.priceForDay} zł</p>
+                            <button className="button-27-save" onClick={() => handleSelectDiet(diet.dietId)}>Wybierz dietę</button>
+                        </ol>
+                    ))}
+                    <button className="button-27-s" onClick={goToPrevStep}>Powrót</button>
                 </div>
             )}
              {step === 3 && (

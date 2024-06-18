@@ -92,7 +92,7 @@ return(
   <div style={{ display: 'flex', alignItems: 'center' }}>
     <label style={{ width: '150px' }}>Numer Telefonu:</label>
     <input type="tel" name="phone" id="phone" value={phone} pattern="\d{9}"        
-                  maxLength="9"   required onChange={(e) => setPhone(e.target.value)} />
+    maxLength="9"   required onChange={(e) => setPhone(e.target.value)} />
   </div>
   <div style={{ display: 'flex', alignItems: 'center' }}>
     <label style={{ width: '150px' }}>Miasto:</label>

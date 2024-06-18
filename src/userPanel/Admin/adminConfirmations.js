@@ -6,6 +6,10 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 export default function AdminConfirmations() {
+
+  const [confirmations, setConfirmations] = useState([]);
+  const MySwal = withReactContent(Swal);
+
 const {
   housingType, setHousingType,
     firstName, setFirstName,
@@ -19,8 +23,7 @@ const {
     currentEdit, setCurrentEdit,  onEdit,
     editAddressIndex, setEditAddressIndex, handleDelete, houseNumber, setHouseNumber, companyName, setCompanyName, login, setLogin
     , description, setDescription, dietType, setDietType,email, setEmail, nip, setNip, companyStatus, setCompanyStatus} = useAuth();
-    const [confirmations, setConfirmations] = useState([]);
-    const MySwal = withReactContent(Swal);
+
   useEffect(() => {
     const fetchConfirmations = async () => {
       try {
@@ -40,7 +43,6 @@ const {
             },
           }
         );
-      
         setConfirmations(response.data);
         console.log(response.data);
       } catch (error) {
@@ -111,12 +113,10 @@ const {
             <p className="miasto">Typ diety: {confirmation.dietType }</p>
             <p className="miasto">Nip: {confirmation.nip }</p>
             <p className="miasto">Numer Telefonu: {confirmation.phone }</p>
-            <p className="miasto"> Status: {confirmation.status }</p>
+            <p className="miasto">Status: {confirmation.status }</p>
             <button id={index}  className="button-27-save" onClick={() => {onEdit(confirmation.companyId); console.log(confirmation.companyId); handleEdit(confirmation.companyId)
-            }}>akceptuj</button>
-            {/* <button className="button-27-e " onClick={() => {setIsOpen(true); handleOpenModal('edit'); setEditconfirmationIndex(index); onEdit(confirmation.confirmationId)}}>
-              Zaktualizuj adres
-            </button> */}
+            }}>Akceptuj</button>
+           
           </div>
     ))}
             </div>

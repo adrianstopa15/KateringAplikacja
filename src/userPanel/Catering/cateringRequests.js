@@ -132,6 +132,7 @@ export default function CateringRequests() {
                id="dietTypeReq"
                onChange={(e) => setDietTypeReq(e.target.value)}
             >
+              <option value="">Wybierz...</option> 
               {dietTypes.map((type) => (
                     <option key={type.dietTypeId} value={type.name}>
                         {type.name}
@@ -141,7 +142,7 @@ export default function CateringRequests() {
            
             </select>
             <div className='buttons-container' style={{marginTop:"10px"}}>
-              <button type="submit" className="button-27-save" style={{marginRight:"15px"}}>Wyślij</button>
+              <button type="submit" className="button-27-save" disabled={dietTypeReq == ""} style={{marginRight:"15px"}}>Wyślij</button>
               <button type="button" onClick={() => setModalOpen(false)} className="button-27-e">Anuluj</button>
             </div>
           </form>

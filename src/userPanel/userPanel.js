@@ -38,6 +38,7 @@ import AdminDietType from "./Admin/adminDietType";
 import CateringTypeDiet from "./Catering/cateringTypeDiet";
 import AdminDiets from "./Admin/adminDiets";
 import AdminOrders from "./Admin/adminOrders";
+import CateringMeal from "./Catering/cateringMeal";
 
 export default function UserPanel() {
 
@@ -115,6 +116,8 @@ export default function UserPanel() {
           return <CateringPresets />
         case "CateringTypeDiet":
           return <CateringTypeDiet />
+        case "CateringMeal":
+          return <CateringMeal />
         default:
           return <CateringNotifications />;
       }
@@ -303,6 +306,17 @@ export default function UserPanel() {
               : ""
           }`}
           onClick={() => setActiveComponent("CateringPresets")}
+        >
+          <img src={DietMenu} className="lb-icons" />
+          Posiłki zapisane
+        </a>
+        <a
+          className={`left-bar--content ${
+            activeComponent === "CateringMeal"
+              ? "lb-active" && "lb-icons--active"
+              : ""
+          }`}
+          onClick={() => setActiveComponent("CateringMeal")}
         >
           <img src={DietMenu} className="lb-icons" />
           Posiłki

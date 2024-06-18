@@ -4,10 +4,12 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+
 export default function CateringTypeDiet() {
 
     const [diets, setDiets] = useState([]);
     const MySwal = withReactContent(Swal);
+    
     useEffect(() => {
         const handleShowDietCompany = async () => {
           try {
@@ -59,7 +61,7 @@ export default function CateringTypeDiet() {
         }).then(async (result) => {
           if (result.isConfirmed) {
             try {
-              await axios.post(`http://localhost:8080/deleteDietType?id=${id}`, {}, {
+              await axios.post(`http://localhost:8080/deleteDiet?id=${id}`, {}, {
                 headers: { Authorization: `Bearer ${authToken}` },
               });
               console.log("Dieta została usunięta.");
@@ -88,7 +90,7 @@ export default function CateringTypeDiet() {
           <h1 className="h1-regular mb-m">Diety: </h1>
           <div className="address-info">
           {diets.map((diet, index) => (
-        <div key={`${diet.dietId} ${index}`} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
+        <div key={`${diet.dietId} ${index}`} className="address-display--element" style={{ marginBottom: "1rem",  borderColor: diet.status === "Zaakceptowane" ? "green" : "#c7c7c7" }}>
           <p>Nazwa: {diet.dietName}</p>
           <p>Opis: {diet.dietDescription}</p>
           <p>Cena za dzień: {diet.priceForDay} zł</p>

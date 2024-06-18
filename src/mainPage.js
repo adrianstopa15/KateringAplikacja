@@ -88,13 +88,6 @@ export default function MainPage() {
   }, []);
 
 
-
-
-  
-
-
-
-
   useEffect(() => {
     const getCookieValue = (name) =>
       document.cookie

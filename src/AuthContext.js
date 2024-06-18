@@ -32,6 +32,11 @@ export const AuthProvider = ({ children }) => {
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [nip, setNip] = useState("");
+  const [name, setName] = useState('');
+  const [carbs, setCarbs] = useState(0);
+  const [fat, setFat] = useState(0);
+  const [protein, setProtein] = useState(0);
+  const [calories, setCalories] = useState(0);
   
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
@@ -455,6 +460,11 @@ const handleSetDefaultAddress = async (addressId) => {
       gender, setGender,
       bmi, setBmi,
       selectedGoal, setSelectedGoal,
+      name, setName,
+      calories, setCalories,
+      fat, setFat,
+      protein,setProtein,
+      carbs, setCarbs,
 
       
       onEdit, 
