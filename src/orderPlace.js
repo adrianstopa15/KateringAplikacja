@@ -31,107 +31,102 @@ const goToPrevStep = () => {
     setStep(step - 1);
 };
 
-const handleInput = (e) => {
-    setMinValue(e.minValue);
-    setMaxValue(e.maxValue);
-};
+  const handleInput = (e) => {
+      setMinValue(e.minValue);
+      setMaxValue(e.maxValue);
+  };
 
-    const handleSelectDiet = (dietId) => {
-        setSelectedDietId(dietId);
-        setStep(step +1);
-    }
+  const handleSelectDiet = (dietId) => {
+      setSelectedDietId(dietId);
+      setStep(step + 1);
+  }
 
+  const handleDateSubmit = () => {
+      if (!startDate || !endDate) {
+          alert("Wypełnij obie daty!");
+          return;
+      }
 
-const handleDateSubmit = () => {
-    if(!startDate || !endDate){
-        alert("Wypełnij obie daty!");
-        return;
-    }
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      if (start > end) {
+          alert("Data zakończenia musi być późniejsza niż data rozpoczęcia");
+          return;
+      }
+      if (start < new Date()) {
+          alert("Data startowa nie może być w przeszłości!");
+          return;
+      }
 
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    if (start > end ){
-        alert("Data zakończenia musi byc później niż data rozpoczęcia")
-        return;
-    }
-    if(start < new Date()) {
-        alert("Data startowa nie może być w przeszłości!");
-        return;
-    }
+      setStep(step + 1);
+  }
 
+  const handleDateSubmitForm = async (e) => {
+      e.preventDefault();
 
-setStep(step+1)
-    
-}
+      if (!startDate || !endDate) {
+          alert("Wypełnij obie daty!");
+          return;
+      }
 
-const handleDateSubmitForm = async (e) => {
-    e.preventDefault();
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      if (start > end) {
+          alert("Data zakończenia musi być późniejsza niż data rozpoczęcia");
+          return;
+      }
+      if (start < new Date()) {
+          alert("Data startowa nie może być w przeszłości!");
+          return;
+      }
 
-    if(!startDate || !endDate){
-        alert("Wypełnij obie daty!");
-        return;
-    }
+      const formData = {
+          startDate,
+          endDate
+      };
 
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    if (start > end ){
-        alert("Data zakończenia musi byc później niż data rozpoczęcia");
-        return;
-    }
-    if(start < new Date()) {
-        alert("Data startowa nie może być w przeszłości!");
-        return;
-    }
+      try {
+          const getCookieValue = (name) => {
+              const value = `; ${document.cookie}`;
+              const parts = value.split(`; ${name}=`);
+              if (parts.length === 2) return parts.pop().split(';').shift();
+              return null;
+          };
+          const authToken = getCookieValue("authToken");
+          const decodedToken = jwtDecode(authToken);
+          const login = decodedToken.sub;
 
-    const formData = {
-        startDate,
-        endDate
-    };
+          const response = await axios.post(
+              `http://localhost:8080/addOrder?login=${login}&id=${selectDietId}`,
+              formData,
+              {
+                  headers: {
+                      Authorization: `Bearer ${authToken}`,
+                  },
+              }
+          );
 
-    try {
-        const getCookieValue = (name) => {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-            return null;
-        };
-        const authToken = getCookieValue("authToken");
-        const decodedToken = jwtDecode(authToken);
-
-        const login = decodedToken.sub;
-
-        const response = await axios.post(
-            `http://localhost:8080/addOrder?login=${login}&id=${selectDietId}`,
-            formData,
-            {
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                },
-            }
-        );
-
-     
-        if (response.status === 200) {
-            MySwal.fire({
-              title: "Dieta została zamówiona!",
-              text: "Przejdź do panelu użytkownika aby zobaczyć szczegóły zamówienia.",
-              icon: "success",
-              confirmButtonText: "OK",
-            }).then(() => {
-              window.location.reload();
-            });
+          if (response.status === 200) {
+              MySwal.fire({
+                  title: "Dieta została zamówiona!",
+                  text: "Przejdź do panelu użytkownika aby zobaczyć szczegóły zamówienia.",
+                  icon: "success",
+                  confirmButtonText: "OK",
+              }).then(() => {
+                  window.location.reload();
+              });
           } else {
-            console.error("Error submitting order:", response.status);
+              console.error("Error submitting order:", response.status);
           }
-        } catch (error) {
+      } catch (error) {
           console.error("Error submitting order:", error);
           MySwal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Coś poszło nie tak. Spróbuj ponownie później.",
+              icon: "error",
+              title: "Oops...",
+              text: "Coś poszło nie tak. Spróbuj ponownie później.",
           });
-        }
-      };
+      }
+  };
 
 useEffect(() => {
     const fetchDiets = async () => {
@@ -163,35 +158,34 @@ useEffect(() => {
   }, []);
 
   useEffect(() => {
-    const fetchDietTypes = async () => {
-      try {
-        const getCookieValue = (name) => {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-            return null;
-          };
-          const authToken = getCookieValue("authToken");
-        
- 
-          const response = await axios.get(
-          `http://localhost:8080/showDietTypes`,
-          {
-            headers: {
-                Authorization: `Bearer ${authToken}`,
-            },
+      const fetchDietTypes = async () => {
+          try {
+              const getCookieValue = (name) => {
+                  const value = `; ${document.cookie}`;
+                  const parts = value.split(`; ${name}=`);
+                  if (parts.length === 2) return parts.pop().split(';').shift();
+                  return null;
+              };
+              const authToken = getCookieValue("authToken");
+
+              const response = await axios.get(
+                  `http://localhost:8080/showDietTypes`,
+                  {
+                      headers: {
+                          Authorization: `Bearer ${authToken}`,
+                      },
+                  }
+              );
+              setDietTypes(response.data);
+          } catch (error) {
+              console.error("Error fetching DietTypes:", error);
           }
-        );
-        setDietTypes(response.data);
-      } catch (error) {
-        console.error("Error fetching DietTypes:", error);
-      }
-    };
- 
-    fetchDietTypes();
+      };
+
+      fetchDietTypes();
   }, []);
 
-
+  const today = new Date().toISOString().split('T')[0];
 
 return (
     <>

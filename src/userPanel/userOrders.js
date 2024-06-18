@@ -44,7 +44,7 @@ export default function UserOrders() {
           <p>Od: {order.startDate}</p>
           <p>Do: {order.endDate}</p>
           <p>Cena: {order.price} zł</p>
-          {/* <button className="button-27-d" onClick={() => handleDelete (order.orderId)}>Usuń</button> */}
+        
         </div>
       ))}
       </div>
