@@ -61,4 +61,12 @@ public class DietService {
 
         return ResponseEntity.ok("Pomyślnie zaakceptowano dietę");
     }
+
+    public ResponseEntity<?> deleteDiet(Integer id) {
+        Diet diet = dietRepository.findByDietId(id);
+
+        dietRepository.delete(diet);
+
+        return ResponseEntity.ok("Pomyślnie usunięto dietę");
+    }
 }

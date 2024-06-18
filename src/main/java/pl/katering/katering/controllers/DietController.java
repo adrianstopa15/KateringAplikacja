@@ -42,4 +42,9 @@ public class DietController {
         return dietService.acceptDiet(id);
     }
 
+    @PostMapping("/deleteDiet")
+    public ResponseEntity<?> deleteDiet(@RequestParam Integer id) {
+        return dietService.deleteDiet(id);
+    }
+
 }
