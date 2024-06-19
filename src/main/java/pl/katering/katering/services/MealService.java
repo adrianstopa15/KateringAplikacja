@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.katering.katering.classes.*;
-import pl.katering.katering.repositories.DietRepository;
-import pl.katering.katering.repositories.MacroRepository;
-import pl.katering.katering.repositories.MealRepository;
-import pl.katering.katering.repositories.MealTypeRepository;
+import pl.katering.katering.repositories.*;
 
 import java.util.List;
 import java.util.Map;
@@ -18,17 +15,24 @@ public class MealService {
     private final DietRepository dietRepository;
     private final MealTypeRepository mealTypeRepository;
     private final MacroRepository macroRepository;
+    private final CompanyRepository companyRepository;
 
     @Autowired
-    public MealService(MealRepository mealRepository, DietRepository dietRepository, MealTypeRepository mealTypeRepository, MacroRepository macroRepository) {
+    public MealService(MealRepository mealRepository, DietRepository dietRepository, MealTypeRepository mealTypeRepository, MacroRepository macroRepository, CompanyRepository companyRepository) {
         this.mealRepository = mealRepository;
         this.dietRepository = dietRepository;
         this.mealTypeRepository = mealTypeRepository;
         this.macroRepository = macroRepository;
+        this.companyRepository = companyRepository;
     }
 
     public List<Meal> showMeals() {
         return mealRepository.findAll();
+    }
+
+    public List<Meal> showCompanyMeals(String login) {
+        Company company = companyRepository.findByLogin(login);
+        return mealRepository.findCompanyMeals(company.getCompanyId());
     }
 
     public ResponseEntity<?> add(Map<String, Object> formData, Integer dietId, Integer typeId) {
@@ -68,7 +72,7 @@ public class MealService {
         mealRepository.save(newMeal);
         macroRepository.save(newMacro);
 
-        return ResponseEntity.ok("Wysłano prośbę o dodanie posiłku do bazy danych");
+        return ResponseEntity.ok("Pomyślnie dodano posiłek");
     }
 
     public ResponseEntity<?> acceptMeal(Integer id) {
@@ -83,17 +87,16 @@ public class MealService {
         Meal meal = new Meal();
         meal.setName((String) formData.get("name"));
         meal.setDescription((String) formData.get("description"));
-//        meal.setPrice((Double) formData.get("price"));
 
         return meal;
     }
 
     private Macro parseMacro(Map<String, Object> formData) {
         Macro macro = new Macro();
-        macro.setProtein((Double) formData.get("protein"));
-        macro.setFat((Double) formData.get("fat"));
-        macro.setCarbs((Double) formData.get("carbs"));
-        macro.setCalories((Double) formData.get("calories"));
+        macro.setProtein(Double.parseDouble(String.valueOf(formData.get("protein"))));
+        macro.setFat(Double.parseDouble(String.valueOf(formData.get("fat"))));
+        macro.setCarbs(Double.parseDouble(String.valueOf(formData.get("carbs"))));
+        macro.setCalories(Double.parseDouble(String.valueOf(formData.get("calories"))));
 
         return macro;
     }

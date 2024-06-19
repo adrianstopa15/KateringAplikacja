@@ -23,6 +23,11 @@ public class MealController {
         return mealService.showMeals();
     }
 
+    @GetMapping("/showCompanyMeals")
+    public List<Meal> companyMealsList(@RequestParam String login) {
+        return mealService.showCompanyMeals(login);
+    }
+
     @PostMapping("/addMeal")
     public ResponseEntity<?> addMeal(@RequestBody Map<String, Object> formData, @RequestParam Integer dietId, @RequestParam Integer typeId) {
         return mealService.add(formData, dietId, typeId);

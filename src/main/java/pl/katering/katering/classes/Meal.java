@@ -30,12 +30,12 @@ public class Meal {
     @JoinColumn(name = "typeId")
     private MealType mealType;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "dietId")
     private Diet diet;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "meal")
+//    @JsonIgnore
+    @OneToOne(mappedBy = "meal", cascade = CascadeType.ALL)
     private Macro macro;
 }

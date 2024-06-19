@@ -33,7 +33,7 @@ public class Diet {
     private String status = "Oczekujące";
 
     @JsonIgnore
-    @OneToMany(mappedBy = "diet")
+    @OneToMany(mappedBy = "diet", cascade = CascadeType.ALL)
     private List<Meal> meals;
 
 //    @JsonIgnore
