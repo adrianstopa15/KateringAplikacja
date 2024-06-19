@@ -27,6 +27,18 @@ const MySwal = withReactContent(Swal);
 const goToNextStep = () => {
     setStep(step + 1);
 };
+
+const getTomorrowDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split('T')[0];
+};
+
+const tomorrow = getTomorrowDate();
+
+
+
+
 const goToPrevStep = () => {
     setStep(step - 1);
 };
@@ -257,6 +269,7 @@ return (
                             <input
                                 type="date"
                                 value={startDate}
+                                min={tomorrow}
                                 onChange={e => setStartDate(e.target.value)}
                             />
                         </label>
@@ -265,6 +278,7 @@ return (
                             <input
                                 type="date"
                                 value={endDate}
+                                min={startDate || tomorrow}
                                 onChange={e => setEndDate(e.target.value)}
                             />
                         </label>
