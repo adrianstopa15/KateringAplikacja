@@ -19,7 +19,7 @@ export default function CateringMeal() {
     fat, setFat,
     protein, setProtein,
     calories, setCalories, 
-    dietId, setDietId, dietName,  
+    dietId, setDietId,  
     typeId, setTypeId} = useAuth();
 
 
@@ -126,7 +126,8 @@ export default function CateringMeal() {
               <label>Dieta:</label>
               <select onChange={e => setDietId(Number(e.target.value))} value={dietId}>
                     <option value="">Wybierz...</option> 
-                    {diets.map((diet) => (
+                    {diets.filter(diet => diet.status === "Zaakceptowane")
+                    .map((diet) => (
                         <option key={diet.dietId} value={diet.dietId}>
                             {diet.dietName}
                         </option>

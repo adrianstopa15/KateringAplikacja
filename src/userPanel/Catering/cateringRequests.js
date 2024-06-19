@@ -127,6 +127,12 @@ export default function CateringRequests() {
             id="dietDescription"
             onChange={(e) => setDietDescription(e.target.value)}
             /></label>
+            <label>Cena za dzień: <input type="number"
+                    value={priceForDay}
+                    name="priceForDay"
+                    id="priceForDay"
+                    onChange={(e) => setPriceForDay(e.target.value)}
+            /></label>
             Typ diety:
             <select
                value={dietTypeReq}
