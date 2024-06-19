@@ -32,16 +32,21 @@ const OVERLAY_STYLES = {
 export default function CateringMealModal({ open, children, onClose }) {
     const [formMode, setFormMode] = useState(null);
 
-
-  const {description, setDescription,
+    const {
+      description, setDescription,
       name, setName,
       carbs, setCarbs,
       fat, setFat,
       protein, setProtein,
-      calories, setCalories} = useAuth();
-   
+      calories, setCalories,
+      dietId, setDietId,  
+      typeId, setTypeId
+  } = useAuth();
 
     const handleSave = async (e) => {
+
+      console.log("Diet ID:", dietId);  
+      console.log("Type ID:", typeId); 
 
        const formData ={
         name,
@@ -63,7 +68,7 @@ export default function CateringMealModal({ open, children, onClose }) {
 
     
         const response = await axios.post(
-          `http://localhost:8080/addMeal?dietId=${e}&?typeId=${e}`, formData,
+          `http://localhost:8080/addMeal?dietId=${dietId}&typeId=${typeId}`, formData,
           {
             headers: {
               Authorization: `Bearer ${authToken}`,
@@ -74,6 +79,7 @@ export default function CateringMealModal({ open, children, onClose }) {
       } catch (error) {
         console.error("Error fetching Confirmations:", error);
       }
+      console.log(formData);
     };
 
   if (!open) return null;

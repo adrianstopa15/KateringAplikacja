@@ -1,9 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 
 Modal.setAppElement('#root');
 
-const CateringModal = ({ isOpen, onRequestClose, mealName }) => {
+const CateringModal = ({ isOpen, onRequestClose, mealName, mealType }) => {
+    const [meals, setMeals] = useState([]);
+
+
+
+    useEffect(() => {
+        const fetchMeals = async () => {
+          try {
+            const getCookieValue = (name) => {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+                return null;
+              };
+              const authToken = getCookieValue("authToken");
+              const decodedToken = jwtDecode(authToken);
+              const login = decodedToken.sub;
+            
+            //   ?login=${login}
+              const response = await axios.get(
+              `http://localhost:8080/showMeals`,
+              {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+              }
+            );
+            setMeals(response.data);
+          } catch (error) {
+            console.error("Error fetching Diets:", error);
+          }
+        };
+     
+        fetchMeals();
+    }, []);
+
     return (
         <Modal
             isOpen={isOpen}
@@ -13,7 +50,17 @@ const CateringModal = ({ isOpen, onRequestClose, mealName }) => {
         >
             <h2>Twoje {mealName}</h2>
             <button onClick={onRequestClose} className="close-button">&#x274C;</button>
-            <button onClick={onRequestClose} className="add-button">Dodaj</button>
+            {meals
+                .filter(meal => meal.mealType.typeId === mealType) 
+                .map(meal => (
+                    <ol key={meal.mealId} className="diet-container">
+                        Nazwa: {meal.name}
+                        <p>Opis: {meal.description}</p>
+
+
+                        
+                    </ol>
+            ))}
         </Modal>
     );
 };

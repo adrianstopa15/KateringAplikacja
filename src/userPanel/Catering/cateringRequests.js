@@ -25,10 +25,12 @@ export default function CateringRequests() {
       setModalMode, setHouseNumber,
     currentEdit, setCurrentEdit, onEdit,
     editAddressIndex, setEditAddressIndex, dietName, setDietName, dietDescription, setDietDescription} = useAuth();
+
     const [dietTypeReq, setDietTypeReq] = useState("");
     const [dietTypes, setDietTypes] = useState([]);
     const [diets, setDiets] = useState([]);
-    const [priceForDay, setPriceForDay] = useState(50);
+    const [priceForDay, setPriceForDay] = useState(0);
+
     const applyDiet = async (x) => {
       x.preventDefault(); 
   

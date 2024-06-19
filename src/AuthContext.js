@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }) => {
   const [city, setCity] = useState("");
   const [nip, setNip] = useState("");
   const [name, setName] = useState('');
+
   const [carbs, setCarbs] = useState(0);
   const [fat, setFat] = useState(0);
   const [protein, setProtein] = useState(0);
@@ -49,20 +50,21 @@ export const AuthProvider = ({ children }) => {
   const [addresses, setAddresses] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [companies, setCompanies] = useState([]);
-  
   const [preferences, setPreferences] = useState([]);
 
   const [editAddressIndex, setEditAddressIndex] = useState(null);
   const [editCustomerIndex, setEditCustomerIndex] = useState(null);
   const [editCompanyIndex, setEditCompanyIndex] = useState(null);
-  
   const [editPreferenceIndex, setPreferenceIndex] = useState(null);
+
+  const [dietId, setDietId] = useState(null);
+  const [typeId, setTypeId] = useState(null);
 
   const [currentEdit, setCurrentEdit] = useState();
   const [currentCustomer, setCustomersEdit] = useState();
   const [currentCompany, setCompanyEdit] = useState();
-
   const [currentPreference, setPreferencesEdit] = useState();
+
   // koniec
 
   const [companyName, setCompanyName] = useState("");
@@ -504,9 +506,18 @@ const handleSetDefaultAddress = async (addressId) => {
       currentCompany, setCompanyEdit,
       currentPreference, setPreferencesEdit,
     
-     
-      dietType, setDietType, description, setDescription, nip, setNip, togglePopup, popupType, setPopupType, companyStatus, setCompanyStatus,
-      dietName, setDietName, dietDescription, setDietDescription, 
+
+
+      typeId, setTypeId,
+      dietId, setDietId,
+      dietName, setDietName, 
+      dietType, setDietType, 
+      description, setDescription, 
+      nip, setNip, 
+      togglePopup, 
+      popupType, setPopupType,
+      companyStatus, setCompanyStatus,
+      dietDescription, setDietDescription, 
     }}
     >
       {children}
