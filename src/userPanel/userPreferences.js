@@ -54,10 +54,9 @@ const UserPreferences = () => {
         setWeight(preference.weight);
         setHeight(preference.height);
         setAge(preference.age);
-        setSelectedGoal(preference.selectedGoal);
       }
     }
-  }, [currentPreference , preferences , setWeight, setHeight, setAge, setSelectedGoal]);
+  }, [currentPreference , preferences , setWeight, setHeight, setAge]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,7 +71,22 @@ const UserPreferences = () => {
     setIsOpen(false);
     setModalMode(null);
     setPreferenceIndex(null);
+  };
 
+  const genderLabels = {
+    man: "Mężczyzna",
+    woman: "Kobieta"
+  };
+
+  const goalLabels = {
+  lose: "Redukcja",
+  maintain: "Utrzymanie wagi",
+  gain: "Budowa mięśni"
+  };
+
+  const formatBMI = (bmi) => {
+    const numBMI = Number(bmi); 
+    return !isNaN(numBMI) ? numBMI.toFixed(2) : "Brak danych";
   };
 
   return (
@@ -84,13 +98,13 @@ const UserPreferences = () => {
           <p className="preference-item">Waga: {preference.weight || "Brak danych"}</p>
           <p className="preference-item">Wzrost: {preference.height || "Brak danych"}</p>
           <p className="preference-item">Wiek: {preference.age || "Brak danych"}</p>
-          <p className="preference-item">Płeć: {preference.gender || "Brak danych"}</p>
-          <p className="preference-item">BMI: {preference.bmi || "Brak danych"}</p>
-          <p className="preference-item">Wybrany cel: {preference.selectedGoal || "Brak danych"}</p>
+          <p className="preference-item">Płeć: {genderLabels[preference.gender] || "Brak danych"}</p>
+          <p className="preference-item">BMI: {formatBMI(preference.bmi)}</p>
+          <p className="preference-item">Wybrany cel: {goalLabels[preference.selectedGoal] || "Brak danych"}</p>
           <button className="button-27-e" onClick={() => { setIsOpen(true); handleOpenModal('edit'); setPreferenceIndex(index); onEditPreferences(preference.preferenceId)}}>Edytuj preferencje</button>
         </div>
         ))}
-  <UserPreferencesModal open={isOpen && modalMode === 'edit'} onClose={() => handleCloseModal()}>
+  <UserPreferencesModal open={isOpen && modalMode === 'edit'} onClose={() => handleCloseModal()} selectedGoal={selectedGoal}>
   {editPreferenceIndex !== null && (
     <form onSubmit={handleSubmit} className="form1">
     <div className="form-group">
@@ -120,25 +134,6 @@ const UserPreferences = () => {
         value={age} onChange={(e) => setAge(e.target.value)} required
       />
     </div>
-    {/* <div className="form-group">
-      <label>Płeć:</label>
-      <select
-        name="gender" id="gender" value={gender}
-      >
-        <option value="">Wybierz</option>
-        <option value="male">Mężczyzna</option>
-        <option value="female">Kobieta</option>
-      </select>
-    </div>
-    <div className="form-group">
-      <label>BMI:</label>
-      <input
-        type="text"
-        name="bmi"
-        id="bmi"
-        value={bmi}
-      />
-    </div> */}
     <div className="form-group">
       <label>Wybierz nowy cel:</label>
       <select
@@ -146,10 +141,10 @@ const UserPreferences = () => {
         id="selectedGoal"
         value={selectedGoal} onChange={(e) => setSelectedGoal(e.target.value)} required
       >
-        <option value="">Wybierz</option>
-        <option value="lose">Lose</option>
-        <option value="maintain">Maintain</option>
-        <option value="gain">Gain</option>
+        <option value="">Wybierz...</option>
+        <option value="lose">Redukcja</option>
+        <option value="maintain">Utrzymanie wagi</option>
+        <option value="gain">Budowa mięśni</option>
       </select>
     </div>
   </form>

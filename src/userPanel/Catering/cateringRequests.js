@@ -50,18 +50,18 @@ export default function CateringRequests() {
         priceForDay,
       };
   
-      console.log("FormData:", formData); // Logowanie danych
+      console.log("FormData:", formData); 
   
       try {
         const apply = await axios.post(`http://localhost:8080/addDiet?login=${login}&dietTypeName=${dietTypeReq}`, formData, {
           headers: { Authorization: `Bearer ${authToken}` },
         });
-        console.log("Response:", apply); // Logowanie odpowiedzi
+        console.log("Response:", apply); 
         handleCloseModal();
         window.location.reload();
       } catch (error) {
         console.error("Error fetching data:", error);
-        console.log("Error response data:", error.response?.data); // Logowanie odpowiedzi błędu
+        console.log("Error response data:", error.response?.data); 
       }
   };
   
@@ -109,7 +109,7 @@ export default function CateringRequests() {
         <div className="catering-display--element" style={{marginBottom: "1rem"}}>
           Brak oczekujących wniosków.
         </div>
-        <button className="button-27-e" onClick={() => setModalOpen(true)}>utwórz wniosek</button>
+        <button className="button-27-i" onClick={() => setModalOpen(true)}>Utwórz wniosek</button>
       </div>
       <ModalGlobal isOpen={isModalOpen}>
         <div className='flex-modal'>

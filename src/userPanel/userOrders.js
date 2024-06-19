@@ -39,7 +39,7 @@ export default function UserOrders() {
       <div className="ml-s mt-s">
         <h1 className="h1-regular mb-m">Zamówienia:</h1>
         {orders.map((order, index) => (
-        <div key={`${order.orderId} ${index}`} className="address-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
+        <div key={`${order.orderId} ${index}`} className="order-display--element" style={{ marginBottom: "1rem", borderColor: "#c7c7c7" }}>
           <p>Nazwa diety: {order.diet.dietName}</p>
           <p>Od: {order.startDate}</p>
           <p>Do: {order.endDate}</p>

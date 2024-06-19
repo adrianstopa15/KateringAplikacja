@@ -685,3 +685,29 @@ footer {
   border-radius: 8px; 
   background-color: #f9f9f9; 
 }
+
+.meal-container {
+  margin: 10px 0;
+  padding: 15px;
+  background-color: #f8f8f8; 
+  border: 1px solid #e1e1e1; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.meal-container p {
+  margin: 5px 0 10px; 
+  color: #333; 
+  font-size: 1rem; 
+}
+
+.meal-container p:first-of-type {
+  font-weight: bold; 
+  color: #000; 
+  font-size: 1.2rem; 
+}
+
+.meal-container:hover {
+  background-color: #f0f0f0; 
+  border-color: #ccc; 
+}

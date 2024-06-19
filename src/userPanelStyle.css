@@ -4,26 +4,13 @@
   padding: 0;
 }
 .panel-main--container {
-  /* background-image: linear-gradient(
-    to right,
-    #f3cc92 0%,
-    #f8d4b8 50%,
-    #f7c985 100%
-  ); */
   background-color: rgb(226, 224, 224);
-  /* background-color: orange; */
   height: 100vh;
 }
 .panel-container {
   display: flex;
   flex-direction: row;
   height: auto;
-  /* background-color: rgba(255, 255, 255, 0.123);
-  backdrop-filter: blur(50px);
-  border-radius: 50px;
-  border-top: 1px solid rgba(255, 255, 255, 0.11);
-  box-shadow: 3px 3px 3px rgba(255, 197, 38, 0.11);
-  padding-bottom: 13rem; */
 }
 .left-bar {
   display: flex;
@@ -37,7 +24,6 @@
 
 .left-bar--content {
   text-decoration: none;
-  /* margin-bottom: 1rem; */
   padding: 1.5rem 0.5rem;
   cursor: pointer;
   display: inline-block;
@@ -65,14 +51,11 @@
   margin: 2rem 0 4rem 0;
 }
 .main-content {
-  /* margin-top: 8.5rem; */
-  /* margin-left: 5rem; */
   background-color: rgb(240, 238, 238);
   min-width: 80%;
   min-height: 80%;
 }
 .lb-active {
-  /* font-weight: 600; */
   color: rgb(76, 76, 245);
   background-color: rgba(37, 50, 238, 0.07);
 }
@@ -82,3 +65,70 @@
   justify-content: center;
 }
 
+.preferences-info {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.preference-item {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  border-left: 4px solid #0056b3;  
+}
+
+.preference-item:first-child {
+  font-weight: bold;
+  font-size: 18px;
+  color: #0056b3; 
+  border-left: none;
+  padding-left: 0;
+}
+
+.button-27-e:hover {
+  background-color: #004494; 
+}
+
+.order-display--element {
+  background: linear-gradient(145deg, #f0f9ff, #c0def3);
+  border-radius: 15px;
+  box-shadow: 0 8px 16px 0 rgba(0, 104, 255, 0.2);
+  padding: 20px;
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #b1d4e0;
+}
+
+.order-display--element:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 104, 255, 0.25);
+}
+
+.order-display--element p {
+  font-size: 1.1rem;
+  color: #036;
+  margin-bottom: 10px;
+  padding: 5px 0;
+  border-bottom: 1px solid #c7e0f4;
+}
+
+.order-display--element p:last-child {
+  border-bottom: none;
+}
+
+.order-display--element p:first-child {
+  font-weight: 600;
+  color: #025;
+  font-size: 1.25rem;
+}
+
+.order-display--element p:nth-child(2),
+.order-display--element p:nth-child(3) {
+  font-style: italic;
+  color: #024;
+}

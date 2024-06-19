@@ -3,6 +3,7 @@ import { useAuth } from "../AuthContext";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
+
 const MODAL_STYLES = {
   position: "fixed",
   top: "50%",
@@ -27,7 +28,7 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function UserPreferencesModal({ open, children, onClose }) {
+export default function UserPreferencesModal({ open, children, onClose, selectedGoal }) {
 
   const { 
         handleEditPreferences} = useAuth();
@@ -62,7 +63,7 @@ export default function UserPreferencesModal({ open, children, onClose }) {
       <div style={MODAL_STYLES}>
         {children}
         <div className="flex-c mt-sm">
-          <button onClick={handleSave} className="button-27-save" type="button">
+          <button onClick={handleSave} disabled={!selectedGoal} className="button-27-save" type="button">
             Zapisz
           </button>
           <button onClick={onClose} className="button-27-d ml-s">

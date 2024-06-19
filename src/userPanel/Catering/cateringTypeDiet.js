@@ -90,7 +90,7 @@ export default function CateringTypeDiet() {
           <h1 className="h1-regular mb-m">Diety: </h1>
           <div className="address-info">
           {diets.map((diet, index) => (
-        <div key={`${diet.dietId} ${index}`} className="address-display--element" style={{ marginBottom: "1rem",  borderColor: diet.status === "Zaakceptowane" ? "green" : "#c7c7c7" }}>
+        <div key={`${diet.dietId} ${index}`} className="diet-display--element" style={{ marginBottom: "1rem",  borderColor: diet.status === "Zaakceptowane" ? "green" : "#c7c7c7" }}>
           <p>Nazwa: {diet.dietName}</p>
           <p>Opis: {diet.dietDescription}</p>
           <p>Cena za dzień: {diet.priceForDay} zł</p>

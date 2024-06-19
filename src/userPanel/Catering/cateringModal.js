@@ -53,12 +53,12 @@ const CateringModal = ({ isOpen, onRequestClose, mealName, mealType }) => {
             {meals
                 .filter(meal => meal.mealType.typeId === mealType) 
                 .map(meal => (
-                    <ol key={meal.mealId} className="diet-container">
+                    <ol key={meal.mealId} className="meal-container">
                         Nazwa: {meal.name}
                         <p>Opis: {meal.description}</p>
 
 
-                        
+
                     </ol>
             ))}
         </Modal>
