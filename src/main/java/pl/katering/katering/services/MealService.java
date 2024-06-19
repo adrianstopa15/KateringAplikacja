@@ -47,9 +47,6 @@ public class MealService {
         if (formData.containsKey("description")) {
             newMeal.setDescription(meal.getDescription());
         }
-//        if (formData.containsKey("price")) {
-//            newMeal.setPrice(meal.getPrice());
-//        }
 
         if (formData.containsKey("protein")) {
             newMacro.setProtein(macro.getProtein());

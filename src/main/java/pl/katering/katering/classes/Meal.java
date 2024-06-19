@@ -23,11 +23,9 @@ public class Meal {
 
     private String description;
 
-//    private Double price;
-
     private String status = "Oczekujące";
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "typeId")
     private MealType mealType;
