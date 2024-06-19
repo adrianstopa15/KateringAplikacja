@@ -250,7 +250,7 @@ return (
                     .filter(diet => diet.dietType.dietTypeId === selectedDietTypeId)
                     .map(diet => (
                         <ol key={diet.dietId} className="diet-container">
-                            Nazwa: {diet.dietName}
+                            <p>Nazwa: {diet.dietName}</p>
                             <p>Opis: {diet.dietDescription}</p>
                             <p>Cena za dzień: {diet.priceForDay} zł</p>
                             <button className="button-27-save" onClick={() => handleSelectDiet(diet.dietId)}>Wybierz dietę</button>

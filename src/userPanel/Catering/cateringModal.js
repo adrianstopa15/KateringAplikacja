@@ -23,9 +23,8 @@ const CateringModal = ({ isOpen, onRequestClose, mealName, mealType }) => {
               const decodedToken = jwtDecode(authToken);
               const login = decodedToken.sub;
             
-            //   ?login=${login}
               const response = await axios.get(
-              `http://localhost:8080/showMeals`,
+              `http://localhost:8080/showCompanyMeals?login=${login}`,
               {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
@@ -54,11 +53,13 @@ const CateringModal = ({ isOpen, onRequestClose, mealName, mealType }) => {
                 .filter(meal => meal.mealType.typeId === mealType) 
                 .map(meal => (
                     <ol key={meal.mealId} className="diet-container">
-                        Nazwa: {meal.name}
+                        <p>Nazwa: {meal.name}</p>
                         <p>Opis: {meal.description}</p>
-
-
-                        
+                        <p>Dieta: {meal.diet.dietName}</p>
+                        <p>Białko: {meal.macro.protein} g</p>
+                        <p>Tłuszcze: {meal.macro.fat} g</p>
+                        <p>Węglowodany: {meal.macro.carbs} g</p>
+                        <p>Kalorie: {meal.macro.calories} kcal</p>
                     </ol>
             ))}
         </Modal>
