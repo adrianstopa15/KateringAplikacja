@@ -31,14 +31,12 @@ export default function LoginPopup({ onClose, onToggleToRegister, onLoginSuccess
   
     try {
       const response = await axios.post(apiEndpoint, userData, { withCredentials: true });
-      if (response.data.statusCodeValue != 200) {
-        alert(response.data.body);
+      if (response.data.statusCodeValue && response.data.statusCodeValue !== 200) {
+        setLoginError(response.data.body || 'Niepoprawny login lub hasło.');
       }
       console.log(response.data);
       setIsLoggedIn(true);
-      setLoginError('');
       setShowRegistrationAlert({ show: true, message: "Zostałeś zalogowany." });
-      onClose();
   
       const authToken = document.cookie.split('; ').find(row => row.startsWith('authToken=')).split('=')[1];
   
@@ -52,10 +50,11 @@ export default function LoginPopup({ onClose, onToggleToRegister, onLoginSuccess
         if(response.data.isFirstLogin) {
           navigate('/profilePages'); 
         } else {
-          onLoginSuccess(); 
+          onLoginSuccess();
+          setIsLoggedIn(true); 
+          onClose();
         }
       })
-      .catch(error => console.error("Błąd przy sprawdzaniu pierwszego logowania:", error));
     } catch (error) {
       console.error('Błąd logowania:', error);
       setLoginError('Niepoprawny login lub hasło lub wystąpił błąd serwera.');

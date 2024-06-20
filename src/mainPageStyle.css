@@ -27,7 +27,7 @@
 
 .recaptcha-wrapper {
   display: flex;
-  justify-content: center; /* Centers the ReCAPTCHA horizontally */
+  justify-content: center; 
 }
 
 .alert-dismissable .close {
