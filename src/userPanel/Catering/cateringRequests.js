@@ -179,7 +179,7 @@ export default function CateringRequests() {
     <div>
       <div className="ml-s mt-s">
         <h1 className="h1-regular mb-m">Wnioski</h1>
-        <button className="button-27-i" onClick={() => setModalOpen(true)}>Utwórz wniosek</button>
+        <button className="button-27-e" onClick={() => setModalOpen(true)}>Utwórz wniosek</button>
         <div className="catering-display--element" style={{marginBottom: "1rem"}}>
         <div>
         <div className="ml-s mt-s">

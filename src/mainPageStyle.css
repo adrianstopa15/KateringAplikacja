@@ -684,6 +684,14 @@ footer {
   margin-bottom: 10px; 
   border-radius: 8px; 
   background-color: #f9f9f9; 
+  width: 500px;
+}
+
+
+.no-meals-message {
+  text-align: center;
+  color: #666;
+  font-size: 18px;
 }
 
 .meal-container {
