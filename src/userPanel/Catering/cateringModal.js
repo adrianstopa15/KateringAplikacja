@@ -41,32 +41,36 @@ const CateringModal = ({ isOpen, onRequestClose, mealName, mealType }) => {
     }, []);
 
     return (
-        <Modal
-            isOpen={isOpen}
-            onRequestClose={onRequestClose}
-            className="catering-modal-content"
-            overlayClassName="catering-modal-overlay"
-        >
-            <h2>Twoje {mealName}</h2>
-            <button onClick={onRequestClose} className="close-button">&#x274C;</button>
-            {meals
-                .filter(meal => meal.mealType.typeId === mealType).length === 0 ? (
-                  <h2 className="no-meals-message">Brak dostępnych posiłków</h2>
-                ) : (
-                  meals
-                  .filter(meal => meal.mealType.typeId === mealType)
-                  .map(meal => (
-                    <ol key={meal.mealId} className="diet-container">
-                        <p>Nazwa: {meal.name}</p>
-                        <p>Opis: {meal.description}</p>
-                        <p>Dieta: {meal.diet.dietName}</p>
-                        <p>Białko: {meal.macro.protein} g</p>
-                        <p>Tłuszcze: {meal.macro.fat} g</p>
-                        <p>Węglowodany: {meal.macro.carbs} g</p>
-                        <p>Kalorie: {meal.macro.calories} kcal</p>
-                    </ol>
-            )))}
-        </Modal>
+      <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      className="catering-modal-content"
+      overlayClassName="catering-modal-overlay"
+  >
+      <h2>Twoje {mealName}</h2>
+      <button onClick={onRequestClose} className="close-button"></button>
+      {meals
+          .filter(meal => meal.mealType.typeId === mealType).length === 0 ? (
+            <h2 className="no-meals-message">Brak dostępnych posiłków</h2>
+          ) : (
+            meals
+            .filter(meal => meal.mealType.typeId === mealType)
+            .map(meal => (
+              <div key={meal.mealId} className="meal-card">
+                  <div className="meal-info">
+                      <h3 className="meal-name">{meal.name}</h3>
+                      <p className="meal-description">{meal.description}</p>
+                      <p className="meal-diet">Dieta: {meal.diet.dietName}</p>
+                  </div>
+                  <div className="meal-macros">
+                      <p className="macro protein">Białko: {meal.macro.protein} g</p>
+                      <p className="macro fat">Tłuszcze: {meal.macro.fat} g</p>
+                      <p className="macro carbs">Węglowodany: {meal.macro.carbs} g</p>
+                      <p className="macro calories">Kalorie: {meal.macro.calories} kcal</p>
+                  </div>
+              </div>
+      )))}
+  </Modal>
     );
 };
 

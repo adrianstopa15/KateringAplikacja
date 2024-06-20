@@ -311,7 +311,7 @@ export default function MainPage() {
         setModalData({
           isOpen: true,
           title,
-          content: "zaloguj się aby zamówić posiłek",
+          content: "Zaloguj się, aby zamówić posiłek",
           isframeSrc: "",
         })
       }
@@ -426,7 +426,7 @@ export default function MainPage() {
           </h2>
 
           <button id="button-check" className="button-regular-l" onClick={() => handleOpenModal("Zamów posiłek", "", "", false, false, false, true)}>
-            Sprawdź <span className="arrow">&#x2192;</span>
+            Zamów <span className="arrow">&#x2192;</span>
           </button>
         </div>
         <div className="mid-container--right">
