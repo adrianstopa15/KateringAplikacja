@@ -90,7 +90,7 @@ public class AuthenticationService {
 
             return ResponseEntity.ok(new AuthenticationResponse(token));
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Logowanie nie powiodło się");
+            return ResponseEntity.badRequest().body("Wprowadzone dane są niepoprawne. Uzupełnij dane ponownie.");
         }
     }
 
