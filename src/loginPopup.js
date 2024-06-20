@@ -31,7 +31,10 @@ export default function LoginPopup({ onClose, onToggleToRegister, onLoginSuccess
   
     try {
       const response = await axios.post(apiEndpoint, userData, { withCredentials: true });
-      console.log('Zalogowano pomyślnie:', response.data);
+      if (response.data.statusCodeValue != 200) {
+        alert(response.data.body);
+      }
+      console.log(response.data);
       setIsLoggedIn(true);
       setLoginError('');
       setShowRegistrationAlert({ show: true, message: "Zostałeś zalogowany." });

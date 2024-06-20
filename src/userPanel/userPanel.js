@@ -28,7 +28,6 @@ import AdminList from "./Admin/adminList";
 import AdminConfirmations from "./Admin/adminConfirmations";
 import AdminNotifications from "./Admin/adminNotifications";
 import AdminSettings from "./Admin/adminSettings";
-import CateringNotifications from './Catering/cateringNotifications'
 import CateringRequests from './Catering/cateringRequests'
 import CateringAdd from "./Catering/cateringAdd";
 import CateringPresets from "./Catering/cateringPresets";
@@ -106,8 +105,6 @@ export default function UserPanel() {
       }
     } else if (userRole === 'COMPANY') {
       switch (activeComponent) {
-        case "CateringNotifications":
-          return <CateringNotifications />;
         case "CateringRequests":
           return <CateringRequests />;
         case "CateringAdd":
@@ -119,7 +116,7 @@ export default function UserPanel() {
         case "CateringMeal":
           return <CateringMeal />
         default:
-          return <CateringNotifications />;
+          return <CateringRequests />;
       }
     } else {
       switch (activeComponent) {
@@ -266,19 +263,8 @@ export default function UserPanel() {
             )}
         {userRole === 'COMPANY' && (
               <>
-              <a
-          className={`left-bar--content mt-sm ${
-            activeComponent === "CateringNotifications"
-              ? "lb-active" && "lb-icons--active"
-              : ""
-          }`}
-          onClick={() => setActiveComponent("CateringNotifications")}
-        >
-          <img src={DaneUzytkownika} className="lb-icons" />
-          Pierwsza zakladka katering
-        </a>
         <a
-          className={`left-bar--content ${
+          className={`left-bar--content mt-sm ${
             activeComponent === "CateringRequests"
               ? "lb-active" && "lb-icons--active"
               : ""
@@ -290,17 +276,6 @@ export default function UserPanel() {
         </a>
         <a
           className={`left-bar--content ${
-            activeComponent === "CateringAdd"
-              ? "lb-active" && "lb-icons--active"
-              : ""
-          }`}
-          onClick={() => setActiveComponent("CateringAdd")}
-        >
-          <img src={Meals} className="lb-icons" />
-          Dodaj jedzenie
-        </a>
-        <a
-          className={`left-bar--content ${
             activeComponent === "CateringPresets"
               ? "lb-active" && "lb-icons--active"
               : ""
@@ -308,32 +283,20 @@ export default function UserPanel() {
           onClick={() => setActiveComponent("CateringPresets")}
         >
           <img src={DietMenu} className="lb-icons" />
-          Posiłki zapisane
+          Dodaj posiłek
         </a>
         <a
           className={`left-bar--content ${
-            activeComponent === "CateringMeal"
+            activeComponent === "CateringAdd"
               ? "lb-active" && "lb-icons--active"
               : ""
           }`}
-          onClick={() => setActiveComponent("CateringMeal")}
+          onClick={() => setActiveComponent("CateringAdd")}
         >
-          <img src={DietMenu} className="lb-icons" />
-          Posiłki
+          <img src={Meals} className="lb-icons" />
+          Wolna zakładka
         </a>
-        <a
-            className={`left-bar--content ${
-              activeComponent === "CateringTypeDiet"
-                ? "lb-active" && "lb-icons--active"
-                : ""
-            }`}
-            onClick={() => setActiveComponent("CateringTypeDiet")}
-          >
-            <img src={Dieta} className="lb-icons" />
-            Nasze diety
-          </a>
-       
-            </>
+         </>
             )}
             {userRole === 'USER' && (
               <>
