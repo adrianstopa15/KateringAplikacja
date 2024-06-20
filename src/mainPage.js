@@ -376,7 +376,7 @@ export default function MainPage() {
         <LoginPopup
           onClose={() => togglePopup("none")}
           onToggleToRegister={() => togglePopup("register")}
-          onLoginSuccess={gSuccess}
+          onLoginSuccess={handleLoginSuccess}
         />
       )}
       {popupType === "register" && (
