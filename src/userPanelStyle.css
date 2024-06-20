@@ -3,14 +3,30 @@
   margin: 0;
   padding: 0;
 }
+
+
+:root {
+  --primary-bg-color: #f0eeef; /* Light grey background */
+  --secondary-bg-color: #e2e0e0; /* Slightly darker shade for contrast */
+  --accent-color: #4c4cf5; /* Blue accent color */
+  --hover-bg-color: rgba(37, 50, 238, 0.2); /* Light blue for hover states, more visible */
+  --text-color: #444; /* Dark grey for text */
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+  --separator-color: rgba(0,0,0,0.1); /* Subtle separator color */
+}
+
 .panel-main--container {
-  background-color: rgb(226, 224, 224);
+  background-color: var(--secondary-bg-color);
   height: 100vh;
+  align-items: start; 
 }
 .panel-container {
   display: flex;
   flex-direction: row;
   height: auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+  border-radius: 8px; 
+  overflow: hidden; 
 }
 .left-bar {
   display: flex;
@@ -18,8 +34,11 @@
   margin-left: 1rem;
 
   background-color: rgb(226, 224, 224)  ;
+  color: var(--text-color);
   min-height: 80vh;
   min-width: 17.5%;
+  border-right: 2px solid var(--separator-color);
+  transition: width 0.3s; 
 }
 
 .left-bar--content {
@@ -28,15 +47,18 @@
   cursor: pointer;
   display: inline-block;
   color: rgb(68, 67, 67);
+  border-left: 5px solid transparent; 
+  transition: background-color 0.3s, border-left-color 0.3s, color 0.3s;
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 .left-bar--content:hover .lb-icons {
   filter: brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%)
     hue-rotate(200deg) brightness(100%);
 }
-.left-bar--content:hover {
-  color: rgb(76, 76, 245);
-  background-color: rgba(37, 50, 238, 0.048);
+.left-bar--content:hover, .left-bar--content.lb-active {
+  background-color: var(--hover-bg-color);
+  border-left-color: var(--accent-color);
+  color: var(--accent-color);
 }
 .lb-icons {
   filter: drop-shadow(1px 1px 1px #c7c7c7);
@@ -51,7 +73,7 @@
   margin: 2rem 0 4rem 0;
 }
 .main-content {
-  background-color: rgb(240, 238, 238);
+  background-color: var(--primary-bg-color);
   min-width: 80%;
   min-height: 80%;
 }
@@ -59,6 +81,9 @@
   color: rgb(76, 76, 245);
   background-color: rgba(37, 50, 238, 0.07);
 }
+
+
+
 
 .flex-c {
   display: flex;
