@@ -17,12 +17,17 @@
   transition: width 0.5s ease, background-color 0.5s ease;
 }
 .password-strength-bar {
-  width: 97%;
+  width: 100%;
   background-color: #ddd;
   height: 10px;
   margin-top: 5px;
   border-radius: 10px;
   overflow: hidden;
+}
+
+.recaptcha-wrapper {
+  display: flex;
+  justify-content: center; /* Centers the ReCAPTCHA horizontally */
 }
 
 .alert-dismissable .close {
@@ -556,14 +561,12 @@ h2 {
 }
 
 .kontakt-container--main {
-  /* background: linear-gradient(to bottom, darkorange, orange); */
   padding-bottom: 5rem;
   margin: 0;
   text-align: center;
 }
 
 .kontakt-container--main---text {
-  /* background: linear-gradient(to bottom, darkorange, orange); */
   padding-bottom: 5rem;
   margin: 0;
 }

@@ -105,14 +105,10 @@ const handleSubmit = async (event) => {
         password,
       });
       console.log(response.data);
-       
       setAlert({ show: true, message: 'Rejestracja zakończona sukcesem. Możesz się teraz zalogować.', variant: 'success' });
-      
       setTimeout(() => {
         onToggleToLogin(); 
       }, 2000); 
-      
-
     } catch (error) {
       console.error('Błąd rejestracji:', error);
       setAlert({ show: true, message: 'Wystąpił błąd podczas rejestracji. Spróbuj ponownie.', variant: 'danger' });
@@ -157,7 +153,12 @@ const handleSubmit = async (event) => {
             <label>Powtórz hasło:</label>
             <input type="password" placeholder='Powtórz hasło' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />          </div>
           <br></br>
-          <ReCAPTCHA sitekey="6LeQeZopAAAAAAlHABkaNzSJXLcAq9x1DxdflXWJ" onChange={(val) => setCapVal(val)} />
+          <div className="recaptcha-wrapper">
+            <ReCAPTCHA
+              sitekey="6LeQeZopAAAAAAlHABkaNzSJXLcAq9x1DxdflXWJ"
+              onChange={(val) => setCapVal(val)}
+            />
+          </div>
           <button type="submit" style={{width:'98%'}} className="register-button">Zarejestruj</button>
         </form>
             <div className="signup-redirect">

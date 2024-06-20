@@ -178,9 +178,9 @@ export default function CateringRequests() {
     return (
     <div>
       <div className="ml-s mt-s">
-        <h1 className="h1-regular mb-m">Wnioski</h1>
+        <h1 className="h1-regular mb-m">Wnioski:</h1>
         <button className="button-27-e" onClick={() => setModalOpen(true)}>Utwórz wniosek</button>
-        <div className="catering-display--element" style={{marginBottom: "1rem"}}>
+        <div className="catering-displayreq--element" style={{marginBottom: "1rem"}}>
         <div>
         <div className="ml-s mt-s">
           <h1 className="h1-regular mb-m">Diety: </h1>
@@ -194,7 +194,7 @@ export default function CateringRequests() {
           <p>Opis: {diet.dietDescription}</p>
           <p>Cena za dzień: {diet.priceForDay} zł</p>
           <p>Status: {diet.status}</p>
-          <button className="button-27-d ml-s" onClick={() => handleDelete (diet.dietId)}>Usuń</button>
+          <button className="button-27-d-req" onClick={() => handleDelete (diet.dietId)}>Usuń</button>
         </div>
       )))}
         </div>
