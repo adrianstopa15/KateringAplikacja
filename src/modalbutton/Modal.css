@@ -323,3 +323,7 @@
 .alert .AlertModal-body h1 {
   color: #dc3545; 
 }
+
+.no-meals-message {
+  margin-top: 20px;
+}

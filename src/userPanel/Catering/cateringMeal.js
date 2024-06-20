@@ -38,7 +38,6 @@ export default function CateringMeal() {
                 const calculatedCalories = (carbs * 4) + (fat * 9) + (protein * 4);
                 setCalories(calculatedCalories);
             };
-
             calculateCalories();
     }, [carbs, fat, protein]); 
 

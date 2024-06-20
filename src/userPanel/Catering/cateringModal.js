@@ -50,8 +50,12 @@ const CateringModal = ({ isOpen, onRequestClose, mealName, mealType }) => {
             <h2>Twoje {mealName}</h2>
             <button onClick={onRequestClose} className="close-button">&#x274C;</button>
             {meals
-                .filter(meal => meal.mealType.typeId === mealType) 
-                .map(meal => (
+                .filter(meal => meal.mealType.typeId === mealType).length === 0 ? (
+                  <h2 className="no-meals-message">Brak dostępnych posiłków</h2>
+                ) : (
+                  meals
+                  .filter(meal => meal.mealType.typeId === mealType)
+                  .map(meal => (
                     <ol key={meal.mealId} className="diet-container">
                         <p>Nazwa: {meal.name}</p>
                         <p>Opis: {meal.description}</p>
@@ -61,7 +65,7 @@ const CateringModal = ({ isOpen, onRequestClose, mealName, mealType }) => {
                         <p>Węglowodany: {meal.macro.carbs} g</p>
                         <p>Kalorie: {meal.macro.calories} kcal</p>
                     </ol>
-            ))}
+            )))}
         </Modal>
     );
 };

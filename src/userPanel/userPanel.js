@@ -286,7 +286,7 @@ export default function UserPanel() {
           onClick={() => setActiveComponent("CateringRequests")}
         >
           <img src={TypeDiet} className="lb-icons" />
-          Wnioski
+          Wnioski oraz diety
         </a>
         <a
           className={`left-bar--content ${

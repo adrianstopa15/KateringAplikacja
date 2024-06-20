@@ -76,6 +76,7 @@ export default function CateringMealModal({ open, children, onClose }) {
           }
         );
         console.log(response.data);
+        window.location.reload();
       } catch (error) {
         console.error("Error fetching Confirmations:", error);
       }
