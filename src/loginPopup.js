@@ -28,14 +28,14 @@ export default function LoginPopup({ onClose, onToggleToRegister, onLoginSuccess
     };
   
     const apiEndpoint = "http://localhost:8080/login";
-  
+    
     try {
       const response = await axios.post(apiEndpoint, userData, { withCredentials: true });
-      if (response.data.statusCodeValue && response.data.statusCodeValue !== 200) {
-        setLoginError(response.data.body || 'Niepoprawny login lub hasło.');
+      if (response.data.statusCodeValue != 200) {
+        setLoginError(response.data.body);
+        Alert(loginError);
       }
       console.log(response.data);
-      setIsLoggedIn(true);
       setShowRegistrationAlert({ show: true, message: "Zostałeś zalogowany." });
   
       const authToken = document.cookie.split('; ').find(row => row.startsWith('authToken=')).split('=')[1];
@@ -51,13 +51,12 @@ export default function LoginPopup({ onClose, onToggleToRegister, onLoginSuccess
           navigate('/profilePages'); 
         } else {
           onLoginSuccess();
-          setIsLoggedIn(true); 
-          onClose();
+          setIsLoggedIn(true);
+          window.location.reload(); 
         }
       })
     } catch (error) {
       console.error('Błąd logowania:', error);
-      setLoginError('Niepoprawny login lub hasło lub wystąpił błąd serwera.');
     }
   };
 

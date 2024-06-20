@@ -73,23 +73,199 @@
   justify-content: center;
   align-items: center;
 }
-
 .catering-modal-content {
   position: fixed;  
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);  
-  min-width: 40%; 
+  min-width: 600px;  
   min-height: 30%;  
   max-height: 100vh;
-  padding: 1.5rem; 
+  padding: 2rem; 
   display: flex;
   flex-direction: column;
   align-items: center; 
   overflow-y: auto; 
-  background: rgba(255, 255, 255, 0.911); 
-  border-radius: 8px; 
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);  
+  background: rgba(255, 255, 255, 0.95); 
+  border-radius: 16px; 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);  
+  transition: all 0.3s ease-in-out;
+}
+
+/* Custom scrollbar styling */
+.catering-modal-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.catering-modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.catering-modal-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+}
+
+.catering-modal-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.catering-modal-content h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.catering-modal-content .close-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.catering-modal-content .close-button:hover {
+  color: #000;
+}
+
+.meal-card {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 500px; 
+  height: 150px; 
+  /* overflow: hidden; */
+  text-overflow: ellipsis;
+  margin-top:1rem;
+}
+
+.meal-card:hover {
+  transform: scale(1.02);
+}
+
+.meal-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  overflow: hidden;
+}
+
+.meal-name {
+  font-size: 1.2rem;
+  color: #9e370f;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meal-description, .meal-diet {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width:20rem;
+}
+
+.meal-macros {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 100%;
+  overflow: hidden;
+}
+
+.macro {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.protein {
+  color: #ff4d4d;
+}
+
+.fat {
+  color: #bdba0f;
+
+}
+
+.carbs {
+  color: #1a31ff;
+  margin-top:5px;
+}
+
+.calories {
+  color: #33cc33;
+  font-style: bold;
+}
+
+.no-meals-message {
+  font-size: 1.2rem;
+  color: #888;
+}
+
+.catering-modal-overlay {
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+.catering-modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+
+.catering-modal-content::-moz-scrollbar {
+  width: 12px;
+}
+
+.catering-modal-content::-moz-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.catering-modal-content::-moz-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+}
+
+.catering-modal-content::-moz-scrollbar-thumb:hover {
+  background: #555;
 }
 .global-modal-backdrop {
   position: fixed;
